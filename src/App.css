@@ -333,56 +333,56 @@ header nav a:hover {
 }
 
 .thumbnails {
-    position: fixed; /* Se mantiene en una posición fija */
-    bottom: 20px; /* A 20px del fondo de la ventana */
-    right: 20px; /* A 20px de la derecha de la ventana */
-    display: flex; /* Utiliza flexbox para alinear los elementos */
-    gap: 15px; /* Espacio entre los elementos */
-    z-index: 1000; /* Para asegurarse de que esté encima del contenido */
+    position: fixed;
+    bottom: 20px; 
+    right: 20px; 
+    display: flex; 
+    gap: 15px;
+    z-index: 1000;
 }
   
 .thumbnail-card {
-    display: flex; /* Flex para los elementos dentro de la tarjeta */
-    flex-direction: column; /* Dirección vertical */
-    align-items: center; /* Centrar elementos */
-    width: 120px; /* Ancho de la tarjeta */
-    padding: 10px; /* Espacio interno */
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
-    border-radius: 10px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Transiciones suaves */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    width: 120px; 
+    padding: 10px; 
+    background-color: rgba(0, 0, 0, 0.7); 
+    border-radius: 10px; 
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
 }
   
 .thumbnail-card.active {
-    transform: scale(1.1); /* Escala al pasar el mouse */
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); /* Sombra */
+    transform: scale(1.1); 
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5); 
 }
   
 .thumbnail-card img {
-    width: 100px; /* Ancho de la imagen */
-    height: 60px; /* Alto de la imagen */
-    object-fit: cover; /* Ajusta la imagen al contenedor */
-    border-radius: 8px; /* Bordes redondeados para la imagen */
+    width: 100px; 
+    height: 60px; 
+    object-fit: cover;
+    border-radius: 8px; 
 }
   
 .thumbnail-info {
-    text-align: center; /* Texto centrado */
-    margin-top: 8px; /* Espacio superior */
+    text-align: center; 
+    margin-top: 8px; 
 }
   
 .thumbnail-name {
-    font-size: 14px; /* Tamaño de fuente para el nombre */
-    color: #fff; /* Color blanco */
+    font-size: 14px; 
+    color: #fff; 
 }
   
 .thumbnail-description {
-    font-size: 12px; /* Tamaño de fuente para la descripción */
-    color: #bbb; /* Color gris claro */
+    font-size: 12px; 
+    color: #bbb; 
 }
 
 
 ::-webkit-scrollbar {
-    width: 8px; 
+    width: 10px; 
   }
   
   ::-webkit-scrollbar-track {
@@ -405,10 +405,10 @@ header nav a:hover {
   }
 
 .docentes-heading {
-    font-size: 2.5rem; /* Cambia el tamaño de la fuente según sea necesario */
+    font-size: 2.5rem; 
     font-weight: bold;
-    color: #00f0f0; /* Puedes cambiar el color según tus preferencias */
-    margin-bottom: 20px; /* Espacio inferior para separación */
+    color: #00f0f0; 
+    margin-bottom: 20px; 
   }
   
   
