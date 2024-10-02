@@ -31,19 +31,19 @@ header nav a {
     text-decoration: none;
     color: white;
     font-size: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.5); /* Bordes semitransparentes */
-    border-radius: 8px; /* Bordes redondeados */
-    background: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
-    backdrop-filter: blur(8px); /* Desenfoque detrás del fondo */
-    transition: all 0.3s ease; /* Transición suave para hover */
+    border: 2px solid rgba(255, 255, 255, 0.5); 
+    border-radius: 8px; 
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px); 
+    transition: all 0.3s ease; 
 }
 
 header nav a:hover {
-    background: rgba(255, 255, 255, 0.2); /* Aumenta el brillo en hover */
-    color: #000; /* Cambia el color del texto al pasar el mouse */
-    border-color: rgba(255, 255, 255, 0.8); /* Hace que el borde sea más visible */
+    background: rgba(255, 255, 255, 0.2); 
+    color: #000; 
+    border-color: rgba(255, 255, 255, 0.8); 
 }
-/* carousel */
+
 .carousel{
     height: 100vh;
     margin-top: -50px;
@@ -206,7 +206,7 @@ header nav a:hover {
 .carousel .list .item:nth-child(1) .content .buttons{
     animation-delay: 1.8s!important;
 }
-/* create animation when next click */
+
 .carousel.next .list .item:nth-child(1) img{
     width: 150px;
     height: 220px;
@@ -271,8 +271,6 @@ header nav a:hover {
 }
 
 
-/* prev click */
-
 .carousel.prev .list .item:nth-child(2){
     z-index: 2;
 }
@@ -328,21 +326,20 @@ header nav a:hover {
 }
 
 .logo {
-  height: 60px; /* Ajusta la altura según lo necesites */
-  width: auto; /* Mantiene la proporción del logo */
-  margin-right: 20px; /* Espacio entre el logo y los enlaces */
-  display: inline-block; /* Asegura que el logo esté alineado correctamente */
+  height: 60px; 
+  width: auto; 
+  margin-right: 20px; 
+  display: inline-block; 
 }
 
 
-/* Miniaturas (thumbnails) */
 .thumbnails {
     position: fixed;
     bottom: 20px;
     right: 20px;
     display: flex;
     gap: 15px;
-    z-index: 1000; /* Asegura que esté encima de otros elementos */
+    z-index: 1000; 
   }
   
   .thumbnail-card {
@@ -351,14 +348,14 @@ header nav a:hover {
     align-items: center;
     width: 120px;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   }
   
   .thumbnail-card.active {
-    transform: scale(1.1); /* Amplía la tarjeta activa */
+    transform: scale(1.1); 
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
   }
   

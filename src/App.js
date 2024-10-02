@@ -23,14 +23,6 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const autoNext = setInterval(() => {
-      showSlider("next");
-    }, timeAutoNext);
-
-    return () => clearInterval(autoNext); 
-  }, [sliderItems.length]);
-
   const handleThumbnailClick = (index) => {
     setCurrentIndex(index);
   };
@@ -75,7 +67,6 @@ const App = () => {
           ))}
         </div>
 
-        {/* Arrows para navegar manualmente */}
         <div className="arrows">
           <button onClick={() => showSlider("prev")} id="prev">
             &lt;
@@ -101,7 +92,6 @@ const App = () => {
           </div>
         ))}
       </div>
-
 
     </div>
   );
