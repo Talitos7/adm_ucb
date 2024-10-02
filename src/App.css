@@ -9,9 +9,9 @@ body{
 a{
     text-decoration: none;
 }
-header{
-    width: 1140px;
-    max-width: 100%;
+header {
+    width: 1300px;
+    max-width: 130%;
     margin: auto;
     height: 50px;
     display: flex;
@@ -19,9 +19,29 @@ header{
     position: relative;
     z-index: 100;
 }
-header a{
+
+header a {
     color: #eee;
     margin-right: 90px;
+}
+
+header nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Bordes semitransparentes */
+    border-radius: 8px; /* Bordes redondeados */
+    background: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+    backdrop-filter: blur(8px); /* Desenfoque detrás del fondo */
+    transition: all 0.3s ease; /* Transición suave para hover */
+}
+
+header nav a:hover {
+    background: rgba(255, 255, 255, 0.2); /* Aumenta el brillo en hover */
+    color: #000; /* Cambia el color del texto al pasar el mouse */
+    border-color: rgba(255, 255, 255, 0.8); /* Hace que el borde sea más visible */
 }
 /* carousel */
 .carousel{
