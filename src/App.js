@@ -5,13 +5,12 @@ import image3 from './assets/back1.jpg';
 import logo from './assets/ADM - H.png'; 
 import "./App.css"; 
 
-// Importa el componente Docentes
-import Docentes from './Docentes'; // Asegúrate de que la ruta sea correcta
+import Docentes from './Docentes'; 
 
 const App = () => {
   const [sliderItems] = useState([image1, image2, image3]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentSection, setCurrentSection] = useState('docentes'); // Cambiado a 'docentes'
+  const [currentSection, setCurrentSection] = useState('docentes'); 
 
   const showSlider = (type) => {
     if (type === "next") {
@@ -86,7 +85,6 @@ const App = () => {
         </div>
       </div>
 
-      {/* Thumbnails dentro de la sección historia */}
       <div className="thumbnails">
         {sliderItems.map((image, index) => (
           <div
@@ -103,8 +101,7 @@ const App = () => {
         ))}
       </div>
 
-      {/* Secciones dinámicas */}
-      <div className="scroll-container"> {/* Añadido scroll-container */}
+      <div className="scroll-container"> 
         <div className="section" id="historia">
           {currentSection === 'historia' && (
             <>
@@ -116,8 +113,7 @@ const App = () => {
         <div className="section" id="docentes">
           {currentSection === 'docentes' && (
             <>
-              <h2 className="docentes-heading">NUESTROS QUERIDOS DOCENTES</h2> {/* Clase añadida aquí */}
-              {/* Renderiza el componente Docentes */}
+              <h2 className="docentes-heading">NUESTROS QUERIDOS DOCENTES</h2> 
               <Docentes />
             </>
           )}
