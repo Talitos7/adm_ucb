@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import image1 from './assets/ucbof.jpg'; // Importa tus imágenes
-import image2 from './assets/ucb2.jpg';
-import image3 from './assets/ucb3.jpg';
-import logo from './assets/ADM - H.png'; // Ajusta la ruta según tu estructura de carpetas
-import "./App.css"; // Asegúrate de importar el CSS adaptado
+import image1 from './assets/back4.jpg';
+import image2 from './assets/back2.jpg';
+import image3 from './assets/back1.jpg';
+import logo from './assets/ADM - H.png'; 
+import "./App.css"; 
 
 const App = () => {
-  // Adaptamos sliderItems para que utilice las imágenes importadas
   const [sliderItems] = useState([image1, image2, image3]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const timeAutoNext = 7000; // Tiempo antes de cambiar automáticamente al siguiente slider
+  const timeAutoNext = 7000; 
 
-  // Función para mostrar el siguiente o anterior slider
+
   const showSlider = (type) => {
     if (type === "next") {
       setCurrentIndex((prevIndex) =>
@@ -24,14 +23,17 @@ const App = () => {
     }
   };
 
-  // Efecto para cambiar automáticamente de slider cada `timeAutoNext` milisegundos
   useEffect(() => {
     const autoNext = setInterval(() => {
       showSlider("next");
     }, timeAutoNext);
 
-    return () => clearInterval(autoNext); // Limpia el intervalo cuando el componente se desmonta
+    return () => clearInterval(autoNext); 
   }, [sliderItems.length]);
+
+  const handleThumbnailClick = (index) => {
+    setCurrentIndex(index);
+  };
 
   return (
     <div>
@@ -40,10 +42,10 @@ const App = () => {
           <img src={logo} alt="Logo" className="logo" />
         </a>
         <nav>
-            <a href="/">Historia</a>
-            <a href="/contacts">Docentes</a>
-            <a href="/info">Malla</a>
-            <a href="/info">Iniciar Sesión</a>
+          <a href="/">Historia</a>
+          <a href="/contacts">Docentes</a>
+          <a href="/info">Malla</a>
+          <a href="/info">Iniciar Sesión</a>
         </nav>
       </header>
 
@@ -83,6 +85,24 @@ const App = () => {
           </button>
         </div>
       </div>
+
+      <div className="thumbnails">
+        {sliderItems.map((image, index) => (
+          <div
+            key={index}
+            className={`thumbnail-card ${index === currentIndex ? "active" : ""}`}
+            onClick={() => setCurrentIndex(index)}
+          >
+            <img src={image} alt={`Thumbnail ${index + 1}`} />
+            <div className="thumbnail-info">
+              <div className="thumbnail-name">...</div>
+              <div className="thumbnail-description">Descripcion</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+
     </div>
   );
 };

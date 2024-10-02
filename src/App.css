@@ -11,7 +11,7 @@ a{
 }
 header{
     width: 1140px;
-    max-width: 80%;
+    max-width: 100%;
     margin: auto;
     height: 50px;
     display: flex;
@@ -21,7 +21,7 @@ header{
 }
 header a{
     color: #eee;
-    margin-right: 40px;
+    margin-right: 90px;
 }
 /* carousel */
 .carousel{
@@ -65,7 +65,7 @@ header a{
     line-height: 1.3em;
 }
 .carousel .list .item .topic{
-    color: #f1683a;
+    color: #3adcf1;
 }
 .carousel .list .item .buttons{
     display: grid;
@@ -315,3 +315,52 @@ header a{
 }
 
 
+/* Miniaturas (thumbnails) */
+.thumbnails {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
+  }
+  
+  .thumbnail-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .thumbnail-card.active {
+    transform: scale(1.1); /* Amplía la tarjeta activa */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .thumbnail-card img {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .thumbnail-info {
+    text-align: center;
+    margin-top: 8px;
+  }
+  
+  .thumbnail-name {
+    font-size: 14px;
+    color: #fff;
+  }
+  
+  .thumbnail-description {
+    font-size: 12px;
+    color: #bbb;
+  }
+  
