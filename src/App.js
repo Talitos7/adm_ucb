@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import image1 from './assets/back4.jpg';
-import image2 from './assets/back2.jpg';
-import image3 from './assets/back1.jpg';
+import image1 from './assets/back1.jpeg';
+import image2 from './assets/back2.jpeg';
+import image3 from './assets/back5.jpeg';
 import logo from './assets/ADM - H.png'; 
 import "./App.css"; 
 
-import Docentes from './Docentes'; 
+import Docentes from './components/Docentes'; 
 
 const App = () => {
   const [sliderItems] = useState([image1, image2, image3]);
