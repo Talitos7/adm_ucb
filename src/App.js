@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import image1 from './assets/back4.jpg';
-import image2 from './assets/back2.jpg';
-import image3 from './assets/back1.jpg';
-import logo from './assets/ADM - H.png'; 
+import React, { useState } from "react";
+import image1 from './assets/back1.jpeg';
+import image2 from './assets/back2.jpeg';
+import image3 from './assets/back5.jpeg';
+import Navbar from "./components/Navbar";
 import "./App.css"; 
 
-import Docentes from './Docentes'; 
+import Docentes from './components/Docentes'; 
 
 const App = () => {
   const [sliderItems] = useState([image1, image2, image3]);
@@ -24,10 +24,6 @@ const App = () => {
     }
   };
 
-  const handleThumbnailClick = (index) => {
-    setCurrentIndex(index);
-  };
-
   const handleNavClick = (section) => {
     const sectionElement = document.getElementById(section);
     if (sectionElement) {
@@ -37,17 +33,7 @@ const App = () => {
 
   return (
     <div>
-      <header>
-        <a href="#" onClick={() => handleNavClick('historia')}>
-          <img src={logo} alt="Logo" className="logo" />
-        </a>
-        <nav>
-          <a href="#" onClick={() => handleNavClick('historia')}>Historia</a>
-          <a href="#" onClick={() => handleNavClick('docentes')}>Docentes</a>
-          <a href="#" onClick={() => handleNavClick('malla')}>Malla</a>
-          <a href="#" onClick={() => handleNavClick('iniciar-sesion')}>Iniciar Sesión</a>
-        </nav>
-      </header>
+      <Navbar handleNavClick={handleNavClick} /> {/* Usa el nuevo componente Navbar */}
 
       {/* Carousel */}
       <div className="carousel">
