@@ -1,0 +1,108 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "API para el portal web de la carrera de Administración de Empresas. Incluye endpoints para ...",
+      "version": "1.0.0",
+      "title": "API de Administración de Empresas",
+      "contact": {
+        "email": "..."
+      }
+    },
+    "host": "localhost",
+    "basePath": "/src/data",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/loginUsuarios": {
+        "post": {
+          "tags": ["Login"],
+          "summary": "Login de usuario",
+          "description": "Inicia sesión y verifica las credenciales de usuario.",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Email y contraseña del usuario",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emailAdm": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["emailAdm", "password"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Login exitoso"
+            },
+            "401": {
+              "description": "Credenciales incorrectas"
+            },
+            "400": {
+              "description": "Faltan datos para el login"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Usuario"],
+          "summary": "Obtener información de usuario",
+          "description": "Recupera toda la información del usuario o solo su rol.",
+          "parameters": [
+            {
+              "name": "emailAdm",
+              "in": "query",
+              "description": "Email del usuario",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "tipo",
+              "in": "query",
+              "description": "Especifica 'rol' para obtener solo el rol del usuario",
+              "required": false,
+              "type": "string",
+              "enum": ["rol"]
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Información del usuario",
+              "schema": {
+                "$ref": "#/definitions/Usuario"
+              }
+            },
+            "404": {
+              "description": "Usuario no encontrado"
+            },
+            "400": {
+              "description": "Parámetros incorrectos"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "emailAdm": { "type": "string" },
+          "nombre": { "type": "string" },
+          "apellido": { "type": "string" },
+          "celular": { "type": "string" },
+          "estado": { "type": "boolean" },
+          "rol": { "type": "string" },
+          "fechaRegistro": { "type": "string", "format": "date" },
+          "emailContacto": { "type": "string" }
+        }
+      }
+    }
+  }
+  
