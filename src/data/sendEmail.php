@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com'; 
                 $mail->SMTPAuth = true;
-                $mail->Username = 'carlos.caba@ucb.edu.bo'; 
-                $mail->Password = 'Ucb.13491987'; 
+                $mail->Username = 'carlos.caba@ucb.edu.bo'; //agregar el correo de admin a futuro
+                $mail->Password = 'kroh hjco pkmi rrti'; //crear contraseña de aplicacion en cuenta google
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
