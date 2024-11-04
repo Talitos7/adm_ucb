@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import logoADM from './assets/ADMLogo.png'; // Asegúrate de que la ruta sea correcta
+import React, { useState, useEffect } from "react"; 
+import logoADM from './assets/ADMLogo.png'; 
 import image1 from './assets/back1.jpeg';
 import image2 from './assets/back2.jpeg';
 import image3 from './assets/back5.jpeg';
-import mallaADM from './assets/mallaADM.jpg'; // Importa la imagen de la malla
+import mallaADM from './assets/mallaADM.jpg'; 
 import Navbar from "./components/Navbar";
 import "./App.css"; 
 
@@ -13,6 +13,33 @@ const App = () => {
   const [sliderItems] = useState([image1, image2, image3]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSection, setCurrentSection] = useState('docentes'); 
+  const [thumbnailsVisible, setThumbnailsVisible] = useState(true); 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const docentesSection = document.getElementById("docentes");
+      const footerSection = document.getElementById("footer");
+      
+      if (docentesSection && footerSection) {
+        const docentesRect = docentesSection.getBoundingClientRect();
+        const footerRect = footerSection.getBoundingClientRect();
+
+        if (
+          (docentesRect.top < window.innerHeight && docentesRect.bottom > 0) ||
+          (footerRect.top < window.innerHeight && footerRect.bottom > 0)
+        ) {
+          setThumbnailsVisible(false);
+        } else {
+          setThumbnailsVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const showSlider = (type) => {
     if (type === "next") {
@@ -35,7 +62,7 @@ const App = () => {
 
   return (
     <div>
-      <Navbar handleNavClick={handleNavClick} /> {/* Usa el nuevo componente Navbar */}
+      <Navbar handleNavClick={handleNavClick} />
 
       {/* Carousel */}
       <div className="carousel">
@@ -73,21 +100,23 @@ const App = () => {
         </div>
       </div>
 
-      <div className="thumbnails">
-        {sliderItems.map((image, index) => (
-          <div
-            key={index}
-            className={`thumbnail-card ${index === currentIndex ? "active" : ""}`}
-            onClick={() => setCurrentIndex(index)}
-          >
-            <img src={image} alt={`Thumbnail ${index + 1}`} />
-            <div className="thumbnail-info">
-              <div className="thumbnail-name">...</div>
-              <div className="thumbnail-description">Descripcion</div>
+      {thumbnailsVisible && ( 
+        <div className="thumbnails">
+          {sliderItems.map((image, index) => (
+            <div
+              key={index}
+              className={`thumbnail-card ${index === currentIndex ? "active" : ""}`}
+              onClick={() => setCurrentIndex(index)}
+            >
+              <img src={image} alt={`Thumbnail ${index + 1}`} />
+              <div className="thumbnail-info">
+                <div className="thumbnail-name">...</div>
+                <div className="thumbnail-description">Descripcion</div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <div className="scroll-container"> 
         <div className="section" id="historia">
