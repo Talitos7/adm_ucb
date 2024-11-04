@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logoADM from './assets/ADMLogo.png'; // Asegúrate de que la ruta sea correcta
 import image1 from './assets/back1.jpeg';
 import image2 from './assets/back2.jpeg';
 import image3 from './assets/back5.jpeg';
@@ -104,6 +105,29 @@ const App = () => {
         <div className="section malla-section" id="malla"> {/* Aplica la clase malla-section */}
           <h2>NUESTRA MALLA CURRICULAR</h2>
           <img src={mallaADM} alt="Malla Curricular" className="malla-image" /> {/* Imagen de la malla */}
+        </div>
+        <div className="section" id="footer">
+          <footer className="footer">
+            <div className="footer-content">
+              <div className="footer-logo">
+                <img src={logoADM} alt="Logo" /> {/* Cambia logo.png al logo que desees */}
+              </div>
+              <div className="footer-about">
+                <h3>SOBRE NOSOTROS</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis, voluptatem.</p>
+                <p>Quaerat perferendis reprehenderit voluptatem cum nemo velit rem.</p>
+              </div>
+              <div className="footer-social">
+                <h3>SÍGUENOS</h3>
+                <div className="social-icons">
+                  <a href="#"><i className="fab fa-facebook-f"></i></a>
+                  <a href="#"><i className="fab fa-instagram"></i></a>
+                  <a href="#"><i className="fab fa-twitter"></i></a>
+                  <a href="#"><i className="fab fa-youtube"></i></a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
         <div className="section" id="iniciar-sesion">
           {currentSection === 'iniciar-sesion' && (
