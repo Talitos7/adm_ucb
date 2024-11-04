@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import image1 from './assets/back1.jpeg';
 import image2 from './assets/back2.jpeg';
 import image3 from './assets/back5.jpeg';
+import mallaADM from './assets/mallaADM.jpg'; // Importa la imagen de la malla
 import Navbar from "./components/Navbar";
 import "./App.css"; 
 
@@ -97,20 +98,12 @@ const App = () => {
           )}
         </div>
         <div className="section" id="docentes">
-          {currentSection === 'docentes' && (
-            <>
-              <h2 className="docentes-heading">NUESTROS QUERIDOS DOCENTES</h2> 
-              <Docentes />
-            </>
-          )}
+          <h2 className="docentes-heading">NUESTROS QUERIDOS DOCENTES</h2> 
+          <Docentes />
         </div>
-        <div className="section" id="malla">
-          {currentSection === 'malla' && (
-            <>
-              <h2>Malla</h2>
-              <p>Aquí puedes añadir el contenido sobre la malla curricular.</p>
-            </>
-          )}
+        <div className="section malla-section" id="malla"> {/* Aplica la clase malla-section */}
+          <h2>NUESTRA MALLA CURRICULAR</h2>
+          <img src={mallaADM} alt="Malla Curricular" className="malla-image" /> {/* Imagen de la malla */}
         </div>
         <div className="section" id="iniciar-sesion">
           {currentSection === 'iniciar-sesion' && (

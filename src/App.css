@@ -411,5 +411,18 @@ header nav a:hover {
     margin-bottom: 20px; 
   }
   
+  .malla-section {
+    background-image: url('./assets/back1.jpeg');
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center; 
+  }
+  
+  .malla-section img.malla-image {
+    width: 50%;
+    max-width: 1000px; 
+    height: auto; 
+    margin-top: 15px;
+  }
   
   
