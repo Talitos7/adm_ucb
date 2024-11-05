@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
+import logoADM from './assets/ADMLogo.png'; 
 import image1 from './assets/back1.jpeg';
 import image2 from './assets/back2.jpeg';
 import image3 from './assets/back5.jpeg';
+import mallaADM from './assets/mallaADM.jpg'; 
 import Navbar from "./components/Navbar";
 import "./App.css"; 
 
@@ -11,6 +13,33 @@ const App = () => {
   const [sliderItems] = useState([image1, image2, image3]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentSection, setCurrentSection] = useState('docentes'); 
+  const [thumbnailsVisible, setThumbnailsVisible] = useState(true); 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const docentesSection = document.getElementById("docentes");
+      const footerSection = document.getElementById("footer");
+      
+      if (docentesSection && footerSection) {
+        const docentesRect = docentesSection.getBoundingClientRect();
+        const footerRect = footerSection.getBoundingClientRect();
+
+        if (
+          (docentesRect.top < window.innerHeight && docentesRect.bottom > 0) ||
+          (footerRect.top < window.innerHeight && footerRect.bottom > 0)
+        ) {
+          setThumbnailsVisible(false);
+        } else {
+          setThumbnailsVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const showSlider = (type) => {
     if (type === "next") {
@@ -33,7 +62,7 @@ const App = () => {
 
   return (
     <div>
-      <Navbar handleNavClick={handleNavClick} /> {/* Usa el nuevo componente Navbar */}
+      <Navbar handleNavClick={handleNavClick} />
 
       {/* Carousel */}
       <div className="carousel">
@@ -71,21 +100,23 @@ const App = () => {
         </div>
       </div>
 
-      <div className="thumbnails">
-        {sliderItems.map((image, index) => (
-          <div
-            key={index}
-            className={`thumbnail-card ${index === currentIndex ? "active" : ""}`}
-            onClick={() => setCurrentIndex(index)}
-          >
-            <img src={image} alt={`Thumbnail ${index + 1}`} />
-            <div className="thumbnail-info">
-              <div className="thumbnail-name">...</div>
-              <div className="thumbnail-description">Descripcion</div>
+      {thumbnailsVisible && ( 
+        <div className="thumbnails">
+          {sliderItems.map((image, index) => (
+            <div
+              key={index}
+              className={`thumbnail-card ${index === currentIndex ? "active" : ""}`}
+              onClick={() => setCurrentIndex(index)}
+            >
+              <img src={image} alt={`Thumbnail ${index + 1}`} />
+              <div className="thumbnail-info">
+                <div className="thumbnail-name">...</div>
+                <div className="thumbnail-description">Descripcion</div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <div className="scroll-container"> 
         <div className="section" id="historia">
@@ -97,20 +128,35 @@ const App = () => {
           )}
         </div>
         <div className="section" id="docentes">
-          {currentSection === 'docentes' && (
-            <>
-              <h2 className="docentes-heading">NUESTROS QUERIDOS DOCENTES</h2> 
-              <Docentes />
-            </>
-          )}
+          <h2 className="docentes-heading">NUESTROS QUERIDOS DOCENTES</h2> 
+          <Docentes />
         </div>
-        <div className="section" id="malla">
-          {currentSection === 'malla' && (
-            <>
-              <h2>Malla</h2>
-              <p>Aquí puedes añadir el contenido sobre la malla curricular.</p>
-            </>
-          )}
+        <div className="section malla-section" id="malla"> {/* Aplica la clase malla-section */}
+          <h2>NUESTRA MALLA CURRICULAR</h2>
+          <img src={mallaADM} alt="Malla Curricular" className="malla-image" /> {/* Imagen de la malla */}
+        </div>
+        <div className="section" id="footer">
+          <footer className="footer">
+            <div className="footer-content">
+              <div className="footer-logo">
+                <img src={logoADM} alt="Logo" /> {/* Cambia logo.png al logo que desees */}
+              </div>
+              <div className="footer-about">
+                <h3>SOBRE NOSOTROS</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis, voluptatem.</p>
+                <p>Quaerat perferendis reprehenderit voluptatem cum nemo velit rem.</p>
+              </div>
+              <div className="footer-social">
+                <h3>SÍGUENOS</h3>
+                <div className="social-icons">
+                  <a href="#"><i className="fab fa-facebook-f"></i></a>
+                  <a href="#"><i className="fab fa-instagram"></i></a>
+                  <a href="#"><i className="fab fa-twitter"></i></a>
+                  <a href="#"><i className="fab fa-youtube"></i></a>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
         <div className="section" id="iniciar-sesion">
           {currentSection === 'iniciar-sesion' && (
