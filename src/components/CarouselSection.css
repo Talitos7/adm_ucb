@@ -1,0 +1,48 @@
+.carousel-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  .carousel-background .carousel .slide img {
+    height: 100vh;
+    object-fit: cover;
+  }
+  
+  .content-overlay {
+    position: absolute;
+    top: 50%;
+    left: 5%; 
+    transform: translateY(-50%);
+    color: white;
+    text-align: left; 
+    width: 90%;
+    max-width: 600px; 
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
+  
+  .content-overlay h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .content-overlay p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: justify; 
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .content-overlay h2 {
+      font-size: 1.5rem;
+    }
+  
+    .content-overlay p {
+      font-size: 1rem;
+    }
+  }
+  
