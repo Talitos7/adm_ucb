@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Switch from '@mui/material/Switch';
-import AccountMenu from './AccountMenu';
+import AccountMenu from './AccountMenuAdm';
 import logo from '../assets/ADMLogo.png';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
