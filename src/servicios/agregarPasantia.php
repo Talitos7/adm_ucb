@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = 'El campo "detalle" es obligatorio.';
     }
 
-    // Si hay errores, devolverlos
+    // Si hay errores, devolverlos como una cadena
     if (!empty($errors)) {
-        echo json_encode(['error' => $errors]);
+        echo json_encode(['error' => implode(", ", $errors)]); // Convertir el arreglo de errores a una cadena
         exit();
     }
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $idPasantia = $conn->lastInsertId();
 
             // Llamar a la API de envío de correo
-            $url = 'http://localhost/adm_ucb/src/data/sendEmail.php'; // Cambia la URL según sea necesario
+            $url = 'http://localhost/adm_ucb/src/servicios/sendEmail.php'; // Cambia la URL según sea necesario
             $data = ['idPasantia' => $idPasantia];
             $options = [
                 'http' => [

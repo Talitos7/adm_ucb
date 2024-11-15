@@ -33,10 +33,21 @@ export default function AccountMenu() {
     handleClose(); // Cierra el menú
   };
 
+  // Redirigir a la página de Pasantías
+  const handleInternshipsClick = () => {
+    navigate('/pasantias'); 
+    handleClose(); 
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Typography sx={{ minWidth: 100 }}>Perfil</Typography>
+        <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
+          Pasantías
+        </Typography>
+        <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
+        <Typography sx={{ minWidth: 100 }}>Solicitudes</Typography>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -93,6 +104,13 @@ export default function AccountMenu() {
           <Avatar /> Iniciar Sesión
         </MenuItem>
         <Divider />
+        {/* Nueva opción para redirigir a Pasantías */}
+        <MenuItem onClick={handleInternshipsClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Pasantías
+        </MenuItem>
         <MenuItem onClick={handleClose}>
         </MenuItem>
         <MenuItem onClick={handleClose}>
