@@ -27,6 +27,12 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
 
+  // Redirigir a la página admin cuando se hace clic en "Perfil"
+  const handleProfileClick = () => {
+    navigate('/admin'); // Redirige a la página admin
+    handleClose(); // Cierra el menú
+  };
+
   // Redirigir a la página admin cuando se hace clic en "Iniciar Sesión"
   const handleLoginClick = () => {
     navigate('/admin'); // Redirige a la página admin
@@ -42,7 +48,10 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}>Perfil</Typography>
+        <Typography sx={{ minWidth: 100 }} onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
+          Perfil
+        </Typography>
+        <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
         <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
         </Typography>
