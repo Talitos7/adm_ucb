@@ -1,48 +1,71 @@
 .carousel-section {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-  }
-  
-  .carousel-background .carousel .slide img {
-    height: 100vh;
-    object-fit: cover;
-  }
-  
-  .content-overlay {
-    position: absolute;
-    top: 50%;
-    left: 5%; 
-    transform: translateY(-50%);
-    color: white;
-    text-align: left; 
-    width: 90%;
-    max-width: 600px; 
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 1rem;
-    border-radius: 10px;
-  }
-  
-  
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex; /* Usamos flexbox para colocar el contenido en fila */
+  align-items: center;
+}
+
+.carousel-background .carousel .slide img {
+  height: 100vh;
+  object-fit: cover;
+}
+
+.content-overlay {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  color: white;
+  text-align: left; 
+  width: 50%; 
+  max-width: 600px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem; /* Añadido padding extra para mejorar la visibilidad del texto */
+  border-radius: 10px; /* Corregido para ser más sutil */
+  height: auto; /* Permite que el contenedor crezca según el contenido */
+  max-height: 90%; /* Evita que el contenedor se haga demasiado alto */
+  overflow: visible; /* Asegura que el contenido no se oculte */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Cambié a flex-start para evitar que se corte el texto */
+}
+
+.text-section h2 {
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.text-section p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.gif-section {
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%); /* Centra el GIF verticalmente */
+}
+
+.gif-section img {
+  width: 500px; /* Ajusta el tamaño del GIF */
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
   .content-overlay h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
   }
-  
+
   .content-overlay p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    text-align: justify; 
+    font-size: 1rem;
   }
-  
-  /* Estilos responsivos */
-  @media (max-width: 768px) {
-    .content-overlay h2 {
-      font-size: 1.5rem;
-    }
-  
-    .content-overlay p {
-      font-size: 1rem;
-    }
+
+  .gif-section img {
+    width: 150px; /* Reduce el tamaño del GIF en pantallas más pequeñas */
   }
-  
+}
