@@ -6,7 +6,9 @@ header('Content-Type: application/json');
 
 include 'conexion.php'; // Incluye la conexión a la base de datos
 
-// Verificar si se hace una solicitud GET
+// Ruta base donde se almacenan las imágenes
+$baseUrl = "http://localhost/adm_ucb/src/servicios/uploads/";
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     try {
@@ -18,7 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $pasantias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if ($pasantias) {
-            // Si hay pasantías, devolverlas como JSON
+            // Agregar la URL completa de la imagen a cada pasantía
+            foreach ($pasantias as &$pasantia) {
+                if (!empty($pasantia['imagen'])) {
+                    $pasantia['imagen_url'] = $baseUrl . $pasantia['imagen'];
+                } else {
+                    $pasantia['imagen_url'] = null; // Si no hay imagen, se devuelve null
+                }
+            }
+
+            // Devolver las pasantías con las URL de las imágenes
             echo json_encode(['success' => true, 'pasantias' => $pasantias]);
         } else {
             // Si no hay pasantías, devolver un mensaje adecuado

@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import PasantiasCards from '../components/CardPasantias'; // Importa el componente de tarjetas
 import axios from 'axios';
 
 // Estilos del modal principal y del modal de éxito
@@ -24,6 +25,7 @@ function Pasantias() {
   const [successOpen, setSuccessOpen] = useState(false); // Modal de éxito
   const [titulo, setTitulo] = useState('');
   const [detalle, setDetalle] = useState('');
+  const [imagen, setImagen] = useState(null); // Nuevo estado para la imagen
   const [error, setError] = useState('');
 
   // Abrir el modal principal
@@ -36,6 +38,7 @@ function Pasantias() {
   const handleClose = () => {
     setTitulo('');
     setDetalle('');
+    setImagen(null); // Limpiar imagen
     setError('');
     setOpen(false);
   };
@@ -45,22 +48,33 @@ function Pasantias() {
     setSuccessOpen(false);
   };
 
+  // Manejar el cambio del input de imagen
+  const handleImageChange = (e) => {
+    setImagen(e.target.files[0]); // Guardar el archivo seleccionado
+  };
+
   // Manejar el envío de datos al backend
   const handleSubmit = async () => {
-    if (!titulo || !detalle) {
-      setError('Por favor, complete todos los campos.');
+    if (!titulo || !detalle || !imagen) {
+      setError('Por favor, complete todos los campos y suba una imagen.');
       return;
     }
 
-    const data = { titulo, detalle };
-    const formData = new URLSearchParams(data).toString();
+    const formData = new FormData();
+    formData.append('titulo', titulo);
+    formData.append('detalle', detalle);
+    formData.append('imagen', imagen); // Añadir la imagen
 
     try {
-      const response = await axios.post('http://localhost/adm_ucb/src/servicios/agregarPasantia.php', formData, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
+      const response = await axios.post(
+        'http://localhost/adm_ucb/src/servicios/agregarPasantia.php',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Importante para manejar archivos
+          },
+        }
+      );
 
       if (response.data.success) {
         setSuccessOpen(true); // Mostrar el modal de éxito
@@ -72,6 +86,7 @@ function Pasantias() {
     } finally {
       setTitulo('');
       setDetalle('');
+      setImagen(null);
       setError('');
       handleClose(); // Cerrar el modal principal
     }
@@ -79,9 +94,11 @@ function Pasantias() {
 
   return (
     <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>Página de Pasantías</h1>
-      <p>Aquí se mostrarán detalles sobre las pasantías disponibles.</p>
 
+      {/* Renderiza las tarjetas de pasantías */}
+      <PasantiasCards />
+
+      {/* Botón flotante para agregar pasantías */}
       <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
         <Fab color="secondary" aria-label="add" onClick={handleOpen}>
           <AddIcon />
@@ -106,6 +123,12 @@ function Pasantias() {
             value={detalle}
             onChange={(e) => setDetalle(e.target.value)}
             margin="normal"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ marginTop: '16px', marginBottom: '16px' }}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
             <Button variant="contained" color="secondary" onClick={handleSubmit}>
