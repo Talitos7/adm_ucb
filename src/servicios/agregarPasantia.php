@@ -9,7 +9,7 @@ include 'conexion.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = []; // Array para almacenar errores
 
-    // Verificar si se han enviado los datos
+    // Verificar si se han enviado los datos obligatorios
     if (!isset($_POST['titulo'])) {
         $errors[] = 'El campo "titulo" es obligatorio.';
     }
@@ -18,19 +18,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = 'El campo "detalle" es obligatorio.';
     }
 
+    // Verificar si se ha enviado el archivo de imagen
+    if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
+        $errors[] = 'El campo "imagen" es obligatorio.';
+    }
+
     // Si hay errores, devolverlos como una cadena
     if (!empty($errors)) {
-        echo json_encode(['error' => implode(", ", $errors)]); // Convertir el arreglo de errores a una cadena
+        echo json_encode(['error' => implode(", ", $errors)]);
         exit();
     }
 
     $titulo = $_POST['titulo'];
     $detalle = $_POST['detalle'];
 
+    // Procesar la imagen
+    $imagen = $_FILES['imagen'];
+    $uploadDir = 'uploads/'; // Directorio donde se guardarán las imágenes
+    $uploadPath = $uploadDir . basename($imagen['name']);
+    $imageUrl = $uploadPath; // La ruta que se guardará en la base de datos
+
+    // Crear el directorio si no existe
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    // Mover la imagen al directorio de destino
+    if (!move_uploaded_file($imagen['tmp_name'], $uploadPath)) {
+        echo json_encode(['error' => 'Error al guardar la imagen.']);
+        exit();
+    }
+
     try {
-        $stmt = $conn->prepare("INSERT INTO pasantias (titulo, detalle) VALUES (:titulo, :detalle)");
+        // Insertar los datos en la base de datos
+        $stmt = $conn->prepare("INSERT INTO pasantias (titulo, detalle, ruta_imagen) VALUES (:titulo, :detalle, :ruta_imagen)");
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':detalle', $detalle);
+        $stmt->bindParam(':ruta_imagen', $imageUrl);
 
         if ($stmt->execute()) {
             // Obtener el ID de la nueva pasantía
