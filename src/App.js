@@ -29,11 +29,8 @@ function App() {
     },
   });
 
-  const handleNavClick = (section) => {
-    const sectionElement = document.getElementById(section);
-    if (sectionElement) {
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleThemeChange = () => {
+    setDarkMode(!darkMode);
   };
 
   return (
@@ -76,6 +73,6 @@ function App() {
       </ThemeProvider>
     </Router>
   );
-};
+}
 
 export default App;
