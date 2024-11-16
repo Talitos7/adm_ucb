@@ -12,7 +12,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import './App.css'; 
-
+import PublicationsIntercambio from './views/PublicationsIntercambio';
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -63,6 +63,12 @@ function App() {
             <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
           </>
         } />
+        <Route path="/PublicationsIntercambio" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <PublicationsIntercambio /> {/* Componente que renderiza la vista publicacioness */}
+          </>
+          } />
         </Routes>
       </ThemeProvider>
     </Router>

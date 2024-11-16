@@ -8,6 +8,20 @@ class Publicacion {
         $this->conn = $db;
     }
 
+    // Obtener el autor basado en el email
+    public function getAuthorByEmail($emailAdm) {
+        $sql = "SELECT nombre, apellido FROM usuario WHERE emailAdm = :emailAdm";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':emailAdm', $emailAdm);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            return $result['nombre'] . ' ' . $result['apellido'];
+        }
+        return null;
+    }
+
     // Crear una nueva publicación
     public function create($autor, $multimedia, $usuario_emailAdm, $descripcionPublicacion) {
         $sql = "INSERT INTO publicacion (idPublicacion, autor, estadoPublicacion, multimedia, usuario_emailAdm, fechaPublicacion, descripcionPublicacion) 
@@ -17,8 +31,17 @@ class Publicacion {
         $stmt->bindParam(':multimedia', $multimedia);
         $stmt->bindParam(':usuario_emailAdm', $usuario_emailAdm);
         $stmt->bindParam(':descripcionPublicacion', $descripcionPublicacion);
-        
-        return $stmt->execute();
+
+        // Depuración
+        error_log("Datos recibidos para insertar: " . print_r(compact('autor', 'multimedia', 'usuario_emailAdm', 'descripcionPublicacion'), true));
+
+        if ($stmt->execute()) {
+            error_log("Inserción exitosa en la base de datos");
+            return true;
+        } else {
+            error_log("Error al ejecutar consulta: " . print_r($stmt->errorInfo(), true));
+            return false;
+        }
     }
 
     // Obtener todas las publicaciones
@@ -56,15 +79,46 @@ class Publicacion {
 // Manejo de la API
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $publicacion = new Publicacion($conn);
-    $data = json_decode(file_get_contents("php://input"), true);
 
-    if ($publicacion->create($data['autor'], $data['multimedia'], $data['usuario_emailAdm'], $data['descripcionPublicacion'])) {
+    // Capturar datos del formulario
+    $usuario_emailAdm = isset($_POST['usuario_emailAdm']) ? $_POST['usuario_emailAdm'] : 'josue.nisthaus@ejemplo.com';
+    $descripcionPublicacion = isset($_POST['descripcionPublicacion']) ? $_POST['descripcionPublicacion'] : null;
+
+    // Obtener autor automáticamente
+    $autor = $publicacion->getAuthorByEmail($usuario_emailAdm);
+
+    if (!$autor) {
+        http_response_code(400); // Código de error si no se encuentra el autor
+        echo json_encode(["mensaje" => "No se encontró el usuario con el email proporcionado"]);
+        exit();
+    }
+
+    // Manejar archivo multimedia
+    $multimedia = null;
+    if (isset($_FILES['multimedia']) && $_FILES['multimedia']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['multimedia']['tmp_name'];
+        $fileName = uniqid() . '_' . $_FILES['multimedia']['name'];
+        $uploadFileDir = '../assets/';
+        $destPath = $uploadFileDir . $fileName;
+
+        if (move_uploaded_file($fileTmpPath, $destPath)) {
+            $multimedia = $fileName;
+        } else {
+            error_log("Error al mover el archivo.");
+        }
+    }
+
+    // Depuración
+    error_log("Datos recibidos en POST (autor generado): " . print_r(compact('autor', 'multimedia', 'usuario_emailAdm', 'descripcionPublicacion'), true));
+
+    if ($publicacion->create($autor, $multimedia, $usuario_emailAdm, $descripcionPublicacion)) {
         echo json_encode(["mensaje" => "Publicación creada exitosamente"]);
     } else {
         echo json_encode(["mensaje" => "Error al crear la publicación"]);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $publicacion = new Publicacion($conn);
+    header('Content-Type: application/json');
     echo json_encode($publicacion->read());
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     $publicacion = new Publicacion($conn);
