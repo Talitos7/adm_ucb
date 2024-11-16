@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // As
 import Navbar from './components/Navbar'; // Para la página principal
 import NavbarAdmin from './components/navbaradmin'; // Para la página Admin
 import Pasantias from './views/pasantias'; // Asegúrate de importar la vista de pasantías
+import Perfil from './views/perfil';
 import CarouselSection from './components/CarouselSection';
 import DocenteSection from './components/DocenteSection';
 import MallaSection from './components/MallaCurricularSection';
@@ -61,6 +62,14 @@ function App() {
           <>
           <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
             <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
+          </>
+        } />
+
+        {/* Ruta para la página de Perfil */}
+          <Route path="/perfil" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <Perfil /> {/* Componente que renderiza la vista de pasantías */}
           </>
         } />
         </Routes>
