@@ -52,6 +52,7 @@ export default function AccountMenu() {
           Perfil
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
+        <Typography sx={{ minWidth: 100 }}>Empresas</Typography>
         <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
         </Typography>
