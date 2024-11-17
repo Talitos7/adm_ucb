@@ -6,22 +6,22 @@ import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
 import './Publications.css';
 
-const PublicationsIntercambio = ({ darkMode }) => {
+const PublicationsSociedad = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
 
-  // Cargar publicaciones aprobadas para la categoría "Intercambio"
+  // Cargar publicaciones aprobadas para la categoría "Sociedad Cientifica"
   const loadApprovedPublications = async () => {
     try {
-      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Socieda Cientifica');
-      console.log('Publicaciones aprobadas (Intercambio):', response.data);
-  
+      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica');
+      console.log('Publicaciones aprobadas (Sociedad Cientifica):', response.data);
+
       // Limpia el texto adicional si existe y analiza la respuesta como JSON
       const jsonData = response.data.startsWith('Conexión exitosa')
         ? JSON.parse(response.data.replace('Conexión exitosa', '').trim())
         : response.data;
-  
+
       if (Array.isArray(jsonData)) {
         setPublications(jsonData);
       } else {
@@ -71,7 +71,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Intercambio</h1>
+        <h1>Publicaciones de Sociedad Científica</h1>
         <button
           className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
           onClick={() => setIsFormVisible(!isFormVisible)}
@@ -115,4 +115,4 @@ const PublicationsIntercambio = ({ darkMode }) => {
   );
 };
 
-export default PublicationsIntercambio;
+export default PublicationsSociedad;

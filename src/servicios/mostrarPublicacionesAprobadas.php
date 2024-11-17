@@ -8,10 +8,10 @@ class Publicacion {
         $this->conn = $db;
     }
 
-    public function getApprovedPublicationsByCategory($categoria) {
+    public function getApprovedPublications($categoria) {
         $sql = "SELECT * FROM publicacion WHERE estadoPublicacion = true AND categoria = :categoria";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':categoria', $categoria, PDO::PARAM_STR);
+        $stmt->bindParam(':categoria', $categoria);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -20,15 +20,19 @@ class Publicacion {
 header('Content-Type: application/json');
 
 try {
-    $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : null; // Leer categoría desde GET
+    $publicacion = new Publicacion($conn);
+
+    // Verifica si se pasó la categoría como parámetro
+    $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : null;
+
     if (!$categoria) {
-        http_response_code(400);
-        echo json_encode(["error" => "La categoría es requerida"]);
-        exit();
+        echo json_encode(["error" => "Categoría no especificada"]);
+        http_response_code(400); // Bad Request
+        exit;
     }
 
-    $publicacion = new Publicacion($conn);
-    echo json_encode($publicacion->getApprovedPublicationsByCategory($categoria));
+    $publicaciones = $publicacion->getApprovedPublications($categoria);
+    echo json_encode($publicaciones);
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode(["error" => "Error al obtener publicaciones aprobadas"]);

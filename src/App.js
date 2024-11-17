@@ -13,6 +13,8 @@ import PublicationsAlumni from './views/PublicationsAlumni';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
+import PublicationsSociedad from './views/PublicationsSociedad';
+import MallaCurricular from './views/MallaCurricular';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -89,19 +91,12 @@ function App() {
             element={
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PublicationsIntercambio darkMode={darkMode} />
+                <PublicationsSociedad darkMode={darkMode} />
               </>
             }
           />
-          <Route
-            path="/PublicationsAlumni"
-            element={
-              <>
-                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PublicationsAlumni darkMode={darkMode} />
-              </>
-            }
-          />
+          <Route path="/MallaCurricular" element={<MallaCurricular darkMode={darkMode} />} />
+
         </Routes>
         
       </ThemeProvider>
