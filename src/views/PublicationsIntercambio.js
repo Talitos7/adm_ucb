@@ -7,16 +7,24 @@ import './Publications.css';
 
 const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
-  const [editingPublication, setEditingPublication] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   // Cargar publicaciones aprobadas
-  const loadPublications = async () => {
+  const loadApprovedPublications = async () => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php');
-      console.log('Publicaciones aprobadas:', response.data);
+      console.log('Respuesta del servidor (raw):', response.data);
 
-      setPublications(Array.isArray(response.data) ? response.data : []);
+      // Limpiar la respuesta del servidor para extraer el JSON válido
+      const jsonData = response.data.replace(/^Conexión exitosa/, '');
+      const parsedData = JSON.parse(jsonData);
+
+      if (Array.isArray(parsedData)) {
+        setPublications(parsedData);
+      } else {
+        console.warn('La respuesta procesada no es un array válido:', parsedData);
+        setPublications([]);
+      }
     } catch (error) {
       console.error('Error al cargar publicaciones aprobadas:', error);
       Swal.fire({
@@ -30,7 +38,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
 
   const handleSubmit = async (formData) => {
     try {
-      const response = await axios.post('/src/servicios/Publicacion.php', formData, {
+      await axios.post('/src/servicios/Publicacion.php', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -41,8 +49,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
         confirmButtonText: 'OK',
       });
 
-      loadPublications();
-      setEditingPublication(null);
+      loadApprovedPublications();
       setIsFormVisible(false);
     } catch (error) {
       Swal.fire({
@@ -55,7 +62,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
   };
 
   useEffect(() => {
-    loadPublications();
+    loadApprovedPublications();
   }, []);
 
   return (
@@ -73,7 +80,6 @@ const PublicationsIntercambio = ({ darkMode }) => {
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
-          initialData={editingPublication}
           darkMode={darkMode}
         />
       )}
@@ -87,7 +93,9 @@ const PublicationsIntercambio = ({ darkMode }) => {
             />
           ))
         ) : (
-          <p>No hay publicaciones aprobadas disponibles.</p>
+          <p className={`no-publications ${darkMode ? 'dark-mode' : ''}`}>
+            No hay publicaciones aprobadas disponibles.
+          </p>
         )}
       </div>
     </div>

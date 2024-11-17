@@ -1,14 +1,13 @@
 <?php
 require 'conexion.php';
 
-class PublicacionesAprobadas {
+class Publicacion {
     private $conn;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    // Obtener publicaciones aprobadas
     public function getApprovedPublications() {
         $sql = "SELECT * FROM publicacion WHERE estadoPublicacion = true";
         $stmt = $this->conn->prepare($sql);
@@ -17,13 +16,13 @@ class PublicacionesAprobadas {
     }
 }
 
-// Manejo de la API
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $publicaciones = new PublicacionesAprobadas($conn);
-    header('Content-Type: application/json');
-    echo json_encode($publicaciones->getApprovedPublications());
-} else {
-    http_response_code(405); // Método no permitido
-    echo json_encode(["mensaje" => "Método no permitido"]);
+header('Content-Type: application/json');
+
+try {
+    $publicacion = new Publicacion($conn);
+    echo json_encode($publicacion->getApprovedPublications());
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(["error" => "Error al obtener publicaciones aprobadas"]);
 }
 ?>
