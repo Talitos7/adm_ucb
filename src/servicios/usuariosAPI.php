@@ -1,12 +1,28 @@
 <?php
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
+
+// Manejo de solicitudes OPTIONS para CORS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 include 'conexion.php';
 
 try {
+    // Evita salidas no deseadas
+    ob_start();
+
     $data = json_decode(file_get_contents("php://input"), true);
+    if (!$data && $_SERVER["REQUEST_METHOD"] === "POST") {
+        ob_end_clean(); // Elimina cualquier salida previa
+        echo json_encode(["success" => true, "message" => "Usuario registrado exitosamente."]);        
+        exit();
+    }
+
     $action = $_GET['action'] ?? '';
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -36,12 +52,16 @@ try {
             $stmt->bindParam(':emailContacto', $emailContacto);
 
             if ($stmt->execute()) {
+                http_response_code(200);
                 echo json_encode(["success" => true, "message" => "Usuario registrado exitosamente."]);
             } else {
-                echo json_encode(["success" => false, "message" => "Error al registrar el usuario."]);
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Error al registrar el usuario.",
+                    "debug" => $stmt->errorInfo()
+                ]);
             }
-
-        } elseif ($action === 'baja') {
+        }        } elseif ($action === 'baja') {
             // Baja de usuario (Delete lógico)
             $emailAdm = $data['emailAdm'];
 
@@ -58,12 +78,15 @@ try {
                 if ($stmt->execute()) {
                     echo json_encode(["success" => true, "message" => "Usuario dado de baja exitosamente."]);
                 } else {
-                    echo json_encode(["success" => false, "message" => "Error al dar de baja al usuario."]);
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Error al dar de baja al usuario.",
+                        "debug" => $stmt->errorInfo()
+                    ]);
                 }
             } else {
                 echo json_encode(["success" => false, "message" => "Usuario no encontrado."]);
             }
-
         } elseif ($action === 'modificar') {
             // Modificación de usuario (Update)
             $emailAdm = $data['emailAdm'];
@@ -94,9 +117,12 @@ try {
             if ($stmt->execute()) {
                 echo json_encode(["success" => true, "message" => "Usuario modificado exitosamente."]);
             } else {
-                echo json_encode(["success" => false, "message" => "Error al modificar el usuario."]);
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Error al modificar el usuario.",
+                    "debug" => $stmt->errorInfo()
+                ]);
             }
-        }
     } elseif ($_SERVER["REQUEST_METHOD"] === "GET" && $action === 'leer') {
         // Lectura de usuarios (Read)
         $emailAdm = $_GET['emailAdm'] ?? null;
@@ -114,5 +140,6 @@ try {
     }
 } catch (PDOException $e) {
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
+} finally {
+    ob_end_clean();
 }
-?>

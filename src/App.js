@@ -15,6 +15,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import PublicationsSociedad from './views/PublicationsSociedad';
 import MallaCurricular from './views/MallaCurricular';
+import UserRegistrationForm from './views/UserRegistrationForm';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -101,6 +102,15 @@ function App() {
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <PublicationsAlumni darkMode={darkMode} />
+              </>
+            }
+          />
+          <Route
+            path="/UserRegistrationForm"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <UserRegistrationForm darkMode={darkMode} />
               </>
             }
           />
