@@ -12,6 +12,7 @@ import PublicationsIntercambio from './views/PublicationsIntercambio';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
+import PublicationsSociedad from './views/PublicationsSociedad';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -88,7 +89,7 @@ function App() {
             element={
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PublicationsIntercambio darkMode={darkMode} />
+                <PublicationsSociedad darkMode={darkMode} />
               </>
             }
           />

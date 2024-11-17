@@ -43,6 +43,11 @@ export default function AccountMenu() {
     handleClose();
   };
 
+  const handleSociedadClick = () => {
+    navigate('/PublicationsSociedad'); // Redirige a Sociedad Científica
+    handleClose();
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -66,6 +71,13 @@ export default function AccountMenu() {
           style={{ cursor: 'pointer' }}
         >
           Intercambios
+        </Typography>
+        <Typography
+          sx={{ minWidth: 150 }}
+          onClick={handleSociedadClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Sociedad Científica
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
         <Typography sx={{ minWidth: 100 }}>Solicitudes</Typography>
@@ -136,6 +148,12 @@ export default function AccountMenu() {
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Intercambios
+        </MenuItem>
+        <MenuItem onClick={handleSociedadClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Sociedad Científica
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
