@@ -28,6 +28,8 @@ function LoginPage() {
       }
   
       if (mensaje === 'Login exitoso') {
+        const usuarioData = { nombre: usuario.nombre, emailAdm: usuario.emailadm }; // Incluye emailAdm
+        localStorage.setItem('usuario', JSON.stringify(usuarioData)); // Guarda el objeto como JSON
         // Obtener el rol del usuario mediante la API
         const rolResponse = await axios.get(
           `http://localhost/adm_ucb/src/servicios/loginUsuarios.php?emailAdm=${email}&tipo=rol`
@@ -39,8 +41,9 @@ function LoginPage() {
         const roles = ['admin', 'estudiante', 'centro', 'sociedad', 'alumni'];
 
         if (rol) {
-          // Guardar usuario y redirigir según el rol
-          localStorage.setItem('usuario', usuario);
+          // Guardar usuario como JSON
+          localStorage.setItem('usuario', JSON.stringify(usuario));
+          localStorage.setItem('usuarioRol', rol);
   
           if (rol === roles[0]) {
             navigate('/admin');
