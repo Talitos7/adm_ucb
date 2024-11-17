@@ -95,6 +95,15 @@ function App() {
               </>
             }
           />
+           <Route
+            path="/PublicationsAlumni"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicationsAlumni darkMode={darkMode} />
+              </>
+            }
+          />
           <Route path="/MallaCurricular" element={<MallaCurricular darkMode={darkMode} />} />
 
         </Routes>
