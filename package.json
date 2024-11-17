@@ -51,5 +51,5 @@
     ]
   }
   ,
-  "proxy": "http://localhost/ADM/adm_ucb"
+  "proxy": "http://localhost/adm_ucb"
 }
