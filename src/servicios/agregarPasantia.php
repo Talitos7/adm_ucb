@@ -7,9 +7,8 @@ header('Content-Type: application/json');
 include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $errors = []; // Array para almacenar errores
+    $errors = []; 
 
-    // Verificar si se han enviado los datos obligatorios
     if (!isset($_POST['titulo'])) {
         $errors[] = 'El campo "titulo" es obligatorio.';
     }
@@ -18,12 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = 'El campo "detalle" es obligatorio.';
     }
 
-    // Verificar si se ha enviado el archivo de imagen
     if (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
         $errors[] = 'El campo "imagen" es obligatorio.';
     }
 
-    // Si hay errores, devolverlos como una cadena
     if (!empty($errors)) {
         echo json_encode(['error' => implode(", ", $errors)]);
         exit();
@@ -36,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $imagen = $_FILES['imagen'];
     $uploadDir = 'uploads/'; // Directorio donde se guardarán las imágenes
     $uploadPath = $uploadDir . basename($imagen['name']);
-    $imageUrl = $uploadPath; // La ruta que se guardará en la base de datos
+    $imageUrl = $uploadPath; 
 
     // Crear el directorio si no existe
     if (!file_exists($uploadDir)) {

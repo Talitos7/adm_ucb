@@ -33,6 +33,13 @@ export default function AccountMenu() {
     handleClose();
   };
 
+  // Redirigir a la página admin cuando se hace clic en "Perfil"
+  const handleAdminClick = () => {
+    navigate('/admin'); // Redirige a la página admin
+    handleClose(); // Cierra el menú
+  };
+
+  // Redirigir a la página de Pasantías
   const handleInternshipsClick = () => {
     navigate('/pasantias'); // Redirige a Pasantías
     handleClose();
@@ -48,21 +55,21 @@ export default function AccountMenu() {
     handleClose();
   };
 
+  // Redirigir a la página de Pasantías
+  const handlePerfilClick = () => {
+    navigate('/perfil'); 
+    handleClose(); 
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography
-          sx={{ minWidth: 100 }}
-          onClick={handleProfileClick}
-          style={{ cursor: 'pointer' }}
-        >
-          Perfil
+        <Typography sx={{ minWidth: 100 }} onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
+          Inicio
         </Typography>
-        <Typography
-          sx={{ minWidth: 100 }}
-          onClick={handleInternshipsClick}
-          style={{ cursor: 'pointer' }}
-        >
+        <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
+        <Typography sx={{ minWidth: 100 }}>Empresas</Typography>
+        <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
         </Typography>
         <Typography
@@ -133,8 +140,8 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleProfileClick}>
-          <Avatar /> Iniciar Sesión
+        <MenuItem onClick={handlePerfilClick}> {/* Redirige al Perfil */}
+          <Avatar /> Ver perfil
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleInternshipsClick}>

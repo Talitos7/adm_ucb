@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importación única
 import Navbar from './components/Navbar';
 import NavbarAdmin from './components/navbaradmin';
 import Pasantias from './views/pasantias';
+import Perfil from './views/perfil';
 import CarouselSection from './components/CarouselSection';
 import DocenteSection from './components/DocenteSection';
-import MallaSection from './components/MallaCurricularSection';
 import Footer from './components/Footer';
 import AdminPage from './views/admin';
 import PublicationsIntercambio from './views/PublicationsIntercambio';
 import PublicationsAlumni from './views/PublicationsAlumni';
+import PublicationsSociedad from './views/PublicationsSociedad';
+import MallaC from './views/MallaCurricular'
+import MallaCurricular from './views/MallaCurricular';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
-import PublicationsSociedad from './views/PublicationsSociedad';
-import MallaCurricular from './views/MallaCurricular';
+
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -48,7 +50,7 @@ function App() {
                 <Navbar darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <CarouselSection />
                 <DocenteSection />
-                <MallaSection />
+                <MallaC/>
                 <Footer />
               </>
             }
@@ -106,6 +108,21 @@ function App() {
           />
           <Route path="/MallaCurricular" element={<MallaCurricular darkMode={darkMode} />} />
 
+          {/* Ruta para la página de Pasantías */}
+          <Route path="/pasantias" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
+          </>
+        } />
+
+        {/* Ruta para la página de Perfil */}
+          <Route path="/perfil" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <Perfil /> {/* Componente que renderiza la vista de pasantías */}
+          </>
+        } />
         </Routes>
         
       </ThemeProvider>
