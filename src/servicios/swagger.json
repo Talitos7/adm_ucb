@@ -1,33 +1,41 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "API para el portal web de la carrera de Administración de Empresas. Incluye endpoints para gestionar usuarios.",
+    "description": "API para el portal web de la carrera de Administración de Empresas. Incluye endpoints para gestionar usuarios y empresas.",
     "version": "1.0.0",
     "title": "API de Administración de Empresas",
     "contact": {
-      "email": "admin@empresa.com"
+      "email": "tu_correo@ejemplo.com"
     }
   },
   "host": "localhost",
   "basePath": "/src/servicios",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "paths": {
     "/loginUsuarios": {
       "post": {
         "tags": ["Login"],
         "summary": "Login de usuario",
-        "description": "Valida las credenciales del usuario y permite iniciar sesión.",
+        "description": "Inicia sesión y verifica las credenciales de usuario.",
         "parameters": [
           {
             "in": "body",
             "name": "body",
-            "description": "Email y contraseña del usuario.",
+            "description": "Email y contraseña del usuario",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "emailAdm": { "type": "string", "example": "admin@empresa.com" },
-                "password": { "type": "string", "example": "12345" }
+                "emailAdm": {
+                  "type": "string", 
+                  "example": "admin@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "123456"
+                }
               },
               "required": ["emailAdm", "password"]
             }
@@ -35,132 +43,359 @@
         ],
         "responses": {
           "200": {
-            "description": "Login exitoso",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "mensaje": { "type": "string", "example": "Login exitoso" },
-                "usuario": { "$ref": "#/definitions/Usuario" }
-              }
-            }
+            "description": "Login exitoso"
           },
           "401": {
-            "description": "Credenciales incorrectas",
-            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+            "description": "Credenciales incorrectas"
           },
           "400": {
-            "description": "Faltan datos para el login",
-            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+            "description": "Faltan datos para el login"
           }
         }
-      },
+      }
+    },
+    "/loginUsuarios/{emailAdm}": {
       "get": {
         "tags": ["Usuario"],
-        "summary": "Obtener información del usuario",
-        "description": "Recupera información completa del usuario o solo su rol.",
+        "summary": "Obtener información de usuario",
+        "description": "Recupera toda la información del usuario.",
         "parameters": [
           {
             "name": "emailAdm",
-            "in": "query",
-            "description": "Email del usuario.",
+            "in": "path",
+            "description": "Email del usuario",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "tipo",
-            "in": "query",
-            "description": "Especifica 'rol' para obtener solo el rol del usuario.",
-            "required": false,
-            "type": "string",
-            "enum": ["rol"]
           }
         ],
         "responses": {
           "200": {
             "description": "Información del usuario",
-            "schema": { "$ref": "#/definitions/Usuario" }
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
           },
           "404": {
-            "description": "Usuario no encontrado",
-            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+            "description": "Usuario no encontrado"
           },
           "400": {
-            "description": "Parámetros incorrectos",
-            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+            "description": "Parámetros incorrectos"
           }
         }
       }
     },
-    "/empresasAPI.php": {
+    "/usuarios/{emailAdm}/rol": {
       "get": {
-        "tags": ["Empresas"],
-        "summary": "Listar empresas o buscar por ID/nombre",
-        "description": "Obtiene la lista de empresas. También puede buscar una empresa por ID o nombre.",
+        "tags": ["Usuario"],
+        "summary": "Obtener rol de un usuario",
+        "description": "Recupera el rol asociado al usuario especificado por su email.",
         "parameters": [
           {
-            "name": "idEmpresa",
-            "in": "query",
-            "description": "ID de la empresa.",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "nombreEmpresa",
-            "in": "query",
-            "description": "Nombre de la empresa.",
-            "required": false,
+            "name": "emailAdm",
+            "in": "path",
+            "description": "Email del usuario",
+            "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Empresas obtenidas",
+            "description": "Rol del usuario obtenido exitosamente.",
             "schema": {
-              "type": "array",
-              "items": { "$ref": "#/definitions/Empresa" }
+              "type": "object",
+              "properties": {
+                "rol": { "type": "string", "example": "admin" }
+              }
             }
           },
           "404": {
-            "description": "Empresa(s) no encontrada(s)",
-            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+            "description": "Usuario no encontrado."
+          },
+          "400": {
+            "description": "Parámetros incorrectos."
+          }
+        }
+      }
+    },
+    "/empresasAPI": {
+      "get": {
+        "tags": ["Empresas"],
+        "summary": "Obtener todas las empresas",
+        "description": "Recupera una lista de todas las empresas.",
+        "responses": {
+          "200": {
+            "description": "Lista de empresas obtenida con éxito",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Empresa"
+              }
+            }
           }
         }
       },
       "post": {
         "tags": ["Empresas"],
         "summary": "Crear una nueva empresa",
-        "description": "Crea una empresa verificando que el nombre de la imagen no se repita.",
+        "description": "Agrega una nueva empresa a la base de datos.",
         "parameters": [
           {
             "in": "body",
             "name": "body",
-            "description": "Información de la nueva empresa.",
+            "description": "Datos de la empresa a crear",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "nombreEmpresa": { "type": "string", "example": "Nueva Empresa" },
-                "imagenEmpresa": { "type": "string", "example": "logo.jpg" },
-                "descripcionEmpresa": { "type": "string", "example": "Descripción de la empresa" }
-              },
-              "required": ["nombreEmpresa", "imagenEmpresa", "descripcionEmpresa"]
+              "$ref": "#/definitions/EmpresaInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empresa creada con éxito"
+          },
+          "400": {
+            "description": "Error al crear la empresa"
+          }
+        }
+      }
+    },
+    "/empresasAPI/{nombreEmpresa}":{
+      "get": {
+        "tags": ["Empresas"],
+        "summary": "Obtener lista empresas por nombre",
+        "description": "Devuelve una lista de empresas filtradas por nombre.",
+        "parameters": [
+          {
+            "name": "nombreEmpresa",
+            "in": "path",
+            "description": "Nombre de la empresa a buscar",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de empresas obtenida exitosamente.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Empresa"
+              }
+            }
+          },
+          "404": {
+            "description": "No se encontraron empresas con el nombre proporcionado."
+          }
+        }
+      }
+    },
+    "/empresasAPI/{idEmpresa}": {
+      "get": {
+        "tags": ["Empresas"],
+        "summary": "Obtener empresa por ID",
+        "description": "Recupera información de una empresa específica.",
+        "parameters": [
+          {
+            "name": "idEmpresa",
+            "in": "path",
+            "description": "ID de la empresa",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Información de la empresa obtenida",
+            "schema": {
+              "$ref": "#/definitions/Empresa"
+            }
+          },
+          "404": {
+            "description": "Empresa no encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Empresas"],
+        "summary": "Actualizar empresa por ID",
+        "description": "Actualiza los datos de una empresa existente.",
+        "parameters": [
+          {
+            "name": "idEmpresa",
+            "in": "path",
+            "description": "ID de la empresa a actualizar",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos actualizados de la empresa",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Empresa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empresa actualizada con éxito"
+          },
+          "400": {
+            "description": "Error al actualizar la empresa"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Empresas"],
+        "summary": "Eliminar empresa por ID",
+        "description": "Elimina una empresa existente.",
+        "parameters": [
+          {
+            "name": "idEmpresa",
+            "in": "path",
+            "description": "ID de la empresa a eliminar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empresa eliminada con éxito"
+          },
+          "400": {
+            "description": "Error al eliminar la empresa"
+          }
+        }
+      }
+    },
+    "/eventos": {
+      "get": {
+        "tags": ["Eventos"],
+        "summary": "Obtener todos los eventos",
+        "description": "Devuelve una lista de todos los eventos registrados.",
+        "responses": {
+          "200": {
+            "description": "Lista de eventos obtenida exitosamente.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Evento"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Eventos"],
+        "summary": "Crear un nuevo evento",
+        "description": "Registra un nuevo evento en la base de datos.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del evento a crear",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventoInput"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Empresa creada exitosamente",
+            "description": "Evento creado exitosamente.",
             "schema": {
               "type": "object",
               "properties": {
-                "mensaje": { "type": "string", "example": "Empresa creada exitosamente." },
-                "idEmpresa": { "type": "integer", "example": 1 }
+                "idEvento": { "type": "integer" }
               }
             }
           },
-          "409": {
-            "description": "Conflicto: Imagen duplicada",
-            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+          "400": {
+            "description": "Datos faltantes o inválidos."
+          }
+        }
+      }
+    },
+    "/eventos/{idEvento}": {
+      "get": {
+        "tags": ["Eventos"],
+        "summary": "Obtener un evento por ID",
+        "description": "Devuelve los detalles de un evento específico.",
+        "parameters": [
+          {
+            "name": "idEvento",
+            "in": "path",
+            "description": "ID del evento a buscar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evento obtenido exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Evento"
+            }
+          },
+          "404": {
+            "description": "Evento no encontrado."
+          }
+        }
+      },
+      "put": {
+        "tags": ["Eventos"],
+        "summary": "Actualizar un evento existente",
+        "description": "Modifica los detalles de un evento identificado por su ID.",
+        "parameters": [
+          {
+            "name": "idEvento",
+            "in": "path",
+            "description": "ID del evento a actualizar",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos actualizados del evento",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventoInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evento actualizado exitosamente."
+          },
+          "400": {
+            "description": "Datos faltantes o inválidos."
+          },
+          "404": {
+            "description": "Evento no encontrado."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Eventos"],
+        "summary": "Eliminar un evento",
+        "description": "Elimina un evento identificado por su ID.",
+        "parameters": [
+          {
+            "name": "idEvento",
+            "in": "path",
+            "description": "ID del evento a eliminar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evento eliminado exitosamente."
+          },
+          "404": {
+            "description": "Evento no encontrado."
           }
         }
       }
@@ -170,23 +405,62 @@
     "Usuario": {
       "type": "object",
       "properties": {
-        "emailAdm": { "type": "string", "example": "admin@empresa.com" },
-        "nombre": { "type": "string", "example": "Juan" },
-        "apellido": { "type": "string", "example": "Pérez" },
-        "celular": { "type": "string", "example": "1234567890" },
-        "estado": { "type": "boolean", "example": true },
-        "rol": { "type": "string", "example": "Administrador" },
-        "fechaRegistro": { "type": "string", "format": "date", "example": "2024-01-01" }
+        "emailAdm": { "type": "string", "example": "admin@example.com"},
+        "nombre": { "type": "string", "example": "Juan"},
+        "apellido": { "type": "string", "example": "Perez"},
+        "password": { "type": "string", "example": "123456"},
+        "celular": { "type": "string", "example": "123456789"},
+        "estado": { "type": "boolean", "example": true},
+        "rol": { "type": "string", "example": "admin"},
+        "fechaRegistro": { "type": "string", "format": "date", "example": "2024-11-17"},
+        "emailContacto": { "type": "string", "example": "juanperez@correo.com"}
       }
     },
     "Empresa": {
       "type": "object",
       "properties": {
-        "idEmpresa": { "type": "integer", "example": 1 },
-        "nombreEmpresa": { "type": "string", "example": "Mi Empresa" },
-        "imagenEmpresa": { "type": "string", "example": "logo.jpg" },
-        "descripcionEmpresa": { "type": "string", "example": "Empresa dedicada a X" }
+        "idEmpresa": { "type": "integer", "example": 1},
+        "nombreEmpresa": { "type": "string", "example": "Mi Empresa"},
+        "imagenEmpresa": { "type": "string", "example": "miempresa.jpg"},
+        "descripcionEmpresa": { "type": "string", "example": "Empresa dedicada a X."}
       }
+    },
+    "EmpresaInput": {
+      "type": "object",
+      "properties": {
+        "nombreEmpresa": { "type": "string", "example": "Mi Empresa"},
+        "imagenEmpresa": { "type": "string", "example": "miempresa.jpg"},
+        "descripcionEmpresa": { "type": "string", "example": "Empresa dedicada a X."}
+      },
+      "required": ["nombreEmpresa", "imagenEmpresa", "descripcionEmpresa"]
+    },
+    "Evento": {
+      "type": "object",
+      "properties": {
+        "idEvento": { "type": "integer", "example": 1},
+        "titulo": { "type": "string", "example": "Evento de Innovación"},
+        "fechaInicio": { "type": "string", "format": "date", "example": "2024-11-22"},
+        "fechaFin": { "type": "string", "format": "date", "example": "2024-11-23"},
+        "hora": { "type": "string", "format": "date-time", "example": "2024-11-22 10:00:00"},
+        "enlaceRegistro": { "type": "string", "example": "https://registroevento.com"},
+        "descripcion": { "type": "string", "example": "Evento."},
+        "estado": { "type": "boolean", "example": true},
+        "usuario_emailAdm": { "type": "string", "example": "admin@example.com"}
+      }
+    },
+    "EventoInput": {
+      "type": "object",
+      "properties": {
+        "titulo": { "type": "string", "example": "Evento de Innovación"},
+        "fechaInicio": { "type": "string", "format": "date", "example": "2024-11-22"},
+        "fechaFin": { "type": "string", "format": "date", "example": "2024-11-23"},
+        "hora": { "type": "string", "format": "date-time", "example": "2024-11-22 10:00:00"},
+        "enlaceRegistro": { "type": "string", "example": "https://registroevento.com"},
+        "descripcion": { "type": "string", "example": "Evento."},
+        "estado": { "type": "boolean", "example": true},
+        "usuario_emailAdm": { "type": "string", "example": "admin@example.com"}
+      },
+      "required": ["titulo", "fechaInicio", "fechaFin", "hora", "enlaceRegistro", "descripcion", "estado", "usuario_emailAdm"]
     }
   }
 }
