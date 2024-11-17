@@ -48,12 +48,7 @@ function App() {
               <Footer /> {/* Footer fuera de las rutas */}
             </>
           } />
-          {/* Ruta para la página Login */}
-          <Route path="/login" element={
-            <>
-              <LoginPage /> {/* Página de inicio sesion */}
-            </>
-          } />
+          <Route path="/login" element={<LoginPage />} />
           {/* Ruta para la página Admin con su Navbar específico */}
           <Route path="/admin" element={
             <>

@@ -35,7 +35,7 @@ export default function AccountMenu() {
 
   const handleLogout = () => {
     localStorage.removeItem('usuario'); // Elimina los datos del usuario
-    navigate('/login'); // Redirige al login
+    navigate('App.js'); // Redirige al login
     handleClose();
   };
 

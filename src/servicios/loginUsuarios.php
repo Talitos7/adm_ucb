@@ -40,15 +40,15 @@ function login($conn) {
         $emailAdm = $data['emailAdm'];
         $password = $data['password'];
 
-        // Verificar las credenciales
-        $hashedPassword = password_hash($password); // O usa el método que corresponda
-        $stmt = $conn->prepare("SELECT * FROM usuario WHERE emailAdm = :emailAdm AND password = :password");
+        // Buscar al usuario por email
+        $stmt = $conn->prepare("SELECT * FROM usuario WHERE emailAdm = :emailAdm");
         $stmt->bindParam(':emailAdm', $emailAdm);
-        $stmt->bindParam(':password', $hashedPassword);
         $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            echo json_encode(["mensaje" => "Login exitoso"]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario && password_verify($password, $usuario['password'])) {
+            echo json_encode(["mensaje" => "Login exitoso", "usuario" => $usuario]);
         } else {
             echo json_encode(["mensaje" => "Credenciales incorrectas"]);
         }
