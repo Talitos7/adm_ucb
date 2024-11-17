@@ -3,23 +3,36 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
+import PublicationModal from '../components/PublicationModal';
 import './Publications.css';
 
 const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
-  const [editingPublication, setEditingPublication] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
 
-  const loadPublications = async () => {
+  // Cargar publicaciones aprobadas
+  const loadApprovedPublications = async () => {
     try {
-      const response = await axios.get('/src/servicios/Publicacion.php');
-      console.log('Datos recibidos del backend:', response.data);
-      setPublications(Array.isArray(response.data) ? response.data : []);
+      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php');
+      console.log('Publicaciones aprobadas (raw):', response.data);
+
+      // Limpiar y parsear la respuesta si es necesario
+      const jsonData = response.data.replace(/^Conexión exitosa/, '');
+      const parsedData = JSON.parse(jsonData);
+
+      if (Array.isArray(parsedData)) {
+        setPublications(parsedData);
+      } else {
+        console.warn('Respuesta no es un array válido:', parsedData);
+        setPublications([]);
+      }
     } catch (error) {
+      console.error('Error al cargar publicaciones aprobadas:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudieron cargar las publicaciones.',
+        text: 'No se pudieron cargar las publicaciones aprobadas.',
         confirmButtonText: 'OK',
       });
     }
@@ -27,7 +40,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
 
   const handleSubmit = async (formData) => {
     try {
-      const response = await axios.post('/src/servicios/Publicacion.php', formData, {
+      await axios.post('/src/servicios/Publicacion.php', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -38,8 +51,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
         confirmButtonText: 'OK',
       });
 
-      loadPublications();
-      setEditingPublication(null);
+      loadApprovedPublications();
       setIsFormVisible(false);
     } catch (error) {
       Swal.fire({
@@ -52,13 +64,13 @@ const PublicationsIntercambio = ({ darkMode }) => {
   };
 
   useEffect(() => {
-    loadPublications();
+    loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Experiencias de Intercambio</h1>
+        <h1>Publicaciones Aprobadas</h1>
         <button
           className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
           onClick={() => setIsFormVisible(!isFormVisible)}
@@ -70,7 +82,6 @@ const PublicationsIntercambio = ({ darkMode }) => {
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
-          initialData={editingPublication}
           darkMode={darkMode}
         />
       )}
@@ -81,13 +92,23 @@ const PublicationsIntercambio = ({ darkMode }) => {
             <PublicationCard
               key={publication.idpublicacion}
               publication={publication}
-              onDelete={() => {}}
+              darkMode={darkMode}
+              onCardClick={(pub) => setSelectedPublication(pub)} // Manejar clic en la tarjeta
             />
           ))
         ) : (
-          <p>No hay publicaciones disponibles.</p>
+          <p className={`no-publications ${darkMode ? 'dark-mode' : ''}`}>
+            No hay publicaciones aprobadas disponibles.
+          </p>
         )}
       </div>
+
+      {/* Modal para mostrar tarjeta ampliada */}
+      <PublicationModal
+        publication={selectedPublication}
+        onClose={() => setSelectedPublication(null)}
+        darkMode={darkMode}
+      />
     </div>
   );
 };

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Asegúrate de tener react-router-dom
-import Navbar from './components/Navbar'; // Para la página principal
-import NavbarAdmin from './components/navbaradmin'; // Para la página Admin
-import Pasantias from './views/pasantias'; // Asegúrate de importar la vista de pasantías
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import NavbarAdmin from './components/navbaradmin';
+import Pasantias from './views/pasantias';
 import CarouselSection from './components/CarouselSection';
 import DocenteSection from './components/DocenteSection';
 import MallaSection from './components/MallaCurricularSection';
 import Footer from './components/Footer';
-import AdminPage from './views/admin'; // Importa tu página Admin
+import AdminPage from './views/admin';
+import PublicationsIntercambio from './views/PublicationsIntercambio';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import './App.css'; 
-import PublicationsIntercambio from './views/PublicationsIntercambio';
+import './App.css';
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -33,42 +33,56 @@ function App() {
   };
 
   return (
-    <Router> {/* Envuelve todo con Router */}
+    <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          {/* Ruta para la página principal */}
-          <Route path="/" element={
-            <>
-              <Navbar darkMode={darkMode} handleThemeChange={handleThemeChange} />
-              <CarouselSection />
-              <DocenteSection />
-              <MallaSection />
-              <Footer /> {/* Footer fuera de las rutas */}
-            </>
-          } />
-          
-          {/* Ruta para la página Admin con su Navbar específico */}
-          <Route path="/admin" element={
-            <>
-              <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-              <AdminPage/> {/* Página de administración */}
-            </>
-          } />
+          {/* Página principal */}
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <CarouselSection />
+                <DocenteSection />
+                <MallaSection />
+                <Footer />
+              </>
+            }
+          />
 
-          {/* Ruta para la página de Pasantías */}
-          <Route path="/pasantias" element={
-          <>
-          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
-          </>
-        } />
-        <Route path="/PublicationsIntercambio" element={
-          <>
-          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <PublicationsIntercambio /> {/* Componente que renderiza la vista publicacioness */}
-          </>
-          } />
+          {/* Página de administración */}
+          <Route
+            path="/admin"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <AdminPage />
+              </>
+            }
+          />
+
+          {/* Página de pasantías */}
+          <Route
+            path="/pasantias"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Pasantias />
+              </>
+            }
+          />
+
+          {/* Página de publicaciones */}
+          <Route
+            path="/PublicationsIntercambio"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicationsIntercambio darkMode={darkMode} />
+              </>
+            }
+          />
         </Routes>
       </ThemeProvider>
     </Router>
