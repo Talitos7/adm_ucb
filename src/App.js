@@ -85,15 +85,16 @@ function App() {
             }
           />
           <Route
-            path="/PublicationsAlumni"
+            path="/PublicationsSociedad"
             element={
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PublicationsAlumni darkMode={darkMode} />
+                <PublicationsIntercambio darkMode={darkMode} />
               </>
             }
           />
         </Routes>
+        
       </ThemeProvider>
     </Router>
   );

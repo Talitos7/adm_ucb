@@ -14,9 +14,13 @@ const PublicationCard = ({ publication, darkMode, onCardClick }) => {
           className="publication-image"
         />
       </div>
-      <div className="publication-details">
-        <h3 className="publication-author">{publication.autor}</h3>
-        <p className="publication-description">{publication.descripcionpublicacion}</p>
+      <div className={`publication-details ${darkMode ? 'dark-mode' : ''}`}>
+        <h3 className={`publication-author ${darkMode ? 'dark-mode' : ''}`}>
+          {publication.autor}
+        </h3>
+        <p className={`publication-description ${darkMode ? 'dark-mode' : ''}`}>
+          {publication.descripcionpublicacion}
+        </p>
       </div>
     </div>
   );

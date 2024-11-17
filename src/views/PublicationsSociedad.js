@@ -14,7 +14,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
   // Cargar publicaciones aprobadas para la categoría "Intercambio"
   const loadApprovedPublications = async () => {
     try {
-      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Intercambio');
+      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Socieda Cientifica');
       console.log('Publicaciones aprobadas (Intercambio):', response.data);
   
       // Limpia el texto adicional si existe y analiza la respuesta como JSON
@@ -83,7 +83,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
-          categoria="Intercambio" // Pasamos la categoría al formulario
+          categoria="Sociedad Cientifica" // Pasamos la categoría al formulario
           darkMode={darkMode}
         />
       )}
