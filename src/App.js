@@ -13,7 +13,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import './App.css'; 
-import EmpresasAliadas from './components/EmpresasAliadas';
+import EmpresasAliadas from './views/EmpresasAliadas';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
