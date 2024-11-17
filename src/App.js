@@ -44,6 +44,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
+        <Route path="/login" element={<LoginPage />} />
           {/* Página principal */}
           <Route
             path="/"

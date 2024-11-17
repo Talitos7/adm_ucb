@@ -26,18 +26,21 @@ export default function PasantiasCards() {
             try {
                 const response = await axios.get('http://localhost/adm_ucb/src/servicios/mostrarPasantias.php');
                 console.log('Respuesta de la API (raw):', response.data);
-
-                // Extraer JSON desde el texto si tiene prefijo
-                const rawData = response.data;
-                const jsonString = rawData.startsWith('Conexión exitosa')
-                    ? rawData.replace('Conexión exitosa', '').trim()
-                    : rawData;
-
-                const data = JSON.parse(jsonString);
+    
+                let rawData = response.data;
+    
+                // Si la respuesta contiene "Conexión exitosa", eliminarla
+                if (typeof rawData === 'string' && rawData.startsWith('Conexión exitosa')) {
+                    rawData = rawData.replace('Conexión exitosa', '').trim();
+                }
+    
+                const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+    
                 console.log('Datos parseados:', data);
-
-                if (data.success && data.pasantias.length > 0) {
+    
+                if (data.success && data.pasantias) {
                     setPasantias(data.pasantias);
+                    setError(''); // Limpiar errores
                 } else {
                     setError(data.message || 'No hay pasantías disponibles.');
                 }
@@ -46,9 +49,10 @@ export default function PasantiasCards() {
                 setError('Error al conectar con la API.');
             }
         };
-
+    
         fetchPasantias();
     }, []);
+    
 
     const handleOpenDialog = (idPasantia) => {
         setSelectedPasantia(idPasantia);
