@@ -9,7 +9,7 @@
     }
   },
   "host": "localhost",
-  "basePath": "/src/data",
+  "basePath": "/src/servicios",
   "schemes": ["http"],
   "paths": {
     "/loginUsuarios": {
@@ -90,6 +90,80 @@
           }
         }
       }
+    },
+    "/empresasAPI.php": {
+      "get": {
+        "tags": ["Empresas"],
+        "summary": "Listar empresas o buscar por ID/nombre",
+        "description": "Obtiene la lista de empresas. También puede buscar una empresa por ID o nombre.",
+        "parameters": [
+          {
+            "name": "idEmpresa",
+            "in": "query",
+            "description": "ID de la empresa.",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "nombreEmpresa",
+            "in": "query",
+            "description": "Nombre de la empresa.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empresas obtenidas",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Empresa" }
+            }
+          },
+          "404": {
+            "description": "Empresa(s) no encontrada(s)",
+            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Empresas"],
+        "summary": "Crear una nueva empresa",
+        "description": "Crea una empresa verificando que el nombre de la imagen no se repita.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Información de la nueva empresa.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombreEmpresa": { "type": "string", "example": "Nueva Empresa" },
+                "imagenEmpresa": { "type": "string", "example": "logo.jpg" },
+                "descripcionEmpresa": { "type": "string", "example": "Descripción de la empresa" }
+              },
+              "required": ["nombreEmpresa", "imagenEmpresa", "descripcionEmpresa"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Empresa creada exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensaje": { "type": "string", "example": "Empresa creada exitosamente." },
+                "idEmpresa": { "type": "integer", "example": 1 }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto: Imagen duplicada",
+            "schema": { "type": "object", "properties": { "mensaje": { "type": "string" } } }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -102,8 +176,16 @@
         "celular": { "type": "string", "example": "1234567890" },
         "estado": { "type": "boolean", "example": true },
         "rol": { "type": "string", "example": "Administrador" },
-        "fechaRegistro": { "type": "string", "format": "date", "example": "2024-01-01" },
-        "emailContacto": { "type": "string", "example": "contacto@empresa.com" }
+        "fechaRegistro": { "type": "string", "format": "date", "example": "2024-01-01" }
+      }
+    },
+    "Empresa": {
+      "type": "object",
+      "properties": {
+        "idEmpresa": { "type": "integer", "example": 1 },
+        "nombreEmpresa": { "type": "string", "example": "Mi Empresa" },
+        "imagenEmpresa": { "type": "string", "example": "logo.jpg" },
+        "descripcionEmpresa": { "type": "string", "example": "Empresa dedicada a X" }
       }
     }
   }
