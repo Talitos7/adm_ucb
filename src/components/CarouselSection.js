@@ -3,9 +3,9 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; 
 import './CarouselSection.css'; 
 
-import back1 from '../assets/back5.jpeg';
-import back2 from '../assets/back2.jpeg';
-import back3 from '../assets/back1.jpeg';
+import video from '../assets/back1video.mp4'
+import video2 from '../assets/back4video.mp4'
+import video3 from '../assets/back3video.mp4'
 import gifExample from '../assets/3dgifmaker34947.gif'; 
 
 function CarouselSection() {
@@ -42,13 +42,19 @@ function CarouselSection() {
         onChange={(index) => setCurrentSlide(index)}
       >
         <div>
-          <img src={back1} alt="Historia 1" />
+        <video autoPlay loop muted>
+            <source src={video} type="video/mp4" />
+          </video>
         </div>
         <div>
-          <img src={back2} alt="Historia 2" />
+        <video autoPlay loop muted>
+            <source src={video2} type="video/mp4" />
+          </video>
         </div>
         <div>
-          <img src={back3} alt="Historia 3" />
+        <video autoPlay loop muted>
+            <source src={video3} type="video/mp4" />
+          </video>
         </div>
       </Carousel>
 
