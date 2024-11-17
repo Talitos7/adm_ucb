@@ -13,6 +13,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import PublicationsSociedad from './views/PublicationsSociedad';
+import MallaCurricular from './views/MallaCurricular';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -93,6 +94,8 @@ function App() {
               </>
             }
           />
+          <Route path="/MallaCurricular" element={<MallaCurricular darkMode={darkMode} />} />
+
         </Routes>
         
       </ThemeProvider>
