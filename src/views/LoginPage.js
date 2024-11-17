@@ -1,103 +1,125 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, Alert, AlertTitle } from '@mui/material';
 import axios from 'axios';
+import './LoginPage.css'; // Asegúrate de importar el archivo CSS
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-  
+    setSuccess('');
+
+    if (!email.trim() || !password.trim()) {
+      setError('El correo y la contraseña son obligatorios.');
+      return;
+    }
+
     try {
-      // Login del usuario
       const response = await axios.post('http://localhost/adm_ucb/src/servicios/loginUsuarios.php', {
         emailAdm: email,
         password: password,
       });
-  
-      const { mensaje,  usuario } = response.data;
-  
-      if (!email.trim() || !password.trim()) {
-        setError('El correo y la contraseña son obligatorios');
-        return;
-      }
-  
+
+      const { mensaje, usuario } = response.data;
+
       if (mensaje === 'Login exitoso') {
-        const usuarioData = { nombre: usuario.nombre, emailAdm: usuario.emailadm }; // Incluye emailAdm
-        localStorage.setItem('usuario', JSON.stringify(usuarioData)); // Guarda el objeto como JSON
-        // Obtener el rol del usuario mediante la API
+        setSuccess('Inicio de sesión exitoso. Redirigiendo...');
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+
         const rolResponse = await axios.get(
           `http://localhost/adm_ucb/src/servicios/loginUsuarios.php?emailAdm=${email}&tipo=rol`
         );
-  
+
         const { rol } = rolResponse.data;
-        console.log(rolResponse.data);
-        
-        const roles = ['admin', 'estudiante', 'centro', 'sociedad', 'alumni'];
 
         if (rol) {
-          // Guardar usuario como JSON
-          localStorage.setItem('usuario', JSON.stringify(usuario));
           localStorage.setItem('usuarioRol', rol);
-  
-          if (rol === roles[0]) {
-            navigate('/admin');
-            return;
-          }else if (rol === roles[1]) {
-            navigate('/estudiante');
-            return;
-          }else if (rol === roles[2]) {
-            navigate('/pasantias');
-            return;
-          }else{
-            setError('Rol no reconocido');
-          }        
+          switch (rol) {
+            case 'admin':
+              navigate('/admin');
+              break;
+            case 'estudiante':
+              navigate('/estudiante');
+              break;
+            case 'centro':
+              navigate('/pasantias');
+              break;
+            default:
+              setError('Rol no reconocido');
+          }
         } else {
-          setError('No se pudo obtener el rol del usuario');
+          setError('No se pudo obtener el rol del usuario.');
         }
       } else {
-        setError(mensaje || 'Error al iniciar sesión');
+        setError(mensaje || 'Error al iniciar sesión.');
       }
     } catch (err) {
       console.error('Error en la conexión:', err);
-      setError('Error de conexión con el servidor');
+      setError('Error de conexión con el servidor.');
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5" align="center" mb={2}>
-        Iniciar Sesión
-      </Typography>
-      <TextField
-        label="Correo"
-        fullWidth
-        margin="normal"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        label="Contraseña"
-        type="password"
-        fullWidth
-        margin="normal"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {error && (
-        <Typography color="error" variant="body2" mt={2}>
-          {error}
+    <div className="login-container"> {/* Contenedor para el fondo animado */}
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          maxWidth: 400,
+          mx: 'auto',
+          mt: 6,
+          p: 3,
+          borderRadius: 2,
+          boxShadow: 3,
+          backgroundColor: 'background.paper',
+        }}
+      >
+        <Typography variant="h5" align="center" mb={2}>
+          Iniciar Sesión
         </Typography>
-      )}
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-        Iniciar Sesión
-      </Button>
-    </Box>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        )}
+
+        {success && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            <AlertTitle>Éxito</AlertTitle>
+            {success}
+          </Alert>
+        )}
+
+        <TextField
+          label="Correo"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Contraseña"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
+          Iniciar Sesión
+        </Button>
+      </Box>
+    </div>
   );
 }
 

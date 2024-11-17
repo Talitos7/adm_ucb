@@ -13,6 +13,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import './App.css'; 
+import EmpresasAliadas from './components/EmpresasAliadas';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -63,7 +64,13 @@ function App() {
           <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
             <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
           </>
-        } />
+          } />
+          <Route path="/empresas" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <EmpresasAliadas />
+          </>
+          } />
         </Routes>
       </ThemeProvider>
     </Router>

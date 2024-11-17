@@ -1,0 +1,29 @@
+/* Animación para el fondo */
+@keyframes backgroundAnimation {
+    0% {
+      background-color: #2186d8; /* Color inicial */
+    }
+    50% {
+      background-color: #122e63; /* Color intermedio */
+    }
+    100% {
+      background-color: #2186d8; /* Regresar al color inicial */
+    }
+  }
+  
+  /* Estilo para el contenedor con el fondo animado */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #2186d8; /* Color de fondo inicial */
+    animation: backgroundAnimation 10s infinite; /* Animación de fondo */
+  }
+  
+  /* Estilo adicional para mejorar el centrado y la visualización */
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  

@@ -121,10 +121,10 @@ function createEmpresa($data) {
     }
 
     // Insertar la nueva empresa si el nombre de la imagen es único
-    $query = "INSERT INTO empresas (nombreEmpresa, imagenEmpresa, descripcionEmpresa) VALUES (?, ?, ?)";
+    $query = "INSERT INTO empresas (nombreEmpresa, imagenEmpresa, descripcionEmpresa, linkEmpresa) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
-    if ($stmt->execute([$data['nombreEmpresa'], $data['imagenEmpresa'], $data['descripcionEmpresa']])) {
+    if ($stmt->execute([$data['nombreEmpresa'], $data['imagenEmpresa'], $data['descripcionEmpresa'], $data['linkEmpresa']])) {
         $lastId = $conn->lastInsertId(); // Obtener el ID generado automáticamente
         response("success", "Empresa creada exitosamente.", ["idEmpresa" => $lastId]);
     } else {
@@ -136,10 +136,10 @@ function createEmpresa($data) {
 // Actualizar una empresa
 function updateEmpresa($idEmpresa, $data) {
     global $conn; // Cambiado de $db a $conn
-    $query = "UPDATE empresas SET nombreEmpresa = ?, imagenEmpresa = ?, descripcionEmpresa = ? WHERE idEmpresa = ?";
+    $query = "UPDATE empresas SET nombreEmpresa = ?, imagenEmpresa = ?, descripcionEmpresa = ?, linkEmpresa = ? WHERE idEmpresa = ?";
     $stmt = $conn->prepare($query);
 
-    if ($stmt->execute([$data['nombreEmpresa'], $data['imagenEmpresa'], $data['descripcionEmpresa'], $idEmpresa])) {
+    if ($stmt->execute([$data['nombreEmpresa'], $data['imagenEmpresa'], $data['descripcionEmpresa'], $data['linkEmpresa'], $idEmpresa])) {
         response("success", "Empresa actualizada exitosamente.");
     } else {
         response("error", "Error al actualizar la empresa.");
