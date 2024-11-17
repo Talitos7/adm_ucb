@@ -41,9 +41,10 @@ function login($conn) {
         $password = $data['password'];
 
         // Verificar las credenciales
+        $hashedPassword = password_hash($password); // O usa el método que corresponda
         $stmt = $conn->prepare("SELECT * FROM usuario WHERE emailAdm = :emailAdm AND password = :password");
         $stmt->bindParam(':emailAdm', $emailAdm);
-        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':password', $hashedPassword);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {

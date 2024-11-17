@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Box, Typography } from '@mui/material';
+import axios from 'axios';
+
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -11,26 +13,29 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+  
     try {
-      const response = await fetch('http://localhost/adm_ucb/src/servicios/loginUsuarios.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ emailAdm: email, password }),
+      const response = await axios.post('http://localhost/adm_ucb/src/servicios/loginUsuarios.php', {
+        emailAdm: email,
+        password: password,
       });
-
-      const data = await response.json();
-
+  
+      const data = response.data;
+  
       if (data.mensaje === 'Login exitoso') {
-        // Obtener el rol del usuario
-        const roleResponse = await fetch(`http://localhost:8000/servicios/loginUsuario.php?emailAdm=${email}&tipo=rol`);
-        const roleData = await roleResponse.json();
-
-        if (roleData.rol === 'admin') {
+        const userResponse = await axios.get(
+          `http://localhost/adm_ucb/src/servicios/loginUsuarios.php?emailAdm=${email}`
+        );
+  
+        const userData = userResponse.data;
+  
+        localStorage.setItem('usuario', JSON.stringify(userData));
+  
+        if (userData.rol === 'admin') {
           navigate('/admin');
-        } else if (roleData.rol === 'estudiante') {
+        } else if (userData.rol === 'estudiante') {
           navigate('/');
-        } else if (roleData.rol === 'externo') {
+        } else if (userData.rol === 'externo') {
           navigate('/pasantias');
         } else {
           setError('Rol no reconocido');
@@ -39,40 +44,31 @@ function LoginPage() {
         setError(data.mensaje || 'Error al iniciar sesión');
       }
     } catch (err) {
+      console.error(err);
       setError('Error de conexión con el servidor');
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5, p: 3, boxShadow: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Iniciar Sesión
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Correo Electrónico"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <TextField
-          label="Contraseña"
-          type="password"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error && <Typography color="error">{error}</Typography>}
-        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
-          Ingresar
-        </Button>
-      </form>
+    <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
+      <Typography variant="h5" align="center" mb={2}>Iniciar Sesión</Typography>
+      <TextField
+        label="Correo"
+        fullWidth
+        margin="normal"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        label="Contraseña"
+        type="password"
+        fullWidth
+        margin="normal"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      {error && <Typography color="error" variant="body2">{error}</Typography>}
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>Iniciar Sesión</Button>
     </Box>
   );
 }

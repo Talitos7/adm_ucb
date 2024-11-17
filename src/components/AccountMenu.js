@@ -33,6 +33,12 @@ export default function AccountMenu() {
     handleClose();
   };  
 
+  const handleLogout = () => {
+    localStorage.removeItem('usuario'); // Elimina los datos del usuario
+    navigate('/login'); // Redirige al login
+    handleClose();
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -95,7 +101,7 @@ export default function AccountMenu() {
         <Divider />
         <MenuItem onClick={handleClose}>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
