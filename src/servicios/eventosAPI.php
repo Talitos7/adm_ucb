@@ -111,20 +111,28 @@ function createEvento($data) {
 }
 
 // Actualizar un evento
-// Actualizar un evento
 function updateEvento($idEvento, $data) {
     global $conn;
 
-    // Validar y convertir el estado a un booleano explícito
-    if (!isset($data['estado']) || !is_bool($data['estado'])) {
-        response("error", "El campo 'estado' debe ser un booleano válido (true o false).");
+    if (!array_key_exists('estado', $data)) {
+        response("error", "El campo 'estado' es obligatorio.");
     }
-    $estado = $data['estado'];
+    
+    // Convertir el valor de estado explícitamente a booleano
+    $estado = filter_var($data['estado'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+    // Validar que el valor sea booleano
+    if (!is_bool($estado)) {
+        response("error", "El campo 'estado' debe ser un booleano válido.");
+    }
+
+    // Convertir el booleano PHP a un valor aceptado por PostgreSQL
+    $estado = $estado ? 'TRUE' : 'FALSE';
 
     $query = "UPDATE evento 
               SET fechaInicio = ?, fechaFin = ?, hora = ?, enlaceRegistro = ?, descripcion = ?, estado = ?, usuario_emailAdm = ?, titulo = ? 
               WHERE idEvento = ?";
-    $stmt = $conn->prepare($query);
+    $stmt = $conn->prepare($query); 
 
     if ($stmt->execute([
         $data['fechaInicio'],
@@ -132,7 +140,7 @@ function updateEvento($idEvento, $data) {
         $data['hora'],
         $data['enlaceRegistro'],
         $data['descripcion'],
-        $estado, // Valor booleano asegurado
+        $estado, // Pasar el valor booleano
         $data['usuario_emailAdm'],
         $data['titulo'],
         $idEvento
@@ -140,7 +148,7 @@ function updateEvento($idEvento, $data) {
         response("success", "Evento actualizado exitosamente.");
     } else {
         response("error", "Error al actualizar el evento.");
-    }
+    }    
 }
 
 // Eliminar un evento
