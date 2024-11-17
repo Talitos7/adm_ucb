@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import AccountCircle from '@mui/icons-material/AccountCircle'; 
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 
 export default function AccountMenu() {
@@ -27,33 +27,45 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
 
-  // Redirigir a la página admin cuando se hace clic en "Perfil"
+  // Funciones de navegación
   const handleProfileClick = () => {
     navigate('/admin'); // Redirige a la página admin
-    handleClose(); // Cierra el menú
+    handleClose();
   };
 
-  // Redirigir a la página admin cuando se hace clic en "Iniciar Sesión"
-  const handleLoginClick = () => {
-    navigate('/admin'); // Redirige a la página admin
-    handleClose(); // Cierra el menú
-  };
-
-  // Redirigir a la página de Pasantías
   const handleInternshipsClick = () => {
-    navigate('/pasantias'); 
-    handleClose(); 
+    navigate('/pasantias'); // Redirige a Pasantías
+    handleClose();
+  };
+
+  const handleIntercambiosClick = () => {
+    navigate('/PublicationsIntercambio'); // Redirige a Intercambios
+    handleClose();
   };
 
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }} onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleProfileClick}
+          style={{ cursor: 'pointer' }}
+        >
           Perfil
         </Typography>
-        <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
-        <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleInternshipsClick}
+          style={{ cursor: 'pointer' }}
+        >
           Pasantías
+        </Typography>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleIntercambiosClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Intercambios
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
         <Typography sx={{ minWidth: 100 }}>Solicitudes</Typography>
@@ -109,18 +121,21 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleLoginClick}> {/* Redirige a admin */}
+        <MenuItem onClick={handleProfileClick}>
           <Avatar /> Iniciar Sesión
         </MenuItem>
         <Divider />
-        {/* Nueva opción para redirigir a Pasantías */}
         <MenuItem onClick={handleInternshipsClick}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Pasantías
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleIntercambiosClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Intercambios
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
