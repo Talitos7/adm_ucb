@@ -9,6 +9,7 @@ import MallaSection from './components/MallaCurricularSection';
 import Footer from './components/Footer';
 import AdminPage from './views/admin';
 import PublicationsIntercambio from './views/PublicationsIntercambio';
+import PublicationsAlumni from './views/PublicationsAlumni';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
@@ -80,6 +81,15 @@ function App() {
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <PublicationsIntercambio darkMode={darkMode} />
+              </>
+            }
+          />
+          <Route
+            path="/PublicationsAlumni"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicationsAlumni darkMode={darkMode} />
               </>
             }
           />
