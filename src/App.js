@@ -93,6 +93,15 @@ function App() {
               </>
             }
           />
+          <Route
+            path="/PublicationsAlumni"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicationsAlumni darkMode={darkMode} />
+              </>
+            }
+          />
         </Routes>
         
       </ThemeProvider>
