@@ -21,9 +21,11 @@
   border-radius: 8px;
   width: 80%;
   max-width: 600px;
+  max-height: 90vh; /* Altura máxima para evitar overflow */
   padding: 1.5rem;
   position: relative;
   text-align: center;
+  overflow-y: auto; /* Añadimos scroll si el contenido excede */
   animation: fadeIn 0.3s ease-in-out;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -39,39 +41,12 @@
 
 .modal-image {
   width: 100%;
+  max-width: 500px; /* Ancho máximo para las imágenes */
+  max-height: 400px; /* Altura máxima para las imágenes */
+  object-fit: contain; /* Ajustar la imagen dentro del contenedor */
   border-radius: 8px;
 }
 
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #333;
-  transition: color 0.3s ease;
-}
-
-.close-btn:hover {
-  color: #000;
-}
-
-.close-btn.dark-mode {
-  color: #fff;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 .close-btn {
   position: absolute;
   top: 1rem;
@@ -104,3 +79,13 @@
   background-color: #ff5555;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

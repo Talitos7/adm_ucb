@@ -11,20 +11,21 @@ const PublicationsIntercambio = ({ darkMode }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
 
-  // Cargar publicaciones aprobadas
+  // Cargar publicaciones aprobadas para la categoría "Intercambio"
   const loadApprovedPublications = async () => {
     try {
-      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php');
-      console.log('Publicaciones aprobadas (raw):', response.data);
-
-      // Limpiar y parsear la respuesta si es necesario
-      const jsonData = response.data.replace(/^Conexión exitosa/, '');
-      const parsedData = JSON.parse(jsonData);
-
-      if (Array.isArray(parsedData)) {
-        setPublications(parsedData);
+      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Intercambio');
+      console.log('Publicaciones aprobadas (Intercambio):', response.data);
+  
+      // Limpia el texto adicional si existe y analiza la respuesta como JSON
+      const jsonData = response.data.startsWith('Conexión exitosa')
+        ? JSON.parse(response.data.replace('Conexión exitosa', '').trim())
+        : response.data;
+  
+      if (Array.isArray(jsonData)) {
+        setPublications(jsonData);
       } else {
-        console.warn('Respuesta no es un array válido:', parsedData);
+        console.warn('Respuesta no es un array válido:', jsonData);
         setPublications([]);
       }
     } catch (error) {
@@ -70,7 +71,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones Aprobadas</h1>
+        <h1>Publicaciones de Intercambio</h1>
         <button
           className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
           onClick={() => setIsFormVisible(!isFormVisible)}
@@ -82,6 +83,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
+          categoria="Intercambio" // Pasamos la categoría al formulario
           darkMode={darkMode}
         />
       )}

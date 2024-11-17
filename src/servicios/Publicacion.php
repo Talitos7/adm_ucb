@@ -23,17 +23,18 @@ class Publicacion {
     }
 
     // Crear una nueva publicación
-    public function create($autor, $multimedia, $usuario_emailAdm, $descripcionPublicacion) {
-        $sql = "INSERT INTO publicacion (idPublicacion, autor, estadoPublicacion, multimedia, usuario_emailAdm, fechaPublicacion, descripcionPublicacion) 
-                VALUES (nextval('publicacion_seq'), :autor, false, :multimedia, :usuario_emailAdm, NOW(), :descripcionPublicacion)";
+    public function create($autor, $multimedia, $usuario_emailAdm, $descripcionPublicacion, $categoria) {
+        $sql = "INSERT INTO publicacion (idPublicacion, autor, estadoPublicacion, multimedia, usuario_emailAdm, fechaPublicacion, descripcionPublicacion, categoria) 
+                VALUES (nextval('publicacion_seq'), :autor, false, :multimedia, :usuario_emailAdm, NOW(), :descripcionPublicacion, :categoria)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':autor', $autor);
         $stmt->bindParam(':multimedia', $multimedia);
         $stmt->bindParam(':usuario_emailAdm', $usuario_emailAdm);
         $stmt->bindParam(':descripcionPublicacion', $descripcionPublicacion);
+        $stmt->bindParam(':categoria', $categoria);
 
         // Depuración
-        error_log("Datos recibidos para insertar: " . print_r(compact('autor', 'multimedia', 'usuario_emailAdm', 'descripcionPublicacion'), true));
+        error_log("Datos recibidos para insertar: " . print_r(compact('autor', 'multimedia', 'usuario_emailAdm', 'descripcionPublicacion', 'categoria'), true));
 
         if ($stmt->execute()) {
             error_log("Inserción exitosa en la base de datos");
@@ -53,9 +54,9 @@ class Publicacion {
     }
 
     // Actualizar una publicación
-    public function update($idPublicacion, $autor, $estadoPublicacion, $multimedia, $descripcionPublicacion) {
+    public function update($idPublicacion, $autor, $estadoPublicacion, $multimedia, $descripcionPublicacion, $categoria) {
         $sql = "UPDATE publicacion 
-                SET autor = :autor, estadoPublicacion = :estadoPublicacion, multimedia = :multimedia, descripcionPublicacion = :descripcionPublicacion 
+                SET autor = :autor, estadoPublicacion = :estadoPublicacion, multimedia = :multimedia, descripcionPublicacion = :descripcionPublicacion, categoria = :categoria
                 WHERE idPublicacion = :idPublicacion";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':idPublicacion', $idPublicacion);
@@ -63,7 +64,8 @@ class Publicacion {
         $stmt->bindParam(':estadoPublicacion', $estadoPublicacion, PDO::PARAM_BOOL);
         $stmt->bindParam(':multimedia', $multimedia);
         $stmt->bindParam(':descripcionPublicacion', $descripcionPublicacion);
-        
+        $stmt->bindParam(':categoria', $categoria);
+
         return $stmt->execute();
     }
 
@@ -83,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturar datos del formulario
     $usuario_emailAdm = isset($_POST['usuario_emailAdm']) ? $_POST['usuario_emailAdm'] : 'josue.nisthaus@ejemplo.com';
     $descripcionPublicacion = isset($_POST['descripcionPublicacion']) ? $_POST['descripcionPublicacion'] : null;
+    $categoria = isset($_POST['categoria']) ? $_POST['categoria'] : 'Intercambio'; // Categoría por defecto
 
     // Obtener autor automáticamente
     $autor = $publicacion->getAuthorByEmail($usuario_emailAdm);
@@ -109,9 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Depuración
-    error_log("Datos recibidos en POST (autor generado): " . print_r(compact('autor', 'multimedia', 'usuario_emailAdm', 'descripcionPublicacion'), true));
+    error_log("Datos recibidos en POST (autor generado): " . print_r(compact('autor', 'multimedia', 'usuario_emailAdm', 'descripcionPublicacion', 'categoria'), true));
 
-    if ($publicacion->create($autor, $multimedia, $usuario_emailAdm, $descripcionPublicacion)) {
+    if ($publicacion->create($autor, $multimedia, $usuario_emailAdm, $descripcionPublicacion, $categoria)) {
         echo json_encode(["mensaje" => "Publicación creada exitosamente"]);
     } else {
         echo json_encode(["mensaje" => "Error al crear la publicación"]);
@@ -124,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $publicacion = new Publicacion($conn);
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if ($publicacion->update($data['idPublicacion'], $data['autor'], $data['estadoPublicacion'], $data['multimedia'], $data['descripcionPublicacion'])) {
+    if ($publicacion->update($data['idPublicacion'], $data['autor'], $data['estadoPublicacion'], $data['multimedia'], $data['descripcionPublicacion'], $data['categoria'])) {
         echo json_encode(["mensaje" => "Publicación actualizada exitosamente"]);
     } else {
         echo json_encode(["mensaje" => "Error al actualizar la publicación"]);
