@@ -13,16 +13,16 @@ const PublicationsIntercambio = ({ darkMode }) => {
   const loadApprovedPublications = async () => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php');
-      console.log('Respuesta del servidor (raw):', response.data);
+      console.log('Publicaciones aprobadas (raw):', response.data);
 
-      // Limpiar la respuesta del servidor para extraer el JSON válido
+      // Limpiar y parsear la respuesta si es necesario
       const jsonData = response.data.replace(/^Conexión exitosa/, '');
       const parsedData = JSON.parse(jsonData);
 
       if (Array.isArray(parsedData)) {
         setPublications(parsedData);
       } else {
-        console.warn('La respuesta procesada no es un array válido:', parsedData);
+        console.warn('Respuesta no es un array válido:', parsedData);
         setPublications([]);
       }
     } catch (error) {
@@ -90,6 +90,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
             <PublicationCard
               key={publication.idpublicacion}
               publication={publication}
+              darkMode={darkMode} // Asegúrate de pasar el modo oscuro
             />
           ))
         ) : (
