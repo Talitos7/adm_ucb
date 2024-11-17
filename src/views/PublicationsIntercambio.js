@@ -3,11 +3,13 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
+import PublicationModal from '../components/PublicationModal';
 import './Publications.css';
 
 const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
 
   // Cargar publicaciones aprobadas
   const loadApprovedPublications = async () => {
@@ -90,7 +92,8 @@ const PublicationsIntercambio = ({ darkMode }) => {
             <PublicationCard
               key={publication.idpublicacion}
               publication={publication}
-              darkMode={darkMode} // Asegúrate de pasar el modo oscuro
+              darkMode={darkMode}
+              onCardClick={(pub) => setSelectedPublication(pub)} // Manejar clic en la tarjeta
             />
           ))
         ) : (
@@ -99,6 +102,13 @@ const PublicationsIntercambio = ({ darkMode }) => {
           </p>
         )}
       </div>
+
+      {/* Modal para mostrar tarjeta ampliada */}
+      <PublicationModal
+        publication={selectedPublication}
+        onClose={() => setSelectedPublication(null)}
+        darkMode={darkMode}
+      />
     </div>
   );
 };
