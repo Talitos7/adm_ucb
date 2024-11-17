@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
-import './Bienvenida.css'; // Vamos a agregar los estilos en un archivo CSS separado
+import React, { useEffect, useState } from 'react';
+import './Bienvenida.css';
 
 function WelcomeSection() {
+  const [user, setUser] = useState({ emailadm: '', nombre: '' });
   const [image, setImage] = useState(null);
-  const [name, setName] = useState('Juan Pérez'); // Puedes cambiar esto a un nombre dinámico o pasado como prop
+
+  useEffect(() => {
+    const storedUsuario = localStorage.getItem('usuario');
+    if (storedUsuario) {
+      try {
+        const parsedUsuario = JSON.parse(storedUsuario); // Intenta analizarlo
+        console.log('Datos del usuario:', parsedUsuario);
+        setUser({
+          emailadm: parsedUsuario.emailadm || 'Correo no disponible',
+          nombre: parsedUsuario.nombre || 'Usuario',
+        }); // Establece valores predeterminados si faltan datos
+        console.log(user)
+      } catch (error) {
+        console.error('Error al analizar los datos del usuario:', error);
+      }
+    }
+  }, []);    
 
   // Función para manejar el cambio de imagen
   const handleImageChange = (e) => {
@@ -34,7 +51,8 @@ function WelcomeSection() {
       </div>
       <div className="welcome-text">
         <h1>Bienvenido</h1>
-        <p>{name}</p>
+        <p>{user.nombre || 'Usuario'}</p>
+        <p>{user.emailadm}</p>
       </div>
     </div>
   );

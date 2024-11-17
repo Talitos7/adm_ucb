@@ -29,8 +29,14 @@ export default function AccountMenu() {
 
   // Redirigir a la página admin cuando se hace clic en "Iniciar Sesión"
   const handleLoginClick = () => {
-    navigate('/admin'); // Redirige a la página admin
-    handleClose(); // Cierra el menú
+    navigate('/login'); // Redirige a la página de inicio de sesión
+    handleClose();
+  };  
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuario'); // Elimina los datos del usuario
+    navigate('App.js'); // Redirige al login
+    handleClose();
   };
 
   return (
@@ -94,7 +100,7 @@ export default function AccountMenu() {
         <Divider />
         <MenuItem onClick={handleClose}>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

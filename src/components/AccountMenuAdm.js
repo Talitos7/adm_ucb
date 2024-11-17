@@ -61,6 +61,11 @@ export default function AccountMenu() {
     handleClose(); 
   };
 
+  const handleEmpresasClick = () => {
+    navigate('/empresas'); 
+    handleClose(); 
+  }
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -149,6 +154,13 @@ export default function AccountMenu() {
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Pasantías
+        </MenuItem>
+        {/* Nueva opción para redirigir a Empresas */}
+        <MenuItem onClick={handleEmpresasClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Empresas
         </MenuItem>
         <MenuItem onClick={handleIntercambiosClick}>
           <ListItemIcon>
