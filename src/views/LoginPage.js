@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Alert, AlertTitle } from '@mui/material';
+import { Box, TextField, Button, Typography, Alert, AlertTitle, Snackbar } from '@mui/material';
 import axios from 'axios';
 import './LoginPage.css'; // Asegúrate de importar el archivo CSS
 
@@ -9,6 +9,7 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false); // Estado para abrir el Snackbar
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,6 +19,7 @@ function LoginPage() {
 
     if (!email.trim() || !password.trim()) {
       setError('El correo y la contraseña son obligatorios.');
+      setOpenSnackbar(true);
       return;
     }
 
@@ -53,17 +55,25 @@ function LoginPage() {
               break;
             default:
               setError('Rol no reconocido');
+              setOpenSnackbar(true);
           }
         } else {
           setError('No se pudo obtener el rol del usuario.');
+          setOpenSnackbar(true);
         }
       } else {
         setError(mensaje || 'Error al iniciar sesión.');
+        setOpenSnackbar(true);
       }
     } catch (err) {
       console.error('Error en la conexión:', err);
       setError('Error de conexión con el servidor.');
+      setOpenSnackbar(true);
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false); // Cerrar el Snackbar
   };
 
   return (
@@ -85,20 +95,6 @@ function LoginPage() {
           Iniciar Sesión
         </Typography>
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            <AlertTitle>Error</AlertTitle>
-            {error}
-          </Alert>
-        )}
-
-        {success && (
-          <Alert severity="success" sx={{ mb: 2 }}>
-            <AlertTitle>Éxito</AlertTitle>
-            {success}
-          </Alert>
-        )}
-
         <TextField
           label="Correo"
           fullWidth
@@ -119,6 +115,19 @@ function LoginPage() {
           Iniciar Sesión
         </Button>
       </Box>
+
+      {/* Snackbar de alerta */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Ubicación del snackbar
+      >
+        <Alert severity={error ? "error" : "success"} onClose={handleCloseSnackbar}>
+          <AlertTitle>{error ? "Error" : "Éxito"}</AlertTitle>
+          {error || success}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

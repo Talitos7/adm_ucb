@@ -50,7 +50,7 @@ export default function EmpresasAliadas() {
                                     transition: 'transform 0.2s, border-color 0.2s',
                                     '&:hover': {
                                         transform: 'scale(1.05)',
-                                        borderColor: 'cyan', // Cambiar el color del borde a celeste
+                                        borderColor: '#0e7f99', // Cambiar el color del borde a celeste
                                     },
                                 }}
                             >
