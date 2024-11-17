@@ -83,7 +83,17 @@ function App() {
               </>
             }
           />
+          <Route
+            path="/PublicationsSociedad"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicationsIntercambio darkMode={darkMode} />
+              </>
+            }
+          />
         </Routes>
+        
       </ThemeProvider>
     </Router>
   );

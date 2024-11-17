@@ -44,11 +44,19 @@
   text-align: center;
 }
 
+.publication-details.dark-mode {
+  color: #f5f5f5; /* Detalles en texto claro */
+}
+
 .publication-author {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: #333;
+}
+
+.publication-author.dark-mode {
+  color: #ffffff; /* Autor en blanco */
 }
 
 .publication-description {
@@ -57,12 +65,8 @@
   margin-bottom: 1rem;
 }
 
-.publication-author.dark-mode {
-  color: #f5f5f5;
-}
-
 .publication-description.dark-mode {
-  color: #b3b3b3;
+  color: #b3b3b3; /* Descripción en gris claro */
 }
 
 .publication-email {
@@ -71,7 +75,7 @@
 }
 
 .publication-email.dark-mode {
-  color: #cccccc;
+  color: #cccccc; /* Email en gris claro */
 }
 
 /* Responsive Design */
