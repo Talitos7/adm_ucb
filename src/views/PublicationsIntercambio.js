@@ -6,90 +6,59 @@ import PublicationForm from '../components/PublicationForm';
 import './Publications.css';
 
 const PublicationsIntercambio = ({ darkMode }) => {
-  const [publications, setPublications] = useState([]);
-  const [editingPublication, setEditingPublication] = useState(null);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+    const [publications, setPublications] = useState([]);
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
-  const loadPublications = async () => {
-    try {
-      const response = await axios.get('/src/servicios/Publicacion.php');
-      console.log('Datos recibidos del backend:', response.data);
-      setPublications(Array.isArray(response.data) ? response.data : []);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudieron cargar las publicaciones.',
-        confirmButtonText: 'OK',
-      });
-    }
-  };
+    const loadApprovedPublications = async () => {
+        try {
+            const response = await axios.get('/src/servicios/MostrarPublicacionesAprobadas.php');
+            console.log('Publicaciones aprobadas:', response.data);
+            setPublications(response.data || []);
+        } catch (error) {
+            console.error('Error al cargar publicaciones aprobadas:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudieron cargar las publicaciones aprobadas.',
+                confirmButtonText: 'OK',
+            });
+        }
+    };
 
-  const handleSubmit = async (formData) => {
-    try {
-      const response = await axios.post('/src/servicios/Publicacion.php', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+    useEffect(() => {
+        loadApprovedPublications();
+    }, []);
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Publicación creada correctamente.',
-        confirmButtonText: 'OK',
-      });
+    return (
+        <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+            <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
+                <h1>Publicaciones Aprobadas</h1>
+                <button
+                    className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
+                    onClick={() => setIsFormVisible(!isFormVisible)}
+                >
+                    {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
+                </button>
+            </header>
 
-      loadPublications();
-      setEditingPublication(null);
-      setIsFormVisible(false);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo guardar la publicación.',
-        confirmButtonText: 'OK',
-      });
-    }
-  };
+            {isFormVisible && (
+                <PublicationForm darkMode={darkMode} onSubmit={loadApprovedPublications} />
+            )}
 
-  useEffect(() => {
-    loadPublications();
-  }, []);
-
-  return (
-    <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Experiencias de Intercambio</h1>
-        <button
-          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        >
-          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-        </button>
-      </header>
-
-      {isFormVisible && (
-        <PublicationForm
-          onSubmit={handleSubmit}
-          initialData={editingPublication}
-          darkMode={darkMode}
-        />
-      )}
-
-      <div className="publications-grid">
-        {publications.length > 0 ? (
-          publications.map((publication) => (
-            <PublicationCard
-              key={publication.idpublicacion}
-              publication={publication}
-              onDelete={() => {}}
-            />
-          ))
-        ) : (
-          <p>No hay publicaciones disponibles.</p>
-        )}
-      </div>
-    </div>
-  );
+            <div className="publications-grid">
+                {publications.length > 0 ? (
+                    publications.map((publication) => (
+                        <PublicationCard
+                            key={publication.idpublicacion}
+                            publication={publication}
+                        />
+                    ))
+                ) : (
+                    <p>No hay publicaciones aprobadas disponibles.</p>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default PublicationsIntercambio;

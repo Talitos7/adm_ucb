@@ -6,7 +6,7 @@ const PublicationForm = ({ onSubmit, initialData = null, darkMode }) => {
   const [formData, setFormData] = useState({
     descripcionPublicacion: initialData?.descripcionPublicacion || '',
     multimedia: null,
-    usuario_emailAdm: 'josue.nisthaus@ejemplo.com', // Email estático para pruebas
+    usuario_emailAdm: 'josue.nisthaus@ejemplo.com',
   });
 
   const [previewImage, setPreviewImage] = useState(initialData?.multimedia || null);
@@ -15,16 +15,6 @@ const PublicationForm = ({ onSubmit, initialData = null, darkMode }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (!file.type.startsWith('image/')) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Formato no válido',
-          text: 'El archivo debe ser una imagen.',
-          confirmButtonText: 'OK',
-        });
-        return;
-      }
-
       if (file.size > 5000000) { // Límite de 5MB
         Swal.fire({
           icon: 'error',
@@ -47,7 +37,6 @@ const PublicationForm = ({ onSubmit, initialData = null, darkMode }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que se suba una imagen
     if (!formData.multimedia) {
       Swal.fire({
         icon: 'error',
@@ -97,66 +86,65 @@ const PublicationForm = ({ onSubmit, initialData = null, darkMode }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`publication-form ${darkMode ? 'dark-mode' : ''}`}>
-      <div className="form-group">
-        <label htmlFor="descripcion">Comparte tu experiencia</label>
-        <textarea
-          id="descripcion"
-          value={formData.descripcionPublicacion}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              descripcionPublicacion: e.target.value,
-            }))
-          }
-          placeholder="¿Qué te gustaría compartir sobre tu experiencia de intercambio?"
-          required
-          className="animate-entrance"
-        />
-      </div>
+    <div className={`form-container ${darkMode ? 'dark-mode' : ''}`}>
+      <form onSubmit={handleSubmit} className="publication-form">
+        <div className="form-group">
+          <label htmlFor="descripcion">Comparte tu experiencia</label>
+          <textarea
+            id="descripcion"
+            value={formData.descripcionPublicacion}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                descripcionPublicacion: e.target.value,
+              }))
+            }
+            placeholder="¿Qué te gustaría compartir sobre tu experiencia de intercambio?"
+            required
+          />
+        </div>
 
-      <div className="form-group media-upload">
-        <label htmlFor="multimedia">
-          <div className={`upload-area ${darkMode ? 'dark-mode' : ''}`}>
-            <i className="upload-icon">📷</i>
-            <span>Agregar foto</span>
-          </div>
-        </label>
-        <input
-          type="file"
-          id="multimedia"
-          onChange={handleImageChange}
-          accept="image/*"
-          className="hidden-input"
-          required
-        />
-        {previewImage && (
-          <div className="image-preview animate-entrance">
-            <img src={previewImage} alt="Vista previa" />
-            <button
-              type="button"
-              className="remove-image"
-              onClick={() => {
-                setPreviewImage(null);
-                setFormData((prev) => ({ ...prev, multimedia: null }));
-              }}
-            >
-              ✕
-            </button>
-          </div>
-        )}
-      </div>
+        <div className="form-group media-upload">
+          <label htmlFor="multimedia">
+            <div className="upload-area">
+              <i className="upload-icon">📷</i>
+              <span>Agregar foto</span>
+            </div>
+          </label>
+          <input
+            type="file"
+            id="multimedia"
+            onChange={handleImageChange}
+            accept="image/*"
+            className="hidden-input"
+            required
+          />
+          {previewImage && (
+            <div className="image-preview">
+              <img src={previewImage} alt="Vista previa" />
+              <button
+                type="button"
+                className="remove-image"
+                onClick={() => {
+                  setPreviewImage(null);
+                  setFormData((prev) => ({ ...prev, multimedia: null }));
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </div>
 
-      <button
-        type="submit"
-        className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? (
-          <span className="loading-spinner"></span>
-        ) : initialData ? 'Actualizar' : 'Publicar'}
-      </button>
-    </form>
+        <button
+          type="submit"
+          className={`submit-btn ${isSubmitting ? 'submitting' : ''}`}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? <span className="loading-spinner"></span> : initialData ? 'Actualizar' : 'Publicar'}
+        </button>
+      </form>
+    </div>
   );
 };
 

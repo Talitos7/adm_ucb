@@ -1,33 +1,21 @@
 import React from 'react';
 import './PublicationCard.css';
 
-const PublicationCard = ({ publication, onEdit, onDelete, isAdmin }) => {
-  const { autor, descripcionPublicacion, multimedia, fechaPublicacion } = publication;
+const PublicationCard = ({ publication }) => {
+  const { autor, multimedia, descripcionPublicacion, fechapublicacion } = publication;
 
   return (
     <div className="publication-card">
-      <div className="publication-header">
-        <h3 className="author">{autor}</h3>
-        <span className="date">{new Date(fechaPublicacion).toLocaleDateString()}</span>
-      </div>
+      <img
+        src={`/assets/${multimedia}`}
+        alt="Publicación"
+        className="publication-image"
+      />
       <div className="publication-content">
+        <h3>{autor}</h3>
         <p>{descripcionPublicacion}</p>
-        {multimedia && (
-          <div className="media-container">
-            <img src={multimedia} alt="Contenido multimedia" />
-          </div>
-        )}
+        <span>{new Date(fechapublicacion).toLocaleDateString()}</span>
       </div>
-      {isAdmin && (
-        <div className="publication-actions">
-          <button onClick={() => onEdit(publication)} className="edit-btn">
-            Editar
-          </button>
-          <button onClick={() => onDelete(publication.idPublicacion)} className="delete-btn">
-            Eliminar
-          </button>
-        </div>
-      )}
     </div>
   );
 };
