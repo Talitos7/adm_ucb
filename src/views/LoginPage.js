@@ -12,36 +12,50 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+  
     try {
+      // Login del usuario
       const response = await axios.post('http://localhost/adm_ucb/src/servicios/loginUsuarios.php', {
         emailAdm: email,
         password: password,
       });
-
-      const { mensaje, usuario } = response.data;
-
+  
+      const { mensaje,  usuario } = response.data;
+  
       if (!email.trim() || !password.trim()) {
         setError('El correo y la contraseña son obligatorios');
         return;
-      }      
+      }
+  
+      if (mensaje === 'Login exitoso') {
+        // Obtener el rol del usuario mediante la API
+        const rolResponse = await axios.get(
+          `http://localhost/adm_ucb/src/servicios/loginUsuarios.php?emailAdm=${email}&tipo=rol`
+        );
+  
+        const { rol } = rolResponse.data;
+        console.log(rolResponse.data);
+        
+        const roles = ['admin', 'estudiante', 'centro', 'sociedad', 'alumni'];
 
-      if (mensaje?.trim() === 'Login exitoso' && usuario?.rol) {
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-
-        // Redirigir según el rol
-        switch (usuario.rol) {
-          case 'admin':
+        if (rol) {
+          // Guardar usuario y redirigir según el rol
+          localStorage.setItem('usuario', usuario);
+  
+          if (rol === roles[0]) {
             navigate('/admin');
-            break;
-          case 'estudiante':
-            navigate('/admin'); // Temporal según tu descripción
-            break;
-          case 'externo':
+            return;
+          }else if (rol === roles[1]) {
+            navigate('/estudiante');
+            return;
+          }else if (rol === roles[2]) {
             navigate('/pasantias');
-            break;
-          default:
+            return;
+          }else{
             setError('Rol no reconocido');
+          }        
+        } else {
+          setError('No se pudo obtener el rol del usuario');
         }
       } else {
         setError(mensaje || 'Error al iniciar sesión');
