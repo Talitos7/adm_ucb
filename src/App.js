@@ -20,6 +20,7 @@ import Container from '@mui/material/Container';
 import './App.css'; 
 import EmpresasAliadas from './views/EmpresasAliadas';
 import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
+import UserRegistrationForm from './views/UserRegistrationForm';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -107,6 +108,15 @@ function App() {
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <PublicationsAlumni darkMode={darkMode} />
+              </>
+            }
+          />
+          <Route
+            path="/UserRegistrationForm"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <UserRegistrationForm darkMode={darkMode} />
               </>
             }
           />

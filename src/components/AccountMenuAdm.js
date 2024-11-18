@@ -55,6 +55,11 @@ export default function AccountMenu() {
     handleClose();
   };
 
+  const handleRegistroClick = () => {
+    navigate('/UserRegistrationForm'); 
+    handleClose();
+  };
+
   // Redirigir a la página de Pasantías
   const handlePerfilClick = () => {
     navigate('/perfil'); 
@@ -96,6 +101,20 @@ export default function AccountMenu() {
           style={{ cursor: 'pointer' }}
         >
           Sociedad Científica
+        </Typography>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleAlumniClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Alumni
+        </Typography>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleRegistroClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Registro
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
         <Typography sx={{ minWidth: 100 }}>Solicitudes</Typography>
@@ -186,6 +205,18 @@ export default function AccountMenu() {
           </ListItemIcon>
           Sociedad Científica
         </MenuItem>
+        <MenuItem onClick={handleAlumniClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Alumni
+          </MenuItem>
+          <MenuItem onClick={handleRegistroClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Registro
+          </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Logout fontSize="small" />
