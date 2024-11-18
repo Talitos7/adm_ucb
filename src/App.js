@@ -21,6 +21,7 @@ import './App.css';
 import EmpresasAliadas from './views/EmpresasAliadas';
 import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
 import UserRegistrationForm from './views/UserRegistrationForm';
+import AdminPublications from './views/AdminPublications';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -141,7 +142,12 @@ function App() {
             <EmpresasAliadasAdmi />
           </>
           } />
-
+          <Route path="/AdminPublications" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <AdminPublications />
+          </>
+          } />
         {/* Ruta para la página de Perfil */}
           <Route path="/perfil" element={
           <>

@@ -1,0 +1,73 @@
+/* Estilos generales */
+.admin-publication-card {
+    padding: 20px;
+    margin: 15px;
+    background-color: white;
+    border-radius: 8px;
+  }
+  
+  .dark-mode {
+    background-color: #333;
+    color: white;
+  }
+  
+  .dark-text {
+    color: white; /* Aseguramos que el texto sea blanco en modo oscuro */
+  }
+  
+  /* Estilo para la imagen */
+  .image-container {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .publication-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* Botones de acción */
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .action-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .approve {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .reject {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .dark-btn {
+    background-color: #444;
+    color: white;
+  }
+  
+  .dark-btn:hover {
+    background-color: #555;
+  }
+  
+  .dark-mode .approve {
+    background-color: #6c757d; /* Fondo de botones en modo oscuro */
+  }
+  
+  .dark-mode .reject {
+    background-color: #6c757d;
+  }
+  
+  .dark-mode .action-btn:hover {
+    background-color: #495057;
+  }
+  

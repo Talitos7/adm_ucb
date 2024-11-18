@@ -75,6 +75,10 @@ export default function AccountMenu() {
     navigate('/PublicationsAlumni'); 
     handleClose(); 
   }
+  const handleSolicitudesClick = () => {
+    navigate('/AdminPublications'); 
+    handleClose(); 
+  }
 
 
   return (
@@ -83,7 +87,6 @@ export default function AccountMenu() {
         <Typography sx={{ minWidth: 100 }} onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
           Inicio
         </Typography>
-        <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
         <Typography sx={{ minWidth: 100 }}>Empresas</Typography>
         <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
@@ -117,7 +120,12 @@ export default function AccountMenu() {
           Registro
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
-        <Typography sx={{ minWidth: 100 }}>Solicitudes</Typography>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleSolicitudesClick}
+          style={{ cursor: 'pointer' }}
+        > Solicitudes
+        </Typography>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
