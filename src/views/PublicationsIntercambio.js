@@ -17,15 +17,18 @@ const PublicationsIntercambio = ({ darkMode }) => {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Intercambio');
       console.log('Publicaciones aprobadas (Intercambio):', response.data);
   
-      // Limpia el texto adicional si existe y analiza la respuesta como JSON
-      const jsonData = response.data.startsWith('Conexión exitosa')
-        ? JSON.parse(response.data.replace('Conexión exitosa', '').trim())
-        : response.data;
-  
-      if (Array.isArray(jsonData)) {
-        setPublications(jsonData);
+      // Verifica si la respuesta ya es un JSON
+      if (Array.isArray(response.data)) {
+        setPublications(response.data);
+      } else if (typeof response.data === 'object') {
+        // Si es un objeto, verifica si contiene las publicaciones
+        setPublications(response.data.publicaciones || []);
+      } else if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
+        // Si es un string con texto adicional, limpia y convierte a JSON
+        const jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
+        setPublications(jsonData.publicaciones || []);
       } else {
-        console.warn('Respuesta no es un array válido:', jsonData);
+        console.warn('Formato de respuesta inesperado:', response.data);
         setPublications([]);
       }
     } catch (error) {

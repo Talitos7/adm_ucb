@@ -14,30 +14,29 @@ const PublicationsSociedad = ({ darkMode }) => {
   // Cargar publicaciones aprobadas para la categoría "Sociedad Cientifica"
   const loadApprovedPublications = async () => {
     try {
-      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica');
-      console.log('Publicaciones aprobadas (Sociedad Cientifica):', response.data);
+        const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica');
+        console.log('Publicaciones aprobadas (Sociedad Cientifica):', response.data);
 
-      // Limpia el texto adicional si existe y analiza la respuesta como JSON
-      const jsonData = response.data.startsWith('Conexión exitosa')
-        ? JSON.parse(response.data.replace('Conexión exitosa', '').trim())
-        : response.data;
-
-      if (Array.isArray(jsonData)) {
-        setPublications(jsonData);
-      } else {
-        console.warn('Respuesta no es un array válido:', jsonData);
-        setPublications([]);
-      }
+        // Si `response.data` ya es un array o un objeto, no intentes parsearlo
+        if (Array.isArray(response.data)) {
+            setPublications(response.data);
+        } else if (typeof response.data === 'object') {
+            setPublications(response.data.pubs || []); // Asegúrate de ajustar según la estructura de tu JSON
+        } else {
+            console.warn('Formato inesperado de respuesta:', response.data);
+            setPublications([]);
+        }
     } catch (error) {
-      console.error('Error al cargar publicaciones aprobadas:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudieron cargar las publicaciones aprobadas.',
-        confirmButtonText: 'OK',
-      });
+        console.error('Error al cargar publicaciones aprobadas:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron cargar las publicaciones aprobadas.',
+            confirmButtonText: 'OK',
+        });
     }
-  };
+};
+
 
   const handleSubmit = async (formData) => {
     try {
