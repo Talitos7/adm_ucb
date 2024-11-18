@@ -1,0 +1,108 @@
+.admin-publications-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Estilo para el título en modo claro */
+.admin-publications-header h1 {
+  color: #0c446c; /* Color predeterminado del título */
+}
+
+/* Título más claro en modo oscuro */
+.admin-publications-container.dark-mode .admin-publications-header h1 {
+  color: #ffffff; /* Color claro para el título en modo oscuro */
+}
+
+.admin-publications-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.admin-publications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Mejorar visibilidad del texto en modo oscuro */
+.admin-publication-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.admin-publication-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.admin-publication-card p {
+  margin: 0.5rem 0;
+  color: #555; /* Color más claro para el texto */
+}
+
+/* Modo oscuro */
+.admin-publications-container.dark-mode {
+  background-color: #303030;
+  color: #fff;
+}
+
+.admin-publication-card.dark-mode {
+  background: #424242; /* Fondo oscuro */
+  border-color: #555; /* Borde ligeramente más claro */
+  color: #fff; /* Texto blanco para mayor contraste */
+}
+
+.admin-publication-card.dark-mode h2 {
+  color: #f1f1f1; /* Títulos más claros */
+}
+
+.admin-publication-card.dark-mode p {
+  color: #ccc; /* Texto de párrafos más claro */
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.approve-btn,
+.reject-btn {
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.approve-btn {
+  background-color: #28a745;
+}
+
+.reject-btn {
+  background-color: #dc3545;
+}
+
+/* Asegurar que los botones se vean bien en modo oscuro */
+.approve-btn:hover {
+  background-color: #218838;
+}
+
+.reject-btn:hover {
+  background-color: #c82333;
+}
+
+.approve-btn.dark-mode,
+.reject-btn.dark-mode {
+  background-color: #007bff; /* Color más claro para los botones en modo oscuro */
+}
+
+.approve-btn.dark-mode:hover,
+.reject-btn.dark-mode:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}

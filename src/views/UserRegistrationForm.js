@@ -162,9 +162,10 @@ export default function UserRegistration() {
                             }}
                         >
                             <option value="alumni">Alumni</option>
+                            <option value="centro">Centro de Estudiantes</option>
                             <option value="sociedad cientifica">Sociedad Cientifica</option>
-                            <option value="regular">Estudiante regular</option>
-                            <option value="administrador">Administrador</option>
+                            <option value="estudiante">Estudiante regular</option>
+                            <option value="admin">Administrador</option>
                         </TextField>
                     </Grid>
                     <Grid item xs={12}>
