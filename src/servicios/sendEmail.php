@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $detalle = $pasantia['detalle'];
 
             // Obtener todos los correos electrónicos de usuarios activos
-            $query = $conn->prepare("SELECT emailContacto FROM usuario WHERE estado = true");
+            $query = $conn->prepare("SELECT emailadm FROM usuario WHERE estado = true");
             $query->execute();
             $usuarios = $query->fetchAll(PDO::FETCH_COLUMN);
 

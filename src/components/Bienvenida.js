@@ -14,8 +14,20 @@ function WelcomeSection() {
         setUser({
           emailadm: parsedUsuario.emailadm || 'Correo no disponible',
           nombre: parsedUsuario.nombre || 'Usuario',
-        }); // Establece valores predeterminados si faltan datos
-        console.log(user)
+        });
+
+        // Llamar a la API para obtener la foto de perfil
+        fetch(`http://localhost/adm_ucb/src/servicios/buscar_foto.php?emailAdm=${parsedUsuario.emailadm}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success && data.fotoperfil) {
+              setImage(data.fotoperfil); // Establece la URL de la foto de perfil
+            }
+          })
+          .catch(error => {
+            console.error('Error al obtener la foto de perfil:', error);
+          });
+
       } catch (error) {
         console.error('Error al analizar los datos del usuario:', error);
       }
@@ -45,8 +57,12 @@ function WelcomeSection() {
           style={{ display: 'none' }} // Ocultamos el input real
         />
         <label htmlFor="image-upload">
-          {/* Si hay imagen cargada, la mostramos; si no, mostramos una imagen por defecto */}
-          <img src={image || 'https://via.placeholder.com/150'} alt="User" className="circle-image" />
+          {/* Si hay imagen cargada, la mostramos; si no, mostramos la imagen desde la API o por defecto */}
+          <img 
+            src={image || 'https://via.placeholder.com/150'} 
+            alt="User" 
+            className="circle-image" 
+          />
         </label>
       </div>
       <div className="welcome-text">
