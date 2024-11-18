@@ -155,7 +155,6 @@ function App() {
           </>
         } />
         </Routes>
-        
       </ThemeProvider>
     </Router>
   );

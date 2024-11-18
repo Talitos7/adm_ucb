@@ -22,6 +22,10 @@ export default function AccountMenu() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleUserExit = () => {
+    navigate('../')
+  }
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -59,7 +63,7 @@ export default function AccountMenu() {
     handleClose(); 
   };
 
-  const handleEmpresasClick = () => {
+  const handleEmpresasAdminClick = () => {
     navigate('/empresasAdmi'); 
     handleClose(); 
   }
@@ -80,7 +84,9 @@ export default function AccountMenu() {
         <Typography sx={{ minWidth: 100 }} onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
           Inicio
         </Typography>
-        <Typography sx={{ minWidth: 100 }}>Empresas</Typography>
+        <Typography sx={{ minWidth: 100 }} onClick={handleEmpresasAdminClick} style={{ cursor: 'pointer' }}>
+          Empresas
+        </Typography>
         <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
         </Typography>
@@ -112,7 +118,7 @@ export default function AccountMenu() {
         >
           Registro
         </Typography>
-        <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
+        {/*<Typography sx={{ minWidth: 100 }}>Eventos</Typography>*/}
         <Typography
           sx={{ minWidth: 100 }}
           onClick={handleSolicitudesClick}
@@ -182,7 +188,7 @@ export default function AccountMenu() {
           Pasantías
         </MenuItem>
         {/* Nueva opción para redirigir a Empresas */}
-        <MenuItem onClick={handleEmpresasClick}>
+        <MenuItem onClick={handleEmpresasAdminClick}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
@@ -218,7 +224,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           Registro
           </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleUserExit}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
