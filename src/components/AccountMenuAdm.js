@@ -66,6 +66,12 @@ export default function AccountMenu() {
     handleClose(); 
   }
 
+  const handleAlumniClick = () => {
+    navigate('/PublicationsAlumni'); 
+    handleClose(); 
+  }
+
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -161,6 +167,12 @@ export default function AccountMenu() {
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Empresas
+        </MenuItem>
+        <MenuItem onClick={handleAlumniClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Alumni
         </MenuItem>
         <MenuItem onClick={handleIntercambiosClick}>
           <ListItemIcon>

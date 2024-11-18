@@ -16,16 +16,28 @@ const PublicationsAlumni = ({ darkMode }) => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Alumni');
       console.log('Publicaciones aprobadas (Alumni):', response.data);
-
-      // Limpia el texto adicional si existe y analiza la respuesta como JSON
-      const jsonData = response.data.startsWith('Conexión exitosa')
-        ? JSON.parse(response.data.replace('Conexión exitosa', '').trim())
-        : response.data;
-
+  
+      let jsonData;
+  
+      // Verificar el formato de la respuesta
+      if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
+        // Si es un string con "Conexión exitosa", limpiamos y convertimos a JSON
+        jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
+      } else if (Array.isArray(response.data)) {
+        // Si ya es un array, lo usamos directamente
+        jsonData = response.data;
+      } else if (typeof response.data === 'object') {
+        // Si es un objeto, verificamos si contiene publicaciones
+        jsonData = response.data.publicaciones || [];
+      } else {
+        console.warn('Formato de respuesta inesperado:', response.data);
+        jsonData = [];
+      }
+  
       if (Array.isArray(jsonData)) {
         setPublications(jsonData);
       } else {
-        console.warn('Respuesta no es un array válido:', jsonData);
+        console.warn('La respuesta no es un array válido:', jsonData);
         setPublications([]);
       }
     } catch (error) {
@@ -38,6 +50,7 @@ const PublicationsAlumni = ({ darkMode }) => {
       });
     }
   };
+  
 
   const handleSubmit = async (formData) => {
     try {
