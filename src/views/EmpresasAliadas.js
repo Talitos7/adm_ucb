@@ -25,13 +25,26 @@ export default function EmpresasAliadas() {
     }, []);
 
     return (
-        <Box sx={{ padding: '20px' }}>
+        <Box
+            sx={{
+                background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)', // Fondo degradado
+                minHeight: '100vh',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 4,
+            }}
+        >
             {error ? (
                 <Typography color="error" align="center">
                     {error}
                 </Typography>
             ) : (
-                <Grid container spacing={3}>
+                <Grid
+                    container
+                    spacing={4}
+                    justifyContent="center"
+                    sx={{ maxWidth: '1200px', margin: '0 auto' }}
+                >
                     {empresas.map((empresa) => (
                         <Grid item xs={12} sm={6} md={4} key={empresa.idempresa}>
                             <Paper
@@ -44,13 +57,15 @@ export default function EmpresasAliadas() {
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                     textDecoration: 'none',
-                                    padding: 2,
-                                    borderRadius: '8px',
-                                    border: '1px solid #e0e0e0',
-                                    transition: 'transform 0.2s, border-color 0.2s',
+                                    padding: 3,
+                                    borderRadius: '16px',
+                                    border: '2px solid #e0e0e0',
+                                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)', // Sombras para destacar
+                                    transition: 'transform 0.3s, border-color 0.3s, box-shadow 0.3s',
                                     '&:hover': {
-                                        transform: 'scale(1.05)',
-                                        borderColor: '#0e7f99', // Cambiar el color del borde a celeste
+                                        transform: 'scale(1.08)', // Más grande al pasar el mouse
+                                        borderColor: '#00796b',
+                                        boxShadow: '0 12px 24px rgba(0, 0, 0, 0.2)', // Sombra más intensa
                                     },
                                 }}
                             >
