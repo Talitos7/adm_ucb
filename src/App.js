@@ -19,6 +19,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import './App.css'; 
 import EmpresasAliadas from './views/EmpresasAliadas';
+import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -122,6 +123,12 @@ function App() {
           <>
           <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
             <EmpresasAliadas />
+          </>
+          } />
+          <Route path="/empresasAdmi" element={
+          <>
+          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <EmpresasAliadasAdmi />
           </>
           } />
 
