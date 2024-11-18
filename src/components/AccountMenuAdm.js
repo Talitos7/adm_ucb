@@ -83,7 +83,6 @@ export default function AccountMenu() {
         <Typography sx={{ minWidth: 100 }} onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
           Inicio
         </Typography>
-        <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
         <Typography sx={{ minWidth: 100 }}>Empresas</Typography>
         <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
