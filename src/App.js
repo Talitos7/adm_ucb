@@ -16,7 +16,6 @@ import MallaCurricular from './views/MallaCurricular';
 import LoginPage from './views/LoginPage';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
 import './App.css'; 
 import EmpresasAliadas from './views/EmpresasAliadas';
 import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
@@ -142,14 +141,14 @@ function App() {
           </>
           } />
 
-        {/* Ruta para la página de Perfil */}
-          <Route path="/perfil" element={
-          <>
-          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <Perfil /> {/* Componente que renderiza la vista de pasantías */}
-          </>
-        } />
-        </Routes>
+          {/* Ruta para la página de Perfil */}
+            <Route path="/perfil" element={
+            <>
+            <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <Perfil /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          } />
+          </Routes>
         
       </ThemeProvider>
     </Router>

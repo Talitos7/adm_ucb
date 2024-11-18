@@ -10,13 +10,13 @@ export default function EmpresasAliadas() {
         const fetchEmpresas = async () => {
             try {
                 const response = await axios.get('http://localhost/adm_ucb/src/servicios/empresasAPI.php');
-                if (response.data.status === "success") {
+                if (response.data?.status === "success" && response.data.data) {
                     setEmpresas(response.data.data);
                 } else {
-                    setError(response.data.message || 'No hay empresas disponibles.');
+                    setError(response.data?.message || 'No hay empresas disponibles.');
                 }
             } catch (err) {
-                console.error('Error al conectar con la API:', err);
+                console.error('Error al conectar con la API:', err.message);
                 setError('Error al conectar con la API.');
             }
         };
@@ -27,7 +27,7 @@ export default function EmpresasAliadas() {
     return (
         <Box
             sx={{
-                background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)', // Fondo degradado
+                background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)',
                 minHeight: '100vh',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -60,22 +60,20 @@ export default function EmpresasAliadas() {
                                     padding: 3,
                                     borderRadius: '16px',
                                     border: '2px solid #e0e0e0',
-                                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)', // Sombras para destacar
+                                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
                                     transition: 'transform 0.3s, border-color 0.3s, box-shadow 0.3s',
                                     '&:hover': {
-                                        transform: 'scale(1.08)', // Más grande al pasar el mouse
+                                        transform: 'scale(1.08)',
                                         borderColor: '#00796b',
-                                        boxShadow: '0 12px 24px rgba(0, 0, 0, 0.2)', // Sombra más intensa
+                                        boxShadow: '0 12px 24px rgba(0, 0, 0, 0.2)',
                                     },
                                 }}
                             >
-                                {/* Imagen alineada a la izquierda */}
                                 <Avatar
                                     src={`http://localhost/adm_ucb/src/servicios/uploadsEmpresas/${empresa.imagenempresa}`}
                                     alt={empresa.nombreempresa}
                                     sx={{ width: 80, height: 80, marginRight: 2 }}
                                 />
-                                {/* Contenedor de texto a la derecha */}
                                 <Box sx={{ textAlign: 'left' }}>
                                     <Typography variant="h6" gutterBottom>
                                         {empresa.nombreempresa}

@@ -9,7 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
@@ -25,12 +24,6 @@ export default function AccountMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  // Funciones de navegación
-  const handleProfileClick = () => {
-    navigate('/admin'); // Redirige a la página admin
-    handleClose();
   };
 
   // Redirigir a la página admin cuando se hace clic en "Perfil"
@@ -67,7 +60,7 @@ export default function AccountMenu() {
   };
 
   const handleEmpresasClick = () => {
-    navigate('/empresas'); 
+    navigate('/empresasAdmi'); 
     handleClose(); 
   }
 
