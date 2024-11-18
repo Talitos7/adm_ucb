@@ -51,7 +51,13 @@ function LoginPage() {
               navigate('/estudiante');
               break;
             case 'centro':
-              navigate('/pasantias');
+              navigate('/#'); // Agregar página de estudiante del centro
+              break;
+            case 'sociedad':
+              navigate('/#'); // Agregar página de estudiante de la sociedad científica
+              break;
+            case 'alumni':
+              navigate('/#'); // Agregar página de alumni
               break;
             default:
               setError('Rol no reconocido');
