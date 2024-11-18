@@ -1,0 +1,83 @@
+.malla-curricular-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.malla-curricular-table {
+  width: 90%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.malla-curricular-table th,
+.malla-curricular-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.malla-curricular-table th {
+  background-color: #1976d2; /* Azul para encabezados */
+  color: #fff;
+  font-weight: bold;
+}
+
+.ciclo-header {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.filled-cell {
+  background-color: #eaf4fe; /* Azul claro */
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.filled-cell:hover {
+  background-color: #90caf9; /* Azul más intenso */
+  color: #fff;
+  cursor: pointer;
+}
+
+.empty-cell {
+  background-color: #f9f9f9; /* Gris claro */
+}
+
+@media (max-width: 768px) {
+  .malla-curricular-table {
+    width: 100%;
+  }
+
+  .filled-cell {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+}
+.cell {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.prerequisite {
+  background-color: #f44336; /* Rojo */
+  color: white;
+}
+
+.unlocked {
+  background-color: #4caf50; /* Verde */
+  color: white;
+}
+
+.active-cell {
+  background-color: #03a9f4; /* Celeste */
+  color: white;
+  font-weight: bold;
+  border: 2px solid #0288d1; /* Borde resaltado */
+}
+

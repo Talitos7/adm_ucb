@@ -6,29 +6,41 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
 
 export default function PasantiasCards() {
     const [pasantias, setPasantias] = useState([]);
     const [error, setError] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
+    const [selectedPasantia, setSelectedPasantia] = useState(null);
 
-    // Fetch de la API
     useEffect(() => {
         const fetchPasantias = async () => {
             try {
                 const response = await axios.get('http://localhost/adm_ucb/src/servicios/mostrarPasantias.php');
-                console.log('Respuesta de la API (raw):', response.data); // Depuración
+                console.log('Respuesta de la API (raw):', response.data);
     
-                // Extraer JSON desde el texto si tiene prefijo
-                const rawData = response.data;
-                const jsonString = rawData.startsWith('Conexión exitosa')
-                    ? rawData.replace('Conexión exitosa', '').trim()
-                    : rawData;
+                let rawData = response.data;
     
-                const data = JSON.parse(jsonString); // Parseamos el JSON
-                console.log('Datos parseados:', data); // Depuración
+                // Si la respuesta contiene "Conexión exitosa", eliminarla
+                if (typeof rawData === 'string' && rawData.startsWith('Conexión exitosa')) {
+                    rawData = rawData.replace('Conexión exitosa', '').trim();
+                }
     
-                if (data.success && data.pasantias.length > 0) {
+                const data = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+    
+                console.log('Datos parseados:', data);
+    
+                if (data.success && data.pasantias) {
                     setPasantias(data.pasantias);
+                    setError(''); // Limpiar errores
                 } else {
                     setError(data.message || 'No hay pasantías disponibles.');
                 }
@@ -42,6 +54,50 @@ export default function PasantiasCards() {
     }, []);
     
 
+    const handleOpenDialog = (idPasantia) => {
+        setSelectedPasantia(idPasantia);
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        setSelectedPasantia(null);
+    };
+
+    // Función para eliminar pasantía
+    const eliminarPasantia = async () => {
+        try {
+            const response = await axios.delete('http://localhost/adm_ucb/src/servicios/eliminarPasantia.php', {
+                data: { idpsantia: selectedPasantia }
+            });
+    
+            console.log('Respuesta de la API (eliminación):', response.data);
+    
+            let responseData = response.data;
+    
+            if (typeof responseData === 'string') {
+                const jsonString = responseData.startsWith('Conexión exitosa')
+                    ? responseData.replace('Conexión exitosa', '').trim()
+                    : responseData;
+                responseData = JSON.parse(jsonString);
+            }
+    
+            if (responseData.success) {
+                setPasantias(pasantias.filter((pasantia) => pasantia.idpsantia !== selectedPasantia));
+                setError(''); 
+            } else {
+                setError(responseData.message || 'No se pudo eliminar la pasantía.');
+            }
+        } catch (error) {
+            console.error('Error al eliminar la pasantía:', error);
+            setError('Error al conectar con el servidor.');
+        } finally {
+            handleCloseDialog(); 
+        }
+    };
+    
+    
+
     return (
         <div style={{ padding: '20px' }}>
             {error ? (
@@ -50,7 +106,7 @@ export default function PasantiasCards() {
                 <Grid container spacing={3}>
                     {pasantias.map((pasantia) => (
                         <Grid item xs={12} sm={6} md={4} key={pasantia.idpsantia}>
-                            <Card sx={{ maxWidth: 345 }}>
+                            <Card sx={{ maxWidth: 345, position: 'relative' }}>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
@@ -67,11 +123,38 @@ export default function PasantiasCards() {
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>
+
+                                {/* Ícono de basurero */}
+                                <IconButton
+                                    aria-label="eliminar"
+                                    onClick={() => handleOpenDialog(pasantia.idpsantia)}
+                                    style={{ position: 'absolute', top: 10, right: 10, color: 'green' }}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
                             </Card>
                         </Grid>
                     ))}
                 </Grid>
             )}
+
+            {/* Modal de confirmación */}
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>Confirmar Eliminación</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        ¿Estás seguro de que deseas eliminar esta pasantía? Esta acción no se puede deshacer.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog} color="primary">
+                        Cancelar
+                    </Button>
+                    <Button onClick={eliminarPasantia} color="secondary">
+                        Eliminar
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

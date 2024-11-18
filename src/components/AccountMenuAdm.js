@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import AccountCircle from '@mui/icons-material/AccountCircle'; 
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 
 export default function AccountMenu() {
@@ -27,21 +27,37 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
 
-  // Redirigir a la página admin cuando se hace clic en "Perfil"
+  // Funciones de navegación
   const handleProfileClick = () => {
     navigate('/admin'); // Redirige a la página admin
-    handleClose(); // Cierra el menú
+    handleClose();
   };
 
-  // Redirigir a la página admin cuando se hace clic en "Iniciar Sesión"
-  const handleLoginClick = () => {
+  // Redirigir a la página admin cuando se hace clic en "Perfil"
+  const handleAdminClick = () => {
     navigate('/admin'); // Redirige a la página admin
     handleClose(); // Cierra el menú
   };
 
   // Redirigir a la página de Pasantías
   const handleInternshipsClick = () => {
-    navigate('/pasantias'); 
+    navigate('/pasantias'); // Redirige a Pasantías
+    handleClose();
+  };
+
+  const handleIntercambiosClick = () => {
+    navigate('/PublicationsIntercambio'); // Redirige a Intercambios
+    handleClose();
+  };
+
+  const handleSociedadClick = () => {
+    navigate('/PublicationsSociedad'); // Redirige a Sociedad Científica
+    handleClose();
+  };
+
+  // Redirigir a la página de Pasantías
+  const handlePerfilClick = () => {
+    navigate('/perfil'); 
     handleClose(); 
   };
 
@@ -50,15 +66,36 @@ export default function AccountMenu() {
     handleClose(); 
   }
 
+  const handleAlumniClick = () => {
+    navigate('/PublicationsAlumni'); 
+    handleClose(); 
+  }
+
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }} onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
-          Perfil
+        <Typography sx={{ minWidth: 100 }} onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
+          Inicio
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Registro de Usuarios</Typography>
+        <Typography sx={{ minWidth: 100 }}>Empresas</Typography>
         <Typography sx={{ minWidth: 100 }} onClick={handleInternshipsClick} style={{ cursor: 'pointer' }}>
           Pasantías
+        </Typography>
+        <Typography
+          sx={{ minWidth: 100 }}
+          onClick={handleIntercambiosClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Intercambios
+        </Typography>
+        <Typography
+          sx={{ minWidth: 150 }}
+          onClick={handleSociedadClick}
+          style={{ cursor: 'pointer' }}
+        >
+          Sociedad Científica
         </Typography>
         <Typography sx={{ minWidth: 100 }}>Eventos</Typography>
         <Typography sx={{ minWidth: 100 }}>Solicitudes</Typography>
@@ -114,11 +151,10 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleLoginClick}> {/* Redirige a admin */}
-          <Avatar /> Iniciar Sesión
+        <MenuItem onClick={handlePerfilClick}> {/* Redirige al Perfil */}
+          <Avatar /> Ver perfil
         </MenuItem>
         <Divider />
-        {/* Nueva opción para redirigir a Pasantías */}
         <MenuItem onClick={handleInternshipsClick}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
@@ -132,7 +168,23 @@ export default function AccountMenu() {
           </ListItemIcon>
           Empresas
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleAlumniClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Alumni
+        </MenuItem>
+        <MenuItem onClick={handleIntercambiosClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Intercambios
+        </MenuItem>
+        <MenuItem onClick={handleSociedadClick}>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Sociedad Científica
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
