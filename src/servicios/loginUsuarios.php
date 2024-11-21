@@ -1,14 +1,17 @@
 <?php
-header("Access-Control-Allow-Origin: *"); 
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); 
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/json');
-include 'conexion.php';
 
-// Verifica el método HTTP de la solicitud
+include 'conexion.php';
+require_once '../../vendor/autoload.php'; // Subir dos directorios para acceder a vendor
+
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
+
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Ruta principal de la API
 switch ($method) {
     case 'POST':
         login($conn);
@@ -16,13 +19,10 @@ switch ($method) {
 
     case 'GET':
         if (isset($_GET['emailAdm']) && isset($_GET['tipo']) && $_GET['tipo'] === 'rol') {
-            // Obtener solo el rol del usuario
             obtenerRolUsuario($conn, $_GET['emailAdm']);
         } elseif (isset($_GET['emailAdm'])) {
-            // Obtener toda la información del usuario
             obtenerInfoUsuario($conn, $_GET['emailAdm']);
         } else {
-            // En caso de que no se reciba el email o tipo correctamente
             echo json_encode(["mensaje" => "Parámetros incorrectos"]);
         }
         break;
@@ -32,7 +32,6 @@ switch ($method) {
         break;
 }
 
-// Función para el login de usuario
 function login($conn) {
     $data = json_decode(file_get_contents("php://input"), true);
 
@@ -40,25 +39,73 @@ function login($conn) {
         $emailAdm = $data['emailAdm'];
         $password = $data['password'];
 
-        // Buscar al usuario por email
-        $stmt = $conn->prepare("SELECT * FROM usuario WHERE emailAdm = :emailAdm");
-        $stmt->bindParam(':emailAdm', $emailAdm);
-        $stmt->execute();
+        if (!filter_var($emailAdm, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(["mensaje" => "Email inválido"]);
+            return;
+        }
 
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            $stmt = $conn->prepare("SELECT * FROM usuario WHERE emailAdm = :emailAdm");
+            $stmt->bindParam(':emailAdm', $emailAdm);
+            $stmt->execute();
+
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo json_encode(["mensaje" => "Error en la base de datos", "error" => $e->getMessage()]);
+            return;
+        }
 
         if ($usuario && password_verify($password, $usuario['password'])) {
-            echo json_encode(["mensaje" => "Login exitoso", "usuario" => $usuario]);
+            if (isset($usuario['idUsuario']) && isset($usuario['emailadm']) && isset($usuario['rol'])) {
+                $key = getenv('JWT_SECRET_KEY');
+                $payload = [
+                    "iss" => "http://localhost", // Cambiado para entorno local
+                    "aud" => "http://localhost", // Cambiado para entorno local
+                    "iat" => time(),
+                    "exp" => time() + 3600,
+                    "data" => [
+                        "idUsuario" => $usuario['idUsuario'],
+                        "emailAdm" => $usuario['emailAdm'],
+                        "rol" => $usuario['rol']
+                    ]
+                ];
+        
+                $jwt = JWT::encode($payload, $key, 'HS256');
+                echo json_encode(["mensaje" => "Login exitoso", "token" => $jwt]);
+            } else {
+                echo json_encode(["mensaje" => "Datos del usuario incompletos"]);
+            }
         } else {
             echo json_encode(["mensaje" => "Credenciales incorrectas"]);
-        }
+        }        
     } else {
         echo json_encode(["mensaje" => "Faltan datos para el login"]);
     }
 }
 
-// Función para obtener toda la información del usuario
+function verificarToken($token) {
+    $key = getenv('JWT_SECRET_KEY');
+    try {
+        $decoded = JWT::decode($token, new Key($key, 'HS256'));
+        return $decoded;
+    } catch (Exception $e) {
+        http_response_code(401);
+        echo json_encode(["mensaje" => "Token inválido o expirado"]);
+        exit;
+    }
+}
+
 function obtenerInfoUsuario($conn, $emailAdm) {
+    $headers = apache_request_headers();
+    if (!isset($headers['Authorization'])) {
+        http_response_code(401);
+        echo json_encode(["mensaje" => "Token no proporcionado"]);
+        exit;
+    }
+
+    $token = str_replace("Bearer ", "", $headers['Authorization']);
+    $decoded = verificarToken($token);
+
     $stmt = $conn->prepare("SELECT * FROM usuario WHERE emailAdm = :emailAdm");
     $stmt->bindParam(':emailAdm', $emailAdm);
     $stmt->execute();
@@ -71,8 +118,17 @@ function obtenerInfoUsuario($conn, $emailAdm) {
     }
 }
 
-// Función para obtener solo el rol del usuario
 function obtenerRolUsuario($conn, $emailAdm) {
+    $headers = apache_request_headers();
+    if (!isset($headers['Authorization'])) {
+        http_response_code(401);
+        echo json_encode(["mensaje" => "Token no proporcionado"]);
+        exit;
+    }
+
+    $token = str_replace("Bearer ", "", $headers['Authorization']);
+    $decoded = verificarToken($token);
+
     $stmt = $conn->prepare("SELECT rol FROM usuario WHERE emailAdm = :emailAdm");
     $stmt->bindParam(':emailAdm', $emailAdm);
     $stmt->execute();
