@@ -21,6 +21,8 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadIcon from "@mui/icons-material/Upload";
+import SaveIcon from '@mui/icons-material/Save';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export default function EmpresasAliadasAdmin() {
     const [empresas, setEmpresas] = useState([]);
@@ -328,6 +330,8 @@ export default function EmpresasAliadasAdmin() {
                             gap: 2,
                             mb: 2,
                             justifyContent: "space-between", // Distribución uniforme
+                            marginLeft: "30px",
+                            marginRight: "30px",
                         }}
                     >
                         <Avatar
@@ -369,13 +373,34 @@ export default function EmpresasAliadasAdmin() {
                 )}
             </Box>
             </DialogContent>
-            <DialogActions>
-            <Button onClick={closeDialog} color="secondary">
-                Cancelar
-            </Button>
-            <Button id = "btnActualizar" onClick={handleSave} variant="contained" color="primary">
-                Guardar
-            </Button>
+            <DialogActions
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    mb: 2,
+                    justifyContent: "space-between", // Distribución uniforme
+                    margin: "30px",
+                }}
+            >
+                <Button
+                onClick={closeDialog}
+                variant="contained"
+                color="error"
+                startIcon={<ClearIcon />}
+                sx={{ alignSelf: "flex-start" }}
+                >
+                    Cancelar
+                </Button>
+                <Button
+                id = "btnActualizar"
+                onClick={handleSave}
+                variant="contained"
+                color="primary"
+                startIcon={<SaveIcon />}
+                >
+                    Guardar
+                </Button>
             </DialogActions>
       </Dialog>
 
