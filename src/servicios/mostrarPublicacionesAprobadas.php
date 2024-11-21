@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu dominio
 require 'conexion.php';
 
 class Publicacion {

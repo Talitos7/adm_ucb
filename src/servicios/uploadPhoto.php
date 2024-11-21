@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *"); // Permitir solicitudes desde cualquier origen
+header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
