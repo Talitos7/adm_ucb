@@ -3,8 +3,11 @@ header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu 
 header("Access-Control-Allow-Methods: DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-
 include 'conexion.php';
+include 'middleware.php';
+
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
     $data = json_decode(file_get_contents("php://input"), true);

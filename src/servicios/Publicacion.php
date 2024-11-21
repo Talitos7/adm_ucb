@@ -2,8 +2,11 @@
 header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+include 'conexion.php';
+include 'middleware.php';
 
-require 'conexion.php';
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 class Publicacion {
     private $conn;

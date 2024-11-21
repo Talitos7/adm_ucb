@@ -3,8 +3,12 @@ header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu 
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
-
 include 'conexion.php';
+include 'middleware.php';
+
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
+
 require '../PHPMailer-master/src/PHPMailer.php';   // Ruta a PHPMailer.php
 require '../PHPMailer-master/src/SMTP.php';        // Ruta a SMTP.php
 require '../PHPMailer-master/src/Exception.php';   // Ruta a Exception.php

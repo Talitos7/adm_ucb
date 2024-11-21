@@ -4,6 +4,10 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/json');
 include 'conexion.php';
+include 'middleware.php';
+
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 // Verifica el método HTTP de la solicitud
 $method = $_SERVER['REQUEST_METHOD'];

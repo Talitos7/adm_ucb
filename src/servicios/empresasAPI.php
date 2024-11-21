@@ -4,6 +4,10 @@ header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu 
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Content-Type: application/json");
 include 'conexion.php';
+include 'middleware.php';
+
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 // Obtener el método HTTP
 $method = $_SERVER['REQUEST_METHOD'];

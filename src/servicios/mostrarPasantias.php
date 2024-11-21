@@ -3,8 +3,11 @@ header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu 
 header("Access-Control-Allow-Methods: GET, OPTIONS"); 
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
+include 'conexion.php';
+include 'middleware.php';
 
-include 'conexion.php'; 
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 // Ruta base donde se almacenan las imágenes
 $baseUrl = "http://localhost/adm_ucb/src/servicios/uploads/";

@@ -3,6 +3,10 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: https://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
+include 'middleware.php';
+
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 if (isset($_FILES['image'])) {
     $file = $_FILES['image'];
