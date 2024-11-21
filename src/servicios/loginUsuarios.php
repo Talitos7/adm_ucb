@@ -5,7 +5,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-Type: application/json');
 include 'conexion.php';
 include 'middleware.php';
-include 'headers.php'
+include 'headers.php';
 
 // Validar límite de solicitudes
 checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
