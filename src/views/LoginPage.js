@@ -29,10 +29,12 @@ function LoginPage() {
         password: password,
       });
   
-      const { mensaje, token } = response.data;
+      const { mensaje, usuario, token } = response.data;
   
       if (mensaje === 'Login exitoso' && token) {
         setSuccess('Inicio de sesión exitoso. Redirigiendo...');
+
+        localStorage.setItem('usuario', JSON.stringify(usuario));
         localStorage.setItem('token', token); // Almacenar el token en el localStorage
   
         // Configurar token en el encabezado de autorización para futuras solicitudes

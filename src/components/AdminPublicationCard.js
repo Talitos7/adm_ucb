@@ -2,7 +2,7 @@ import React from 'react';
 import './AdminPublicationCard.css';
 
 const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
-  const { idpublicacion, titulo, detalle, categoria, fecha_creacion, multimedia } = publication;
+  const { idpublicacion, titulo, detalle, categoria, multimedia } = publication;
 
   return (
     <div className={`admin-publication-card ${darkMode ? 'dark-mode' : ''}`}>
