@@ -6,6 +6,13 @@ header('Content-Type: application/json');
 include 'conexion.php';
 include 'middleware.php';
 include 'headers.php';
+use \Firebase\JWT\JWT;
+require_once '../../vendor/autoload.php'; // Incluye JWT
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+$dotenv->load();
+
+$key = $_ENV['JWT_SECRET'];
 
 // Validar límite de solicitudes
 checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
@@ -20,14 +27,12 @@ switch ($method) {
         break;
 
     case 'GET':
+        validarToken(); // Proteger este endpoint
         if (isset($_GET['emailAdm']) && isset($_GET['tipo']) && $_GET['tipo'] === 'rol') {
-            // Obtener solo el rol del usuario
             obtenerRolUsuario($conn, $_GET['emailAdm']);
         } elseif (isset($_GET['emailAdm'])) {
-            // Obtener toda la información del usuario
             obtenerInfoUsuario($conn, $_GET['emailAdm']);
         } else {
-            // En caso de que no se reciba el email o tipo correctamente
             echo json_encode(["mensaje" => "Parámetros incorrectos"]);
         }
         break;
@@ -39,6 +44,8 @@ switch ($method) {
 
 // Función para el login de usuario
 function login($conn) {
+    global $key; // Accede a la clave secreta
+
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (isset($data['emailAdm']) && isset($data['password'])) {
@@ -53,7 +60,18 @@ function login($conn) {
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($usuario && password_verify($password, $usuario['password'])) {
-            echo json_encode(["mensaje" => "Login exitoso", "usuario" => $usuario]);
+            // Generar token JWT
+            $payload = [
+                "iss" => "http://localhost",
+                "aud" => "http://localhost",
+                "iat" => time(),
+                "exp" => time() + (60 * 60), // Expira en 1 hora
+                "emailAdm" => $emailAdm
+            ];
+            
+            $jwt = JWT::encode($payload, $key, 'HS256');
+
+            echo json_encode(["mensaje" => "Login exitoso", "token" => $jwt]);
         } else {
             echo json_encode(["mensaje" => "Credenciales incorrectas"]);
         }
