@@ -1,11 +1,7 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import CardActionArea from '@mui/material/CardActionArea';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
+import { Card, CardContent, CardMedia, Typography, CardActionArea, Grid, Container } from '@mui/material';
+import { motion } from 'framer-motion'; // Importamos motion
+import { useInView } from 'react-intersection-observer'; // Importamos useInView
 
 // Importa las imágenes desde tu carpeta assets
 import duracionImage from '../assets/duracion.png';
@@ -13,33 +9,46 @@ import areasEstudioImage from '../assets/planestudio.png';
 import graduacionImage from '../assets/grad.jpg';
 
 function ActionAreaCard({ image, title, description }) {
+  // Usamos useInView para detectar cuando la tarjeta entra en vista
+  const { ref, inView } = useInView({
+    triggerOnce: true, // Se activa solo una vez cuando la tarjeta entra en vista
+    threshold: 0.3, // Activar cuando el 30% de la tarjeta esté visible
+  });
+
   return (
-    <Card
-      sx={{
-        maxWidth: 345,
-        '&:hover': {
-          transform: 'scale(1.05)',  // Aumenta el tamaño de la tarjeta al pasar el mouse
-          transition: 'transform 0.3s ease-in-out', // Suaviza la animación
-        },
-      }}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.8 }} // Comienza invisible y más pequeña
+      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.8 }} // Aparece y crece hasta su tamaño original
+      transition={{ duration: 0.60, ease: 'easeOut' }} // Duración más larga y suavizado en la transición
     >
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt={title}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+      <Card
+        sx={{
+          maxWidth: 345,
+          '&:hover': {
+            transform: 'scale(1.05)',  // Aumenta el tamaño de la tarjeta al pasar el mouse
+            transition: 'transform 0.3s ease-in-out', // Suaviza la animación
+          },
+        }}
+      >
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            height="140"
+            image={image}
+            alt={title}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {title}
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              {description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </motion.div>
   );
 }
 
