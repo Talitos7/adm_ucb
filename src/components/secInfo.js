@@ -4,9 +4,9 @@ import { motion } from 'framer-motion'; // Importamos motion
 import { useInView } from 'react-intersection-observer'; // Importamos useInView
 
 // Importa las imágenes desde tu carpeta assets
-import duracionImage from '../assets/duracion.png';
-import areasEstudioImage from '../assets/planestudio.png';
-import graduacionImage from '../assets/grad.jpg';
+import duracionImage from '../assets/calendar_8377332.png';
+import areasEstudioImage from '../assets/clipboard_8358743.png';
+import graduacionImage from '../assets/certificate_6360739.png';
 
 function ActionAreaCard({ image, title, description }) {
   // Usamos useInView para detectar cuando la tarjeta entra en vista
@@ -34,7 +34,11 @@ function ActionAreaCard({ image, title, description }) {
         <CardActionArea>
           <CardMedia
             component="img"
-            height="140"
+            sx={{
+              height: '90px', // Asegura que la altura sea proporcional
+              width: '100%',  // Ajusta el ancho al 100% del contenedor
+              objectFit: 'contain', // Ajusta la imagen para que se ajuste dentro del contenedor sin recortarla
+            }}
             image={image}
             alt={title}
           />
