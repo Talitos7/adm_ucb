@@ -1,0 +1,14 @@
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Prevenir listados de directorio
+Options -Indexes
+
+# XSS y seguridad adicional
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "DENY"
+Header set Content-Security-Policy "default-src 'self';"
+Header set Referrer-Policy "no-referrer"
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"

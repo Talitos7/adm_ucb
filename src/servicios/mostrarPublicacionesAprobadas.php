@@ -1,5 +1,10 @@
 <?php
-require 'conexion.php';
+header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
+include 'conexion.php';
+include 'middleware.php';
+include 'headers.php';
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 class Publicacion {
     private $conn;

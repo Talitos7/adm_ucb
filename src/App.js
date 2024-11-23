@@ -6,6 +6,8 @@ import Perfil from './views/perfil';
 import CarouselSection from './components/CarouselSection';
 import DocenteSection from './components/DocenteSection';
 import Footer from './components/Footer';
+import InfoSec from './components/secInfo'
+import BeneficiosSec from './components/beneficiosSec'
 import AdminPage from './views/admin';
 import PublicationsIntercambio from './views/PublicationsIntercambio';
 import PublicationsAlumni from './views/PublicationsAlumni';
@@ -57,7 +59,8 @@ function App() {
               <>
                 <CarouselSection />
                 <DocenteSection />
-                <MallaCurricular />
+                <InfoSec/>
+                <BeneficiosSec/>
                 <Footer />
               </>
             }

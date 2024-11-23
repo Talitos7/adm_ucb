@@ -1,15 +1,23 @@
 <?php
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header('Content-Type: application/json');
+header("Content-Type: application/json");
 include 'conexion.php';
+include 'middleware.php';
+include 'headers.php';
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 // Obtener el método HTTP
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Obtener el cuerpo de la solicitud si es POST o PUT
-$input = json_decode(file_get_contents("php://input"), true);
+if ($method === 'PUT') {
+    parse_str(file_get_contents("php://input"), $_PUT);
+    $_FILES = $_PUT['files'] ?? [];
+    $input = $_PUT;
+}
 
 // Ruta base para las imágenes
 $baseUrl = "http://localhost/adm_ucb/src/servicios/uploadsEmpresas/";
@@ -33,21 +41,18 @@ switch ($method) {
         break;
 
     case 'POST':
-        if ($_POST) {
-            createEmpresa($_POST, $_FILES['imagenempresa']);
+        if (isset($_GET['idempresa'])) {
+            // Si viene un ID, se actualiza
+            $imagenempresa = isset($_FILES['imagenempresa']) ? $_FILES['imagenempresa'] : null;
+            updateEmpresa($_GET['idempresa'], $_POST, $imagenempresa);
+        } elseif ($_POST) {
+            // Si no hay ID, se crea
+            $imagenempresa = isset($_FILES['imagenempresa']) ? $_FILES['imagenempresa'] : null;
+            createEmpresa($_POST, $imagenempresa);
         } else {
             response("error", "No se enviaron datos.");
         }
-        break;
-
-    case 'PUT':
-        parse_str(file_get_contents("php://input"), $putData);
-        if ($putData && isset($_GET['idempresa'])) {
-            updateEmpresa($_GET['idempresa'], $putData, $_FILES['imagenempresa'] ?? null);
-        } else {
-            response("error", "Faltan datos para la actualización.");
-        }
-        break;
+        break;                    
 
     case 'DELETE':
         if (isset($_GET['idempresa'])) {
@@ -120,69 +125,76 @@ function createEmpresa($data, $file) {
     global $conn;
     $uploadDir = __DIR__ . "/uploadsEmpresas/";
 
-    if (isset($_FILES['imagenempresa']) && $_FILES['imagenempresa']['error'] === UPLOAD_ERR_OK) {
-        $fileName = uniqid() . "_" . basename($file['name']);
-        $filePath = $uploadDir . $fileName;
+    if (empty($data['nombreempresa']) || empty($data['descripcionempresa']) || empty($data['linkempresa'])) {
+        response("error", "Todos los campos son obligatorios.");
+    }    
 
-        if (move_uploaded_file($file['tmp_name'], $filePath)) {
-            $query = "INSERT INTO empresas (nombreempresa, imagenempresa, descripcionempresa, linkempresa) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
+    if ($file['error'] === UPLOAD_ERR_OK) {
+        $query = "INSERT INTO empresas (nombreempresa, imagenempresa, descripcionempresa, linkempresa) VALUES (?, null, ?, ?)";
+        $stmt = $conn->prepare($query);
 
-            if ($stmt->execute([$data['nombreempresa'], $fileName, $data['descripcionempresa'], $data['linkempresa']])) {
-                response("success", "Empresa creada exitosamente.");
+        if ($stmt->execute([$data['nombreempresa'], $data['descripcionempresa'], $data['linkempresa']])) {
+            $idEmpresa = $conn->lastInsertId(); // Obtener el ID generado
+
+            // Generar el nombre del archivo
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $cleanName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nombreempresa']);
+            $fileName = $cleanName . "." . $extension;
+            $filePath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($file['tmp_name'], $filePath)) {
+                // Actualizar la empresa con el nombre de la imagen
+                $queryUpdate = "UPDATE empresas SET imagenempresa = ? WHERE idempresa = ?";
+                $stmtUpdate = $conn->prepare($queryUpdate);
+                $stmtUpdate->execute([$fileName, $idEmpresa]);
+
+                response("success", "Empresa creada exitosamente.", ["id" => $idEmpresa, "imagen" => $fileName]);
             } else {
-                response("error", "Error al crear la empresa.");
+                response("error", "Error al mover la imagen.");
             }
         } else {
-            response("error", "Error al subir la imagen.");
+            response("error", "Error al crear la empresa.");
         }
     } else {
-        response("error", "No se proporcionó una imagen válida.");
+        response("error", "Error al cargar la imagen.");
     }
 }
 
 // Actualizar una empresa
 function updateEmpresa($idempresa, $data, $file) {
     global $conn;
-
-    // Validar datos requeridos
-    if (empty($data['nombreempresa']) || empty($data['descripcionempresa']) || empty($data['linkempresa'])) {
-        response("error", "Faltan campos requeridos.");
-    }
-
     $uploadDir = __DIR__ . "/uploadsEmpresas/";
 
-    // Buscar la empresa existente
-    $querySelect = "SELECT imagenempresa FROM empresas WHERE idempresa = ?";
+    // Obtener la empresa actual
+    $querySelect = "SELECT * FROM empresas WHERE idempresa = ?";
     $stmtSelect = $conn->prepare($querySelect);
     $stmtSelect->execute([$idempresa]);
     $empresa = $stmtSelect->fetch(PDO::FETCH_ASSOC);
 
     if (!$empresa) {
-        response("error", "No se encontró la empresa.");
+        response("error", "Empresa no encontrada.");
     }
 
-    $fileName = $empresa['imagenempresa']; // Mantener imagen actual
-    if (isset($_FILES['imagenempresa'])) {
-        // Manejo del archivo
-        $file = $_FILES['imagenempresa'];
-        if ($file['error'] === UPLOAD_ERR_OK) {
-            $fileName = uniqid() . "_" . basename($file['name']);
-            $filePath = $uploadDir . $fileName;
+    $fileName = $empresa['imagenempresa']; // Mantener la imagen actual si no se sube otra
 
-            if (move_uploaded_file($file['tmp_name'], $filePath)) {
-                // Eliminar la imagen antigua si existe
-                $oldFilePath = $uploadDir . $empresa['imagenempresa'];
-                if (file_exists($oldFilePath)) {
-                    unlink($oldFilePath);
-                }
-            } else {
-                response("error", "Error al subir la nueva imagen.");
-            }
+    if ($file && $file['error'] === UPLOAD_ERR_OK) {
+        // Eliminar la imagen anterior si existe
+        if (!empty($empresa['imagenempresa']) && file_exists($uploadDir . $empresa['imagenempresa'])) {
+            unlink($uploadDir . $empresa['imagenempresa']);
+        }
+
+        // Generar nuevo nombre de archivo
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $cleanName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $data['nombreempresa']);
+        $fileName = $cleanName . "." . $extension;
+        $filePath = $uploadDir . $fileName;
+
+        if (!move_uploaded_file($file['tmp_name'], $filePath)) {
+            response("error", "Error al subir la nueva imagen.");
         }
     }
 
-    // Actualizar los datos de la empresa
+    // Actualizar la empresa
     $queryUpdate = "UPDATE empresas SET nombreempresa = ?, imagenempresa = ?, descripcionempresa = ?, linkempresa = ? WHERE idempresa = ?";
     $stmtUpdate = $conn->prepare($queryUpdate);
 

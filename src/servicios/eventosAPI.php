@@ -1,9 +1,13 @@
 <?php
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header('Content-Type: application/json');
 include 'conexion.php';
+include 'middleware.php';
+include 'headers.php';
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 // Obtener el método HTTP
 $method = $_SERVER['REQUEST_METHOD'];

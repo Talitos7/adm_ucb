@@ -1,16 +1,19 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
+include 'conexion.php';
+include 'middleware.php';
+include 'headers.php';
+// Validar límite de solicitudes
+checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
 // Manejo de solicitudes OPTIONS para CORS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
-
-include 'conexion.php'; // Conexión a la base de datos
 
 try {
     // Asegúrate de que el correo electrónico esté presente en la solicitud
