@@ -48,11 +48,15 @@
   text-align: justify;
 }
 
+/* Estilo para la sección del GIF */
 .gif-section {
   position: absolute;
   top: 50%;
   right: 5%;
   transform: translateY(-50%); /* Centra el GIF verticalmente */
+  background-color: rgba(0, 0, 0, 0.9); /* Fondo negro semitransparente */
+  padding: 15px;
+  border-radius: 10px; /* Bordes redondeados para el fondo negro */
 }
 
 .gif-section img {

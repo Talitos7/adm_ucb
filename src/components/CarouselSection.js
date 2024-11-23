@@ -3,9 +3,9 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; 
 import './CarouselSection.css'; 
 
-import video from '../assets/back1video.mp4'
-import video2 from '../assets/back4video.mp4'
-import video3 from '../assets/back3video.mp4'
+import video from '../assets/back1video.mp4';
+import video2 from '../assets/back4video.mp4';
+import video3 from '../assets/back3video.mp4';
 import gifExample from '../assets/3dgifmaker34947.gif'; 
 
 function CarouselSection() {
@@ -42,17 +42,17 @@ function CarouselSection() {
         onChange={(index) => setCurrentSlide(index)}
       >
         <div>
-        <video autoPlay loop muted>
+          <video autoPlay loop muted>
             <source src={video} type="video/mp4" />
           </video>
         </div>
         <div>
-        <video autoPlay loop muted>
+          <video autoPlay loop muted>
             <source src={video2} type="video/mp4" />
           </video>
         </div>
         <div>
-        <video autoPlay loop muted>
+          <video autoPlay loop muted>
             <source src={video3} type="video/mp4" />
           </video>
         </div>
@@ -65,6 +65,7 @@ function CarouselSection() {
         </div>
       </div>
 
+      {/* Sección del GIF con fondo negro */}
       <div className="gif-section">
         <img src={descriptions[currentSlide].gif} alt="GIF relacionado" />
       </div>
