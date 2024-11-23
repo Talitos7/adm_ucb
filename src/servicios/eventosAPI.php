@@ -65,11 +65,16 @@ function getEventos() {
 
     $eventos = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Validar y ajustar la URL de la imagen
+        if (!empty($row['urlFotoEvento']) && !filter_var($row['urlFotoEvento'], FILTER_VALIDATE_URL)) {
+            $row['urlFotoEvento'] = "http://localhost/adm_ucb/src/" . $row['urlFotoEvento'];
+        }
         $eventos[] = $row;
     }
 
     response("success", "Eventos obtenidos exitosamente.", $eventos);
 }
+
 
 // Obtener un evento por ID
 function getEvento($idEvento) {
@@ -89,8 +94,8 @@ function getEvento($idEvento) {
 // Crear un nuevo evento
 function createEvento($data) {
     global $conn;
-    $query = "INSERT INTO evento (fechaInicio, fechaFin, hora, enlaceRegistro, descripcion, estado, usuario_emailAdm, titulo) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO evento (fechaInicio, fechaFin, hora, enlaceRegistro, descripcion, estado, usuario_emailAdm, titulo, urlFotoEvento) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if ($stmt->execute([
@@ -101,7 +106,8 @@ function createEvento($data) {
         $data['descripcion'],
         $data['estado'],
         $data['usuario_emailAdm'],
-        $data['titulo']
+        $data['titulo'],
+        $data['urlFotoEvento']
     ])) {
         $lastId = $conn->lastInsertId();
         response("success", "Evento creado exitosamente.", ["idEvento" => $lastId]);
@@ -114,42 +120,43 @@ function createEvento($data) {
 function updateEvento($idEvento, $data) {
     global $conn;
 
-    if (!array_key_exists('estado', $data)) {
-        response("error", "El campo 'estado' es obligatorio.");
+    $query = "UPDATE evento SET ";
+
+    // Construir los campos dinámicamente según los datos enviados
+    $fields = [];
+    $values = [];
+    foreach ($data as $key => $value) {
+        $fields[] = "$key = ?";
+        if ($key === 'estado') {
+            // Convertir booleano a formato aceptado por PostgreSQL
+            $values[] = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'TRUE' : 'FALSE';
+        } else {
+            $values[] = $value;
+        }
     }
-    
-    // Convertir el valor de estado explícitamente a booleano
-    $estado = filter_var($data['estado'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    $query .= implode(', ', $fields) . " WHERE idEvento = ?";
 
-    // Validar que el valor sea booleano
-    if (!is_bool($estado)) {
-        response("error", "El campo 'estado' debe ser un booleano válido.");
+    // Agregar el ID del evento al final de los valores
+    $values[] = $idEvento;
+
+    $stmt = $conn->prepare($query);
+
+    try {
+        $stmt->execute($values);
+        if ($stmt->rowCount() > 0) {
+            response("success", "Evento actualizado exitosamente.");
+        } else {
+            response("warning", "No se realizaron cambios en el evento.");
+        }
+    } catch (PDOException $e) {
+        response("error", "Error de base de datos: " . $e->getMessage());
     }
-
-    // Convertir el booleano PHP a un valor aceptado por PostgreSQL
-    $estado = $estado ? 'TRUE' : 'FALSE';
-
-    $query = "UPDATE evento 
-              SET fechaInicio = ?, fechaFin = ?, hora = ?, enlaceRegistro = ?, descripcion = ?, estado = ?, usuario_emailAdm = ?, titulo = ? 
-              WHERE idEvento = ?";
-    $stmt = $conn->prepare($query); 
-
-    if ($stmt->execute([
-        $data['fechaInicio'],
-        $data['fechaFin'],
-        $data['hora'],
-        $data['enlaceRegistro'],
-        $data['descripcion'],
-        $estado, // Pasar el valor booleano
-        $data['usuario_emailAdm'],
-        $data['titulo'],
-        $idEvento
-    ])) {
-        response("success", "Evento actualizado exitosamente.");
-    } else {
-        response("error", "Error al actualizar el evento.");
-    }    
 }
+
+
+
+
+
 
 // Eliminar un evento
 function deleteEvento($idEvento) {

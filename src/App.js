@@ -16,6 +16,7 @@ import EmpresasAliadas from './views/EmpresasAliadas';
 import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
 import UserRegistrationForm from './views/UserRegistrationForm';
 import AdminPublications from './views/AdminPublications';
+import EventosView from './views/EventosView'; // Asegúrate de que la ruta sea correcta
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
@@ -43,8 +44,10 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        {/* Navbar dinámico */}
         <DynamicNavbar darkMode={darkMode} handleThemeChange={handleThemeChange} />
         <Routes>
+          {/* Página de login */}
           <Route path="/login" element={<LoginPage />} />
 
           {/* Página principal */}
@@ -66,13 +69,13 @@ function App() {
           {/* Página de pasantías */}
           <Route path="/pasantias" element={<Pasantias />} />
 
-          {/* Página de publicaciones */}
-          <Route path="/PublicationsIntercambio" element={<PublicationsIntercambio darkMode={darkMode} />} />
-          <Route path="/PublicationsSociedad" element={<PublicationsSociedad darkMode={darkMode} />} />
-          <Route path="/PublicationsAlumni" element={<PublicationsAlumni darkMode={darkMode} />} />
+          {/* Publicaciones */}
+          <Route path="/PublicationsIntercambio" element={<PublicationsIntercambio />} />
+          <Route path="/PublicationsSociedad" element={<PublicationsSociedad />} />
+          <Route path="/PublicationsAlumni" element={<PublicationsAlumni />} />
 
           {/* Registro de usuario */}
-          <Route path="/UserRegistrationForm" element={<UserRegistrationForm darkMode={darkMode} />} />
+          <Route path="/UserRegistrationForm" element={<UserRegistrationForm />} />
 
           {/* Empresas */}
           <Route path="/empresas" element={<EmpresasAliadas />} />
@@ -80,6 +83,9 @@ function App() {
 
           {/* Publicaciones de administración */}
           <Route path="/AdminPublications" element={<AdminPublications />} />
+
+          {/* Eventos */}
+          <Route path="/eventos" element={<EventosView />} />
 
           {/* Perfil del usuario */}
           <Route path="/perfil" element={<Perfil />} />
