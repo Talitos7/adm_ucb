@@ -1,4 +1,8 @@
 <?php
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
+require_once '../../vendor/autoload.php'; // Incluye JWT
+
 function checkRateLimit($conn, $ip) {
     $stmt = $conn->prepare("SELECT * FROM rate_limit WHERE ip_address = :ip");
     $stmt->bindParam(':ip', $ip);
@@ -35,3 +39,31 @@ function checkRateLimit($conn, $ip) {
         $stmt->execute();
     }
 }
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../..');
+$dotenv->load();
+
+$key = $_ENV['JWT_SECRET'];
+
+function validarToken() {
+    global $key;
+
+    $headers = getallheaders();
+    if (!isset($headers['Authorization'])) {
+        http_response_code(401);
+        echo json_encode(["mensaje" => "Acceso no autorizado"]);
+        exit();
+    }
+
+    $token = str_replace('Bearer ', '', $headers['Authorization']);
+
+    try {
+        $decoded = JWT::decode($token, new Key($key, 'HS256'));
+        return $decoded;
+    } catch (Exception $e) {
+        http_response_code(401);
+        echo json_encode(["mensaje" => "Token inválido"]);
+        exit();
+    }
+}
+?>

@@ -16,29 +16,33 @@ function LoginPage() {
     e.preventDefault();
     setError('');
     setSuccess('');
-
+  
     if (!email.trim() || !password.trim()) {
       setError('El correo y la contraseña son obligatorios.');
       setOpenSnackbar(true);
       return;
     }
-
+  
     try {
       const response = await axios.post('http://localhost/adm_ucb/src/servicios/loginUsuarios.php', {
         emailAdm: email,
         password: password,
       });
-
-      const { mensaje, usuario } = response.data;
-
-      if (mensaje === 'Login exitoso') {
+  
+      const { mensaje, token } = response.data;
+  
+      if (mensaje === 'Login exitoso' && token) {
         setSuccess('Inicio de sesión exitoso. Redirigiendo...');
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-
+        localStorage.setItem('token', token); // Almacenar el token en el localStorage
+  
+        // Configurar token en el encabezado de autorización para futuras solicitudes
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+        // Redirigir dependiendo del rol del usuario
         const rolResponse = await axios.get(
           `http://localhost/adm_ucb/src/servicios/loginUsuarios.php?emailAdm=${email}&tipo=rol`
         );
-
+  
         const { rol } = rolResponse.data;
 
         if (rol) {
