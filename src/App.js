@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importación única
-import Navbar from './components/Navbar';
-import NavbarAdmin from './components/navbaradmin';
+import NavbarInvitado from './components/NavbarInvitado';
+//import NavbarEstudiante from './components/NavbarEstudiante';
+import NavbarAdmin from './components/NavbarAdmin';
 import Pasantias from './views/pasantias';
 import Perfil from './views/perfil';
 import CarouselSection from './components/CarouselSection';
@@ -17,11 +18,12 @@ import MallaCurricular from './views/MallaCurricular';
 import LoginPage from './views/LoginPage';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import './App.css'; 
 import EmpresasAliadas from './views/EmpresasAliadas';
 import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
 import UserRegistrationForm from './views/UserRegistrationForm';
 import AdminPublications from './views/AdminPublications';
+import Eventos from './views/EventosView.js';
+import './App.css'; 
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -53,7 +55,7 @@ function App() {
             path="/"
             element={
               <>
-                <Navbar darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <CarouselSection />
                 <DocenteSection />
                 <InfoSec/>
@@ -149,6 +151,15 @@ function App() {
             <AdminPublications />
           </>
           } />
+          <Route
+            path="/eventos"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Eventos darkMode={darkMode} />
+              </>
+            }
+          />
         {/* Ruta para la página de Perfil */}
           <Route path="/perfil" element={
           <>
