@@ -71,7 +71,7 @@ function login($conn) {
             
             $jwt = JWT::encode($payload, $key, 'HS256');
 
-            echo json_encode(["mensaje" => "Login exitoso", "token" => $jwt]);
+            echo json_encode(["mensaje" => "Login exitoso", "usuario" => $usuario, "token" => $jwt]);
         } else {
             echo json_encode(["mensaje" => "Credenciales incorrectas"]);
         }
