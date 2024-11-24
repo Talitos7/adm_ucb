@@ -1,11 +1,12 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json');
 include 'conexion.php';
 include 'middleware.php';
 include 'headers.php';
+
 // Validar límite de solicitudes
 checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
@@ -20,17 +21,11 @@ try {
     ob_start();
 
     $data = json_decode(file_get_contents("php://input"), true);
-    if (!$data && $_SERVER["REQUEST_METHOD"] === "POST") {
-        ob_end_clean(); // Elimina cualquier salida previa
-        echo json_encode(["success" => true, "message" => "Usuario registrado exitosamente."]);        
-        exit();
-    }
-
     $action = $_GET['action'] ?? '';
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Acción: Registro
         if ($action === 'registro') {
-            // Registro de usuario (Create)
             $emailAdm = $data['emailAdm'];
             $nombre = $data['nombre'];
             $apellido = $data['apellido'];
@@ -58,14 +53,17 @@ try {
                 http_response_code(200);
                 echo json_encode(["success" => true, "message" => "Usuario registrado exitosamente."]);
             } else {
+                http_response_code(500);
                 echo json_encode([
                     "success" => false,
                     "message" => "Error al registrar el usuario.",
                     "debug" => $stmt->errorInfo()
                 ]);
             }
-        }        } elseif ($action === 'baja') {
-            // Baja de usuario (Delete lógico)
+        }
+
+        // Acción: Baja
+        elseif ($action === 'baja') {
             $emailAdm = $data['emailAdm'];
 
             $sqlCheck = "SELECT * FROM usuario WHERE emailAdm = :emailAdm";
@@ -79,8 +77,10 @@ try {
                 $stmt->bindParam(':emailAdm', $emailAdm);
 
                 if ($stmt->execute()) {
+                    http_response_code(200);
                     echo json_encode(["success" => true, "message" => "Usuario dado de baja exitosamente."]);
                 } else {
+                    http_response_code(500);
                     echo json_encode([
                         "success" => false,
                         "message" => "Error al dar de baja al usuario.",
@@ -88,10 +88,13 @@ try {
                     ]);
                 }
             } else {
+                http_response_code(404);
                 echo json_encode(["success" => false, "message" => "Usuario no encontrado."]);
             }
-        } elseif ($action === 'modificar') {
-            // Modificación de usuario (Update)
+        }
+
+        // Acción: Modificar
+        elseif ($action === 'modificar') {
             $emailAdm = $data['emailAdm'];
             $nombre = $data['nombre'] ?? null;
             $apellido = $data['apellido'] ?? null;
@@ -118,16 +121,21 @@ try {
             $stmt->bindParam(':emailContacto', $emailContacto);
 
             if ($stmt->execute()) {
+                http_response_code(200);
                 echo json_encode(["success" => true, "message" => "Usuario modificado exitosamente."]);
             } else {
+                http_response_code(500);
                 echo json_encode([
                     "success" => false,
                     "message" => "Error al modificar el usuario.",
                     "debug" => $stmt->errorInfo()
                 ]);
             }
-    } elseif ($_SERVER["REQUEST_METHOD"] === "GET" && $action === 'leer') {
-        // Lectura de usuarios (Read)
+        }
+    }
+
+    // Acción: Leer usuarios
+    elseif ($_SERVER["REQUEST_METHOD"] === "GET" && $action === 'leer') {
         $emailAdm = $_GET['emailAdm'] ?? null;
         if ($emailAdm) {
             $sql = "SELECT * FROM usuario WHERE emailAdm = :emailAdm";
@@ -142,7 +150,8 @@ try {
         echo json_encode($result);
     }
 } catch (PDOException $e) {
-    echo json_encode(["success" => false, "message" => $e->getMessage()]);
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Error de base de datos", "debug" => $e->getMessage()]);
 } finally {
-    ob_end_clean();
+    ob_end_flush(); // Si decides mantener ob_start()
 }
