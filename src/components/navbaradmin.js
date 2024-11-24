@@ -1,8 +1,8 @@
 import React from 'react';
-import ResponsiveNavbar from './ResponsiveNavbar';
+import ResponsiveNavbar from './ResponsiveNavbarI';
 const NavbarAdmin = ({ darkMode, handleThemeChange }) => {
   const menuItems = [
-    { label: 'Bienvenida', path: '/AdminPage' },
+    { label: 'Bienvenida', path: '/Bienvenida' },
     { label: 'Empresas', path: '/empresasAdmi' },
     { label: 'Pasantías', path: '/pasantias' },
     { label: 'Publicaciones', path: '/AdminPublications' },

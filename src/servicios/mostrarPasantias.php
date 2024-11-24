@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
 header("Access-Control-Allow-Methods: GET, OPTIONS"); 
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");  // Agrega Authorization aquí
 header('Content-Type: application/json');
 include 'conexion.php';
 include 'middleware.php';
@@ -39,4 +39,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else {
     echo json_encode(['success' => false, 'error' => 'Método no permitido']);
 }
+
 ?>
