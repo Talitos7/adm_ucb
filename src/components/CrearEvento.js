@@ -18,8 +18,7 @@ import { useDropzone } from "react-dropzone";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const CrearEvento = ({ onClose }) => {
-  const [titulo, setTitulo] = useState("");
+const CrearEvento = ({ onClose, onEventoCreado }) => {
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFin, setFechaFin] = useState(null);
   const [hora, setHora] = useState(null);
@@ -45,7 +44,7 @@ const CrearEvento = ({ onClose }) => {
   });
 
   const handleCrearEvento = async () => {
-    if (!titulo || !fechaInicio || !fechaFin || !hora || !enlaceRegistro || !descripcion) {
+    if (!fechaInicio || !fechaFin || !hora || !enlaceRegistro || !descripcion) {
       Swal.fire({
         title: "Campos incompletos",
         text: "Por favor, llena todos los campos.",
@@ -56,13 +55,13 @@ const CrearEvento = ({ onClose }) => {
     }
 
     try {
+      const token = localStorage.getItem("token");
       const usuario = JSON.parse(localStorage.getItem("usuario"));
-      const emailAdm = usuario ? usuario.emailadm : "";
 
-      if (!emailAdm) {
+      if (!token || !usuario) {
         Swal.fire({
           title: "Error",
-          text: "No se encontró información del usuario.",
+          text: "No tienes una sesión activa. Por favor, inicia sesión.",
           icon: "error",
           confirmButtonText: "OK",
         });
@@ -79,7 +78,10 @@ const CrearEvento = ({ onClose }) => {
           "http://localhost/adm_ucb/src/servicios/subirArchivo.php",
           formData,
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
@@ -90,34 +92,45 @@ const CrearEvento = ({ onClose }) => {
         }
       }
 
-      await axios.post("http://localhost/adm_ucb/src/servicios/eventosAPI.php", {
-        titulo,
-        fechaInicio,
-        fechaFin,
-        hora,
-        enlaceRegistro,
+      const payload = {
+        fechainicio: fechaInicio.format("YYYY-MM-DD"),
+        fechafin: fechaFin.format("YYYY-MM-DD"),
+        hora: hora.format("HH:mm:ss"), // Hora en formato correcto
+        enlaceregistro: enlaceRegistro,
         descripcion,
-        urlFotoEvento: filePath,
+        urlfotoevento: filePath,
         estado: true,
-        usuario_emailAdm: emailAdm,
-      });
+        usuario_emailAdm: usuario.emailadm,
+      };
 
-      // Cerrar el modal antes de mostrar la notificación
+      console.log("Payload enviado a la API:", payload);
+
+      await axios.post(
+        "http://localhost/adm_ucb/src/servicios/eventosAPI.php",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       if (onClose) {
         onClose();
       }
 
-      // Usar un pequeño delay para garantizar que el modal se cierra antes de mostrar SweetAlert
-      setTimeout(() => {
-        Swal.fire({
-          title: "Evento creado",
-          text: "El evento se creó exitosamente.",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      }, 300);
+      Swal.fire({
+        title: "Evento creado",
+        text: "El evento se creó exitosamente.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      if (onEventoCreado) {
+        onEventoCreado();
+      }
     } catch (error) {
-      console.error("Error al crear evento:", error);
+      console.error("Error al crear evento:", error.response?.data || error.message);
       Swal.fire({
         title: "Error",
         text: "Hubo un problema al crear el evento.",
@@ -146,13 +159,6 @@ const CrearEvento = ({ onClose }) => {
       </DialogTitle>
       <DialogContent>
         <Box component="form" sx={{ mt: 2 }}>
-          <TextField
-            label="Título"
-            fullWidth
-            margin="normal"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Fecha Inicio"

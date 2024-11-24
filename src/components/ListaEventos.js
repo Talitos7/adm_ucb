@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography, Button, CardActions, Box } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -89,10 +91,20 @@ const ListaEventos = ({ onEditar, onEliminar, reload }) => {
                   )}
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary" onClick={() => onEditar(evento)}>
+                  <Button
+                    size="small"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                    onClick={() => onEditar(evento)}
+                  >
                     Editar
                   </Button>
-                  <Button size="small" color="error" onClick={() => onEliminar(evento.idevento)}>
+                  <Button
+                    size="small"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => onEliminar(evento.idevento)}
+                  >
                     Eliminar
                   </Button>
                 </CardActions>

@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Access-Control-Allow-Headers");
 header("Content-Type: application/json");
 
 // Definir la carpeta base y la carpeta específica para subir las fotos
@@ -13,7 +13,7 @@ if (!is_dir($uploadDir)) {
     if (!mkdir($uploadDir, 0777, true) && !is_dir($uploadDir)) {
         echo json_encode([
             "status" => "error",
-            "message" => "No se pudo crear el directorio de subida."
+            "message" => "No se pudo crear el directorio de subida. Ruta: " . $uploadDir
         ]);
         exit();
     }
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     if ($file['error'] !== UPLOAD_ERR_OK) {
         echo json_encode([
             "status" => "error",
-            "message" => "Error al subir el archivo: " . $file['error']
+            "message" => "Error al subir el archivo: Código de error " . $file['error']
         ]);
         exit();
     }
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     if (!in_array($file['type'], $allowedTypes)) {
         echo json_encode([
             "status" => "error",
-            "message" => "Tipo de archivo no permitido. Solo se permiten imágenes (JPEG, PNG)."
+            "message" => "Tipo de archivo no permitido. Tipo recibido: " . $file['type']
         ]);
         exit();
     }
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     // Definir la ruta completa del archivo
     $filePath = $uploadDir . $fileName;
 
-    // Mover el archivo a la carpeta destino
+    // Intentar mover el archivo a la carpeta destino
     if (move_uploaded_file($file['tmp_name'], $filePath)) {
         echo json_encode([
             "status" => "success",
@@ -59,13 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     } else {
         echo json_encode([
             "status" => "error",
-            "message" => "No se pudo mover el archivo al directorio destino."
+            "message" => "No se pudo mover el archivo al directorio destino. Ruta: " . $filePath
         ]);
     }
 } else {
     echo json_encode([
         "status" => "error",
-        "message" => "No se recibió ningún archivo."
+        "message" => "No se recibió ningún archivo o método no soportado."
     ]);
 }
 ?>
