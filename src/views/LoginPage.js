@@ -56,6 +56,9 @@ function LoginPage() {
             case 'estudiante':
               navigate('/estudiante');
               break;
+              case 'intercambio':
+                navigate('/IntercambioPage');
+                break;
             case 'centro':
               navigate('/#'); // Agregar página de estudiante del centro
               break;

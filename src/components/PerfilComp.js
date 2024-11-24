@@ -6,8 +6,6 @@ const PerfilUsuario = () => {
     nombre: '',
     emailadm: '',
     celular: 'No especificado',
-    fechaRegistro: 'No disponible',
-    emailContacto: 'No disponible',
     imagen: '', // Aseguramos que la imagen también esté incluida en el estado
   });
 

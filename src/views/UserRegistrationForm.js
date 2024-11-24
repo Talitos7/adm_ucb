@@ -255,6 +255,7 @@ export default function UserRegistration({darkMode}) {
                                         <option value="sociedad">Sociedad Científica</option>
                                         <option value="estudiante">Estudiante Regular</option>
                                         <option value="admin">Administrador</option>
+                                        <option value="intercambio">Estudiante de Intercambio</option>
                                     </TextField>
                                 </Grid>
                             </>

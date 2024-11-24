@@ -1,14 +1,14 @@
 import React from 'react';
-import ResponsiveNavbar from './ResponsiveNavbar';
+import ResponsiveNavbar from './ResponsiveNavbarI';
 
 const NavbarUsuario = ({ darkMode, handleThemeChange }) => {
   const menuItems = [
-    { label: 'Inicio', path: '/' },
+    { label: 'Bienvenida', path: '/Bienvenida2' },
     { label: 'Empresas', path: '/empresas' },
-    { label: 'Pasantías', path: '/pasantias' },
+    { label: 'Pasantías', path: '/pasantiasEstudiantes' },
     { label: 'Intercambios', path: '/PublicationsIntercambio' },
     { label: 'Sociedad Científica', path: '/PublicationsSociedad' },
-    { label: 'Alumni', path: '/PublicationsAlumni' },
+    { label: 'Alumni', path: '/AlumniUsuarios' },
     { label: 'Eventos', path: '/eventos' }, // Nueva opción
   ];
 
