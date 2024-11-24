@@ -5,7 +5,7 @@ const NavbarAdmin = ({ darkMode, handleThemeChange }) => {
     { label: 'Bienvenida', path: '/Bienvenida' },
     { label: 'Empresas', path: '/empresasAdmi' },
     { label: 'Pasantías', path: '/pasantias' },
-    { label: 'Publicaciones', path: '/AdminPublications' },
+    { label: 'Editar', path: '/Editar' },
     { label: 'Sociedad Cientifica', path: '/PublicationsSociedad' },
     { label: 'Alumni', path: '/PublicationsAlumni' },
     { label: 'Intercambios', path: '/PublicationsIntercambio' },

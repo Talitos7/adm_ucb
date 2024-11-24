@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Card, CardContent, CardMedia, Typography, CardActionArea, Container } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Typography, CardActionArea, Container, TextField, Button } from '@mui/material';
 import { motion } from 'framer-motion';  // Importamos motion para las animaciones
 import { useInView } from 'react-intersection-observer'; // Importamos useInView para detectar el scroll
 
@@ -62,6 +62,39 @@ export default function CardSection() {
     threshold: 0.3,
   });
 
+  // Verificamos si estamos en la ruta correcta para permitir la edición
+  const isEditable = window.location.pathname === '/Editar';
+
+  // Recuperamos los beneficios guardados desde el localStorage, si existen
+  const storedBeneficios = JSON.parse(localStorage.getItem('beneficios')) || [
+    'Acreditada por el Sistema de la Universidad Boliviana SUB.',
+    'Laboratorio de Simulación de Negocios.',
+    'Enfoque en innovación empresarial y liderazgo empresarial.',
+    'Talleres y conferencias con docentes internacionales.',
+    'Formación con valores y principios éticos.',
+    'Doble titulación con la Universidad Católica de Salta UCASAL.'
+  ];
+
+  const [beneficios, setBeneficios] = React.useState(storedBeneficios); // Estado para los beneficios
+  const [nuevoBeneficio, setNuevoBeneficio] = React.useState(''); // Estado para el nuevo beneficio
+
+  // Función para agregar un beneficio
+  const handleAddBeneficio = () => {
+    if (nuevoBeneficio.trim()) { // Solo agrega si hay algo escrito
+      const updatedBeneficios = [...beneficios, nuevoBeneficio];
+      setBeneficios(updatedBeneficios);
+      localStorage.setItem('beneficios', JSON.stringify(updatedBeneficios)); // Guardamos en localStorage
+      setNuevoBeneficio(''); // Limpiamos el campo de entrada
+    }
+  };
+
+  // Función para eliminar un beneficio
+  const handleRemoveBeneficio = (index) => {
+    const newBeneficios = beneficios.filter((_, i) => i !== index);
+    setBeneficios(newBeneficios);
+    localStorage.setItem('beneficios', JSON.stringify(newBeneficios)); // Guardamos en localStorage
+  };
+
   return (
     <Container sx={{ paddingY: 4 }}>
       <Box
@@ -72,7 +105,6 @@ export default function CardSection() {
           alignItems: 'center', // Alinea las tarjetas verticalmente
         }}
       >
-        {/* Contenedor para la tarjeta y la imagen */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {/* Tarjeta con imagen y texto (izquierda) */}
           <ActionAreaCard
@@ -81,13 +113,35 @@ export default function CardSection() {
             description={
               <>
                 <ul>
-                  <li>Acreditada por el Sistema de la Universidad Boliviana SUB.</li>
-                  <li>Laboratorio de Simulación de Negocios.</li>
-                  <li>Enfoque en innovación empresarial y liderazgo empresarial.</li>
-                  <li>Talleres y conferencias con docentes internacionales.</li>
-                  <li>Formación con valores y principios éticos.</li>
-                  <li>Doble titulación con la Universidad Católica de Salta UCASAL.</li>
+                  {beneficios.map((beneficio, index) => (
+                    <li key={index}>
+                      {beneficio}{' '}
+                      {isEditable && (
+                        <button onClick={() => handleRemoveBeneficio(index)}>Eliminar</button>
+                      )}
+                    </li>
+                  ))}
                 </ul>
+                {isEditable && (
+                  <>
+                    <TextField
+                      label="Nuevo Beneficio"
+                      variant="outlined"
+                      value={nuevoBeneficio}
+                      onChange={(e) => setNuevoBeneficio(e.target.value)}
+                      fullWidth
+                      sx={{ marginBottom: 2 }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleAddBeneficio}
+                      fullWidth
+                    >
+                      Agregar Beneficio
+                    </Button>
+                  </>
+                )}
               </>
             }
             isImageOnly={false} // Tarjeta con imagen y texto

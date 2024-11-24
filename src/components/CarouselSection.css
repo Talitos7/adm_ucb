@@ -79,3 +79,17 @@
     width: 150px; /* Reduce el tamaño del GIF en pantallas más pequeñas */
   }
 }
+
+.edit-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #216869;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.edit-button:hover {
+  background-color: #49A078;
+}

@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import InfoSec from './components/secInfo'
 import BeneficiosSec from './components/beneficiosSec'
 import AdminPage from './views/admin';
+import Editar from './views/edit'
 import PublicationsIntercambio from './views/PublicationsIntercambio';
 import Bienvenida from './views/Bienvenida.js'
 import PublicationsAlumni from './views/PublicationsAlumni';
@@ -73,6 +74,17 @@ function App() {
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <AdminPage />
+              </>
+            }
+          />
+
+          {/* Página de pasantías */}
+          <Route
+            path="/Editar"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Editar />
               </>
             }
           />
