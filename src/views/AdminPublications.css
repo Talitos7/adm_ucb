@@ -3,20 +3,22 @@
   margin: 0 auto;
   padding: 2rem;
 }
-
-/* Estilo para el título en modo claro */
-.admin-publications-header h1 {
-  color: #0c446c; /* Color predeterminado del título */
+.admin-publications-container.dark-mode {
+  background-color: #303030;
+  color: #ffffff;
 }
 
-/* Título más claro en modo oscuro */
-.admin-publications-container.dark-mode .admin-publications-header h1 {
-  color: #ffffff; /* Color claro para el título en modo oscuro */
+.admin-publications-header.dark-mode h1 {
+  color: #ffffff !important;
 }
-
 .admin-publications-header {
   text-align: center;
   margin-bottom: 2rem;
+  color: #86a2b6; /* Color predeterminado (modo claro) */
+}
+
+.admin-publications-header.dark-mode{
+  color: #ffffff !important;
 }
 
 .admin-publications-grid {

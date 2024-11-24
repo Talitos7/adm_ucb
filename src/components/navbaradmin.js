@@ -10,7 +10,7 @@ const NavbarAdmin = ({ darkMode, handleThemeChange }) => {
     { label: 'Alumni', path: '/PublicationsAlumni' },
     { label: 'Intercambios', path: '/PublicationsIntercambio' },
     { label: 'Eventos', path: '/eventos' }, // Nueva opción
-    { label: 'Solicitudes', path: '/solicitudes' },
+    { label: 'Solicitudes', path: '/AdminPublications' },
     { label: 'Registro', path: '/UserRegistrationForm' },
   ];
 
