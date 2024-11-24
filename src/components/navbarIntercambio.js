@@ -4,7 +4,6 @@ import ResponsiveNavbar from './ResponsiveNavbarI';
 const NavbarUsuario = ({ darkMode, handleThemeChange }) => {
   const menuItems = [
     { label: 'Bienvenida', path: '/Bienvenida4' },
-    { label: 'aefgesgseg', path: '/EmpresasAliadas3' },
     { label: 'Empresas', path: '/EmpresasAliadas3' },
     { label: 'Pasantías', path: '/pasantiasEstudiantes2' },
     { label: 'Intercambios', path: '/IntercambioParaAlum' },

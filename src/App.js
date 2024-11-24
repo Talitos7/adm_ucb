@@ -34,12 +34,23 @@ import NavbarAlunmni from './components/navbarAlumni'
 import Empresas2 from './views/EmpresasAliadas2'
 //Centro
 import CentroPage from './views/centroPage'
-import Empresas4 from './views/EmpresasAliadas'
-import PasantiasUsuario3 from './views/pasantiasEstudiantes'
+import Bienvenida5 from './views/Bienvenida5'
+import Empresas4 from './views/EmpresasAliadas4'
+import PasantiasUsuario3 from './views/pasantiasEstudiantes3'
+import Interambios3 from './views/IntercambiosAlum3'
+import SociedadUsuarios3 from './views/SociedadUsuarios3'
+import AlumniUsuarios3 from './views/AlumniUsuarios3'
 import NavbarCentro from './components/navbarCentro'
 //Sociedad
 import SociedadPage from './views/sociedadPage';
+import Bienvenida6 from './views/Bienvenida6'
+import Empresas5 from './views/EmpresasAliadas5'
+import PasantiasUsuario4 from './views/pasantiasEstudiantes4'
+import Intercambios4 from './views/intercambioAlum4'
 import NavbarSociedad from './components/navbarSociedad'
+import SociedadPubli from './views/PubliSociedadAlum'
+import AlumniUsuarios4 from './views/AlumniUsuarios4'
+//cosas
 import Editar from './views/edit'
 import PublicationsIntercambio from './views/PublicationsIntercambio';
 import Bienvenida from './views/Bienvenida'
@@ -418,6 +429,156 @@ function App() {
               <>
                 <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <PublicationsAlumni2 />
+              </>
+            }
+          />
+
+           {/* Página de estudiante del centro */}
+         <Route
+            path="/centroPage"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <CentroPage />
+              </>
+            }
+          />
+
+          <Route
+            path="/Bienvenida5"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Bienvenida5 />
+              </>
+            }
+          />
+
+          <Route
+            path="/EmpresasAliadas4"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Empresas4 />
+              </>
+            }
+          />
+
+        <Route
+            path="/pasantiasEstudiantes3"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PasantiasUsuario3 />
+              </>
+            }
+          />
+
+          <Route
+            path="/IntercambiosAlum3"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Interambios3/>
+              </>
+            }
+          />
+          
+          <Route
+            path="/SociedadUsuarios3"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <SociedadUsuarios3/>
+              </>
+            }
+          />
+
+          <Route
+            path="/AlumniUsuarios3"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <AlumniUsuarios3/>
+              </>
+            }
+          />
+
+          {/* Ruta para la página de Perfil */}
+          <Route path="/perfil" element={
+          <>
+          <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <Perfil /> {/* Componente que renderiza la vista de pasantías */}
+          </>
+        } />
+
+          {/* Página de eSociedad*/}
+         <Route
+            path="/sociedadPage"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <SociedadPage/>
+              </>
+            }
+          />
+
+          <Route
+            path="/Bienvenida6"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Bienvenida6/>
+              </>
+            }
+          />
+
+          <Route
+            path="/EmpresasAliadas5"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Empresas5/>
+              </>
+            }
+          />
+
+          <Route
+            path="/pasantiasEstudiantes4"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PasantiasUsuario4/>
+              </>
+            }
+          />
+
+          <Route
+            path="/intercambioAlum4"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Intercambios4/>
+              </>
+            }
+          />
+          
+          <Route
+            path="/PubliSociedadAlum"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <SociedadPubli/>
+              </>
+            }
+          />
+
+          <Route
+            path="/AlumniUsuarios4"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <AlumniUsuarios4/>
               </>
             }
           />
