@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Importación única
 import NavbarInvitado from './components/NavbarInvitado';
 //import NavbarEstudiante from './components/NavbarEstudiante';
-import NavbarAdmin from './components/NavbarAdmin';
+import NavbarAdmin from './components/navbaradmin';
 import Pasantias from './views/pasantias';
 import Perfil from './views/perfil';
 import CarouselSection from './components/CarouselSection';
