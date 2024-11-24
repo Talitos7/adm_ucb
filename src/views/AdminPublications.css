@@ -8,17 +8,8 @@
   color: #ffffff;
 }
 
-.admin-publications-header.dark-mode h1 {
-  color: #ffffff !important;
-}
 .admin-publications-header {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #86a2b6; /* Color predeterminado (modo claro) */
-}
-
-.admin-publications-header.dark-mode{
-  color: #ffffff !important;
 }
 
 .admin-publications-grid {
@@ -35,6 +26,11 @@
   padding: 1rem;
 }
 
+.admin-publication-card.dark-mode {
+  background: #424242; /* Fondo oscuro */
+  border-color: #555; /* Borde ligeramente más claro */
+  color: #fff; /* Texto blanco para mayor contraste */
+}
 .admin-publication-card h2 {
   margin: 0;
   font-size: 1.2rem;
@@ -52,11 +48,7 @@
   color: #fff;
 }
 
-.admin-publication-card.dark-mode {
-  background: #424242; /* Fondo oscuro */
-  border-color: #555; /* Borde ligeramente más claro */
-  color: #fff; /* Texto blanco para mayor contraste */
-}
+
 
 .admin-publication-card.dark-mode h2 {
   color: #f1f1f1; /* Títulos más claros */
