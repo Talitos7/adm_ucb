@@ -8,13 +8,15 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
-import AccountCircle from '@mui/icons-material/AccountCircle'; 
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useNavigate } from 'react-router-dom';
 
-export default function AccountMenu() {
+export default function AccountMenu({ darkMode, handleThemeChange }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate(); // Hook de navegación
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,15 +26,14 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
 
-  // Redirigir a la página admin cuando se hace clic en "Iniciar Sesión"
   const handleLoginClick = () => {
     navigate('/login'); // Redirige a la página de inicio de sesión
     handleClose();
-  };  
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('usuario'); // Elimina los datos del usuario
-    navigate('App.js'); // Redirige al login
+    navigate('/'); // Redirige al inicio
     handleClose();
   };
 
@@ -49,7 +50,7 @@ export default function AccountMenu() {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar sx={{ width: 32, height: 32 }}>
-              <AccountCircle fontSize="large" /> {/* Ícono de perfil vacío */}
+              <AccountCircle fontSize="large" />
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -91,11 +92,13 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleLoginClick}> {/* Redirige a admin */}
+        <MenuItem onClick={handleLoginClick}>
           <Avatar /> Iniciar Sesión
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleThemeChange}>
+          <ListItemIcon>{darkMode ? <Brightness7Icon /> : <Brightness4Icon />}</ListItemIcon>
+          {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
