@@ -1,5 +1,5 @@
 import React from 'react';
-import ResponsiveNavbar from './ResponsiveNavbar';
+import ResponsiveNavbar from './ResponsiveNavbarI';
 const NavbarAdmin = ({ darkMode, handleThemeChange }) => {
   const menuItems = [
     { label: 'Bienvenida', path: '/Bienvenida' },
