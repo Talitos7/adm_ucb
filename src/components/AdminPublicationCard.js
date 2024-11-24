@@ -1,17 +1,19 @@
 import React from 'react';
 import './AdminPublicationCard.css';
 
-const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
+const AdminPublicationCard = ({ publication, onAction, darkMode, onCardClick }) => {
   const { idpublicacion, titulo, detalle, categoria, multimedia } = publication;
 
   return (
-    
-    <div className={`admin-publication-card ${darkMode ? 'dark-mode' : ''}`}>
+    <div
+      className={`admin-publication-card ${darkMode ? 'dark-mode' : ''}`}
+      onClick={onCardClick} // Abrir el modal al hacer clic en la tarjeta
+    >
       {/* Mostrar la imagen si está disponible */}
       {multimedia && (
         <div className="image-container">
           <img
-            src={`/src/assets/${multimedia}`} // Asegúrate de que esta sea la ruta correcta para tus imágenes
+            src={`/src/assets/${multimedia}`}
             alt={titulo}
             className="publication-image"
           />
@@ -19,28 +21,36 @@ const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
       )}
 
       {/* Detalles de la publicación */}
-      <h2 className={`titulo ${darkMode ? 'dark-mode' : ''}`}></h2>
-      <h2 className={darkMode ? 'dark-text' : ''}>{titulo}</h2>
-      <p className={darkMode ? 'dark-text' : ''}>{detalle}</p>
-      <p className={darkMode ? 'dark-text' : ''}><strong>Categoría:</strong> {categoria}</p>
+      <div className="publication-details">
+        <h2 className="publication-author">{titulo}</h2>
+        <p className="publication-description">{detalle}</p>
+        <p className="publication-email">
+          <strong>Categoría:</strong> {categoria}
+        </p>
+      </div>
 
       {/* Botones de acción */}
       <div className="action-buttons">
         <button
-          className={`action-btn approve ${darkMode ? 'dark-btn' : ''}`}
-          onClick={() => onAction(idpublicacion, true)}  // Aprobar
+          className="action-btn approve"
+          onClick={(e) => {
+            e.stopPropagation(); // Evitar que se active el modal al hacer clic en el botón
+            onAction(idpublicacion, true);
+          }}
         >
           Aprobar
         </button>
         <button
-          className={`action-btn reject ${darkMode ? 'dark-btn' : ''}`}
-          onClick={() => onAction(idpublicacion, false)}  // Rechazar
+          className="action-btn reject"
+          onClick={(e) => {
+            e.stopPropagation(); // Evitar que se active el modal al hacer clic en el botón
+            onAction(idpublicacion, false);
+          }}
         >
           Rechazar
         </button>
       </div>
     </div>
-  
   );
 };
 

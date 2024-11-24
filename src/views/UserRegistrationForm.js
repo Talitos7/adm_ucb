@@ -35,25 +35,29 @@ export default function UserRegistration({darkMode}) {
         let error = '';
         if (name === 'emailAdm' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
             error = 'Por favor, ingresa un correo electrónico válido.';
-        }
-        if (name === 'password' && value.length < 6) {
+        } else if (name === 'password' && value.length < 6) {
             error = 'La contraseña debe tener al menos 6 caracteres.';
-        }
-        if (name === 'celular' && !/^\d{8,15}$/.test(value)) {
+        } else if (name === 'celular' && !/^\d{8,15}$/.test(value)) {
             error = 'Por favor, ingresa un número de celular válido.';
-        }
-        if (name === 'apellido' && !value.trim()) {  
+        } else if (name === 'apellido' && !value.trim()) {
             error = 'El apellido es obligatorio.';
         }
-        setErrors({ ...errors, [name]: error });
+    
+        setErrors((prevErrors) => {
+            const updatedErrors = { ...prevErrors, [name]: error };
+            if (!error) {
+                delete updatedErrors[name]; 
+            }
+            return updatedErrors;
+        });
     };
+    
 
     const validateForm = () => {
         const newErrors = {};
         if (!formData.emailAdm) newErrors.emailAdm = 'El correo del admin es obligatorio.';
         if (!isDeleteMode) {
-            if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio.';
-            if (!formData.apellido) newErrors.apellido = 'El apellido es obligatorio.'; 
+            if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio.'; 
             if (!formData.password) newErrors.password = 'La contraseña es obligatoria.';
             if (!formData.celular) newErrors.celular = 'El celular es obligatorio.';
             if (!formData.emailContacto) newErrors.emailContacto = 'El email de contacto es obligatorio.';
