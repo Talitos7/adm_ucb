@@ -6,10 +6,10 @@ const NavbarUsuario = ({ darkMode, handleThemeChange }) => {
     { label: 'Bienvenida', path: '/Bienvenida2' },
     { label: 'Empresas', path: '/empresas' },
     { label: 'Pasantías', path: '/pasantiasEstudiantes' },
-    { label: 'Intercambios', path: '/IntercambioParaUsuarios' },
-    { label: 'Sociedad Científica', path: '/SociedadUsuarios' },
+    { label: 'Intercambios', path: '/PublicationsIntercambio' },
+    { label: 'Sociedad Científica', path: '/PublicationsSociedad' },
     { label: 'Alumni', path: '/AlumniUsuarios' },
-    { label: 'Eventos', path: '/EventosUsuarios' }, // Nueva opción
+    { label: 'Eventos', path: '/eventos' }, // Nueva opción
   ];
 
   return (
