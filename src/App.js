@@ -12,6 +12,7 @@ import InfoSec from './components/secInfo'
 import BeneficiosSec from './components/beneficiosSec'
 import AdminPage from './views/admin';
 import PublicationsIntercambio from './views/PublicationsIntercambio';
+import Bienvenida from './views/Bienvenida.js'
 import PublicationsAlumni from './views/PublicationsAlumni';
 import PublicationsSociedad from './views/PublicationsSociedad';
 import MallaCurricular from './views/MallaCurricular';
@@ -83,6 +84,17 @@ function App() {
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <Pasantias />
+              </>
+            }
+          />
+
+          {/* Página de publicaciones */}
+          <Route
+            path="/Bienvenida"
+            element={
+              <>
+                <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Bienvenida darkMode={darkMode} />
               </>
             }
           />

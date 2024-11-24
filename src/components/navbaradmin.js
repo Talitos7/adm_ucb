@@ -2,7 +2,7 @@ import React from 'react';
 import ResponsiveNavbar from './ResponsiveNavbar';
 const NavbarAdmin = ({ darkMode, handleThemeChange }) => {
   const menuItems = [
-    { label: 'Bienvenida', path: '/AdminPage' },
+    { label: 'Bienvenida', path: '/Bienvenida' },
     { label: 'Empresas', path: '/empresasAdmi' },
     { label: 'Pasantías', path: '/pasantias' },
     { label: 'Publicaciones', path: '/AdminPublications' },
