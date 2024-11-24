@@ -42,7 +42,7 @@ export default function UserRegistration({darkMode}) {
         if (name === 'celular' && !/^\d{8,15}$/.test(value)) {
             error = 'Por favor, ingresa un número de celular válido.';
         }
-        if (name === 'apellido' && !value.trim()) {  // Validación para el apellido
+        if (name === 'apellido' && !value.trim()) {  
             error = 'El apellido es obligatorio.';
         }
         setErrors({ ...errors, [name]: error });
@@ -72,6 +72,23 @@ export default function UserRegistration({darkMode}) {
                 text: 'Por favor, corrige los errores antes de enviar.',
             });
             return;
+        }
+
+        if (isDeleteMode) {
+            const result = await Swal.fire({
+                title: '¿Está seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+            });
+
+            if (!result.isConfirmed) {
+                return;
+            }
         }
 
         setIsSubmitting(true);
@@ -174,6 +191,8 @@ export default function UserRegistration({darkMode}) {
                                         name="apellido"
                                         value={formData.apellido}
                                         onChange={handleInputChange}
+                                        error={!!errors.apellido}
+                                        helperText={errors.apellido}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
