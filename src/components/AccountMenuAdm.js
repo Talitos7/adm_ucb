@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -6,41 +6,39 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useNavigate } from 'react-router-dom';
 
-export default function AccountMenu() {
+const AccountMenu = ({ darkMode, handleThemeChange }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const navigate = useNavigate(); // Hook de navegación
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleUserExit = () => {
-    navigate('../')
-  }
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // Redirigir a la página de Pasantías
-  const handlePerfilClick = () => {
-    navigate('/perfil'); 
-    handleClose(); 
+  const handleUserExit = () => {
+    navigate('../');
   };
 
+  const handlePerfilClick = () => {
+    navigate('/perfil');
+    handleClose();
+  };
 
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title="Configuaraciones">
+        <Tooltip title="Configuraciones">
           <IconButton
             onClick={handleClick}
             size="small"
@@ -50,7 +48,7 @@ export default function AccountMenu() {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar sx={{ width: 32, height: 32 }}>
-              <AccountCircle fontSize="large" /> {/* Ícono de perfil vacío */}
+              <AccountCircle fontSize="large" />
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -92,10 +90,16 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handlePerfilClick}> {/* Redirige al Perfil */}
+        <MenuItem onClick={handlePerfilClick}>
           <Avatar /> Ver perfil
         </MenuItem>
         <Divider />
+        <MenuItem onClick={handleThemeChange}>
+          <ListItemIcon>
+            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </ListItemIcon>
+          {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
+        </MenuItem>
         <MenuItem onClick={handleUserExit}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -105,4 +109,6 @@ export default function AccountMenu() {
       </Menu>
     </React.Fragment>
   );
-}
+};
+
+export default AccountMenu;
