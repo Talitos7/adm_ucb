@@ -5,6 +5,7 @@ const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
   const { idpublicacion, titulo, detalle, categoria, multimedia } = publication;
 
   return (
+    
     <div className={`admin-publication-card ${darkMode ? 'dark-mode' : ''}`}>
       {/* Mostrar la imagen si está disponible */}
       {multimedia && (
@@ -18,6 +19,7 @@ const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
       )}
 
       {/* Detalles de la publicación */}
+      <h2 className={`titulo ${darkMode ? 'dark-mode' : ''}`}></h2>
       <h2 className={darkMode ? 'dark-text' : ''}>{titulo}</h2>
       <p className={darkMode ? 'dark-text' : ''}>{detalle}</p>
       <p className={darkMode ? 'dark-text' : ''}><strong>Categoría:</strong> {categoria}</p>
@@ -38,6 +40,7 @@ const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
         </button>
       </div>
     </div>
+  
   );
 };
 

@@ -3,20 +3,13 @@
   margin: 0 auto;
   padding: 2rem;
 }
-
-/* Estilo para el título en modo claro */
-.admin-publications-header h1 {
-  color: #0c446c; /* Color predeterminado del título */
-}
-
-/* Título más claro en modo oscuro */
-.admin-publications-container.dark-mode .admin-publications-header h1 {
-  color: #ffffff; /* Color claro para el título en modo oscuro */
+.admin-publications-container.dark-mode {
+  background-color: #303030;
+  color: #ffffff;
 }
 
 .admin-publications-header {
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 .admin-publications-grid {
@@ -33,6 +26,11 @@
   padding: 1rem;
 }
 
+.admin-publication-card.dark-mode {
+  background: #424242; /* Fondo oscuro */
+  border-color: #555; /* Borde ligeramente más claro */
+  color: #fff; /* Texto blanco para mayor contraste */
+}
 .admin-publication-card h2 {
   margin: 0;
   font-size: 1.2rem;
@@ -50,11 +48,7 @@
   color: #fff;
 }
 
-.admin-publication-card.dark-mode {
-  background: #424242; /* Fondo oscuro */
-  border-color: #555; /* Borde ligeramente más claro */
-  color: #fff; /* Texto blanco para mayor contraste */
-}
+
 
 .admin-publication-card.dark-mode h2 {
   color: #f1f1f1; /* Títulos más claros */
