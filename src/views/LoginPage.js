@@ -60,13 +60,13 @@ function LoginPage() {
                 navigate('/IntercambioPage');
                 break;
             case 'centro':
-              navigate('/#'); // Agregar página de estudiante del centro
+              navigate('/centroPage'); // Agregar página de estudiante del centro
               break;
             case 'sociedad':
-              navigate('/#'); // Agregar página de estudiante de la sociedad científica
+              navigate('/sociedadPage'); // Agregar página de estudiante de la sociedad científica
               break;
             case 'alumni':
-              navigate('/#'); // Agregar página de alumni
+              navigate('/AlumniPage'); // Agregar página de alumni
               break;
             default:
               setError('Rol no reconocido');

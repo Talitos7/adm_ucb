@@ -15,12 +15,38 @@ import AdminPage from './views/admin';
 import EstudiantePage from './views/estudiante'
 import PasantiasUsuario from './views/pasantiasEstudiantes'
 import AlumniUsuarios from './views/AlumniUsuarios'
+//Estudiantes
+import PublicacionesdeInter from './views/IntercambioParaUsuarios'
+import SociedadUsuarios from './views/SociedadUsuarios'
+import EventosUsuario from './views/EventosUsuarios'
+//Intercambio
 import IntercambioPage from './views/IntercambioPage';
+import Bienvenida4 from './views/Bienvenida4'
+import NavbarIntercambio from './components/navbarIntercambio'
+import PasantiasUsuario2 from './views/pasantiasEstudiantes2'
+import PIntercambio from './views/IntercambioParaAlum'
+import Empresas3 from './views/EmpresasAliadas3'
+import AlumniUsuario2 from './views/AlumniUsuarios2'
+import SociedadUsuarios2 from './views/SociedadUsuarios2'
+//Alumni
+import AlumniPage from './views/AlumniPage';
+import NavbarAlunmni from './components/navbarAlumni'
+import Empresas2 from './views/EmpresasAliadas2'
+//Centro
+import CentroPage from './views/centroPage'
+import Empresas4 from './views/EmpresasAliadas'
+import PasantiasUsuario3 from './views/pasantiasEstudiantes'
+import NavbarCentro from './components/navbarCentro'
+//Sociedad
+import SociedadPage from './views/sociedadPage';
+import NavbarSociedad from './components/navbarSociedad'
 import Editar from './views/edit'
 import PublicationsIntercambio from './views/PublicationsIntercambio';
 import Bienvenida from './views/Bienvenida'
 import Bienvenida2 from './views/Bienvenida2'
+import Bienvenida3 from './views/Bienvenida3'
 import PublicationsAlumni from './views/PublicationsAlumni';
+import PublicationsAlumni2 from './views/PublicationsparaAlumni';
 import PublicationsSociedad from './views/PublicationsSociedad';
 import MallaCurricular from './views/MallaCurricular';
 import LoginPage from './views/LoginPage';
@@ -231,6 +257,39 @@ function App() {
             }
           />
 
+          {/* Página de Intercambio par estudiantes*/}
+          <Route
+            path="/IntercambioParaUsuarios"
+            element={
+              <>
+                <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicacionesdeInter darkMode={darkMode} />
+              </>
+            }
+          />
+
+          {/* Página de Sociedad para Estudiantes*/}
+          <Route
+            path="/SociedadUsuarios"
+            element={
+              <>
+                <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <SociedadUsuarios darkMode={darkMode} />
+              </>
+            }
+          />
+
+          {/* Página de Eventos para Estudiantes*/}
+          <Route
+            path="/EventosUsuarios"
+            element={
+              <>
+                <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <EventosUsuario darkMode={darkMode} />
+              </>
+            }
+          />
+
           {/* Página de Alumni para Usuarios*/}
           <Route
             path="/AlumniUsuarios"
@@ -250,13 +309,115 @@ function App() {
           </>
         } />
 
-         {/* Página de estudiante de intercambio */}
-         <Route
+
+          <Route
             path="/IntercambioPage"
             element={
               <>
-                <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <IntercambioPage />
+              </>
+            }
+          />
+
+          {/* Página de Bienvenida*/}
+          <Route
+            path="/Bienvenida4"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Bienvenida4 darkMode={darkMode} />
+              </>
+            }
+          />
+
+          <Route
+            path="/EmpresasAliadas3"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Empresas3 />
+              </>
+            }
+          />
+
+          {/* Página de publicaciones */}
+          <Route
+            path="/IntercambioParaAlum"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PIntercambio darkMode={darkMode} />
+              </>
+            }
+          />
+
+          <Route
+            path="/pasantiasEstudiantes2"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PasantiasUsuario2 />
+              </>
+            }
+          />
+
+          <Route
+            path="/AlumniUsuarios2"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <AlumniUsuario2 />
+              </>
+            }
+          />
+
+          <Route
+            path="/SociedadUsuarios2"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <SociedadUsuarios2 />
+              </>
+            }
+          />
+
+          {/* Página de estudiante de Alumni */}
+         <Route
+            path="/AlumniPage"
+            element={
+              <>
+                <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <AlumniPage />
+              </>
+            }
+          />
+          {/* Página de Bienvenida*/}
+          <Route
+            path="/Bienvenida3"
+            element={
+              <>
+                <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Bienvenida3 darkMode={darkMode} />
+              </>
+            }
+          />
+          <Route
+            path="/EmpresasAliadas2"
+            element={
+              <>
+                <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Empresas2 />
+              </>
+            }
+          />
+
+          <Route
+            path="/PublicationsparaAlumni"
+            element={
+              <>
+                <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <PublicationsAlumni2 />
               </>
             }
           />
