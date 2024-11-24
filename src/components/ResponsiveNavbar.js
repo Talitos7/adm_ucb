@@ -69,7 +69,20 @@ const ResponsiveNavbar = ({ menuItems, darkMode, handleThemeChange }) => {
         {/* Menú para pantallas grandes */}
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           {menuItems.map((item) => (
-            <Button key={item.label} sx={{ my: 2, color: 'inherit' }} onClick={() => navigateTo(item.path)}>
+            <Button
+              key={item.label}
+              sx={{
+                my: 2,
+                color: 'inherit',
+                fontSize: '0.875rem', // Ajuste de tamaño más pequeño
+                textTransform: 'none', // Evitar que el texto se transforme a mayúsculas
+                '&:hover': {
+                  color: '#1976d2', // Cambia el color al pasar el ratón (puedes cambiar el color aquí)
+                  backgroundColor: 'transparent', // Puedes agregar un color de fondo si lo deseas
+                },
+              }}
+              onClick={() => navigateTo(item.path)}
+            >
               {item.label}
             </Button>
           ))}
