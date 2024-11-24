@@ -20,60 +20,71 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 
 const EditarEvento = ({ evento, onClose, onEventoActualizado }) => {
-  const [titulo, setTitulo] = useState('');
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFin, setFechaFin] = useState(null);
   const [hora, setHora] = useState(null);
   const [enlaceRegistro, setEnlaceRegistro] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [estado, setEstado] = useState(true); // Valor booleano
   const [foto, setFoto] = useState(null);
   const [fotoPreview, setFotoPreview] = useState(null);
 
   useEffect(() => {
     if (evento) {
-      setTitulo(evento.titulo);
       setFechaInicio(evento.fechainicio ? dayjs(evento.fechainicio) : null);
       setFechaFin(evento.fechafin ? dayjs(evento.fechafin) : null);
-      setHora(evento.hora ? dayjs(evento.hora, 'HH:mm') : null);
-      setEnlaceRegistro(evento.enlaceregistro);
-      setDescripcion(evento.descripcion);
+      setHora(evento.hora ? dayjs(evento.hora) : null);
+      setEnlaceRegistro(evento.enlaceregistro || '');
+      setDescripcion(evento.descripcion || '');
+      setEstado(evento.estado);
       setFotoPreview(evento.urlfotoevento || null);
     }
   }, [evento]);
 
   const handleEditarEvento = async () => {
     try {
-      const formData = new FormData();
-      formData.append('titulo', titulo);
-      formData.append('fechaInicio', fechaInicio ? fechaInicio.format('YYYY-MM-DD') : '');
-      formData.append('fechaFin', fechaFin ? fechaFin.format('YYYY-MM-DD') : '');
-      formData.append('hora', hora ? hora.format('HH:mm') : '');
-      formData.append('enlaceRegistro', enlaceRegistro);
-      formData.append('descripcion', descripcion);
+      const token = localStorage.getItem('token');
 
       // Subir foto si hay una seleccionada
+      let fotoPath = evento.urlfotoevento; // Mantener la URL actual si no hay nueva foto
       if (foto) {
-        const filePath = `servicios/uploadsEventos/${foto.name}`;
-        formData.append('urlFotoEvento', filePath);
+        const formData = new FormData();
+        formData.append('file', foto);
 
-        await axios.post('http://localhost/adm_ucb/src/servicios/subirArchivo.php', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        const uploadResponse = await axios.post(
+          'http://localhost/adm_ucb/src/servicios/subirArchivo.php',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (uploadResponse.data.status === 'success') {
+          fotoPath = uploadResponse.data.filePath;
+        } else {
+          throw new Error('Error al subir la foto');
+        }
       }
 
       // Actualizar el evento
       await axios.put(
         `http://localhost/adm_ucb/src/servicios/eventosAPI.php?idEvento=${evento.idevento}`,
         {
-          titulo,
-          fechaInicio: fechaInicio ? fechaInicio.format('YYYY-MM-DD') : '',
-          fechaFin: fechaFin ? fechaFin.format('YYYY-MM-DD') : '',
-          hora: hora ? hora.format('HH:mm') : '',
-          enlaceRegistro,
+          fechainicio: fechaInicio ? fechaInicio.format('YYYY-MM-DD') : '',
+          fechafin: fechaFin ? fechaFin.format('YYYY-MM-DD') : '',
+          hora: hora ? `${fechaInicio.format('YYYY-MM-DD')} ${hora.format('HH:mm:ss')}` : '',
+          enlaceregistro: enlaceRegistro,
           descripcion,
-          urlFotoEvento: foto ? `servicios/uploadsEventos/${foto.name}` : evento.urlfotoevento,
+          estado,
+          urlfotoevento: fotoPath,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -82,12 +93,9 @@ const EditarEvento = ({ evento, onClose, onEventoActualizado }) => {
         text: 'El evento se actualizó correctamente.',
         icon: 'success',
         confirmButtonText: 'OK',
-        customClass: {
-          popup: 'swal2-front', // Asegura que el SweetAlert esté al frente
-        },
       }).then(() => {
         onEventoActualizado();
-        onClose(); // Cierra el modal
+        onClose(); // Cierra el componente después de la confirmación
       });
     } catch (error) {
       console.error('Error al actualizar evento:', error);
@@ -96,6 +104,8 @@ const EditarEvento = ({ evento, onClose, onEventoActualizado }) => {
         text: 'No se pudo actualizar el evento.',
         icon: 'error',
         confirmButtonText: 'OK',
+      }).then(() => {
+        onClose(); // Cierra el componente incluso si hay error
       });
     }
   };
@@ -106,7 +116,7 @@ const EditarEvento = ({ evento, onClose, onEventoActualizado }) => {
       setFoto(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFotoPreview(reader.result); // Muestra una vista previa de la imagen
+        setFotoPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -131,13 +141,6 @@ const EditarEvento = ({ evento, onClose, onEventoActualizado }) => {
       </DialogTitle>
       <DialogContent>
         <Box component="form" sx={{ mt: 2 }}>
-          <TextField
-            label="Título"
-            fullWidth
-            margin="normal"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-          />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Fecha Inicio"
@@ -191,7 +194,7 @@ const EditarEvento = ({ evento, onClose, onEventoActualizado }) => {
           >
             {fotoPreview && (
               <img
-                src={fotoPreview}
+                src={`http://localhost/adm_ucb/src/${fotoPreview}`}
                 alt="Vista previa"
                 style={{ maxHeight: '200px', marginBottom: '10px', objectFit: 'contain' }}
               />

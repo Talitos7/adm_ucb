@@ -1,11 +1,14 @@
 <?php
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Cambia por tu dominio
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header('Content-Type: application/json');
 include 'conexion.php';
 include 'middleware.php';
 include 'headers.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 // Validar límite de solicitudes
 checkRateLimit($conn, $_SERVER['REMOTE_ADDR']);
 
@@ -39,13 +42,16 @@ switch ($method) {
         }
         break;
 
-    case 'PUT':
-        if ($input && isset($_GET['idEvento'])) {
-            updateEvento($_GET['idEvento'], $input);
-        } else {
-            response("error", "Faltan datos para la actualización.");
-        }
-        break;
+        case 'PUT':
+            if (isset($_GET['action']) && $_GET['action'] === 'changeState' && isset($_GET['idEvento'])) {
+                changeState($_GET['idEvento']);
+            } elseif ($input && isset($_GET['idEvento'])) {
+                updateEvento($_GET['idEvento'], $input);
+            } else {
+                response("error", "Faltan datos para la actualización.");
+            }
+            break;
+        
 
     case 'DELETE':
         if (isset($_GET['idEvento'])) {
@@ -79,7 +85,6 @@ function getEventos() {
     response("success", "Eventos obtenidos exitosamente.", $eventos);
 }
 
-
 // Obtener un evento por ID
 function getEvento($idEvento) {
     global $conn;
@@ -97,26 +102,50 @@ function getEvento($idEvento) {
 
 // Crear un nuevo evento
 function createEvento($data) {
-    global $conn;
-    $query = "INSERT INTO evento (fechaInicio, fechaFin, hora, enlaceRegistro, descripcion, estado, usuario_emailAdm, titulo, urlFotoEvento) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    global $conn, $key;
+
+    // Validar el token JWT
+    $headers = getallheaders();
+    if (!isset($headers['Authorization'])) {
+        response("error", "No autorizado. Token faltante.");
+    }
+
+    $jwt = str_replace("Bearer ", "", $headers['Authorization']);
+
+    try {
+        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+    } catch (Exception $e) {
+        response("error", "Token inválido: " . $e->getMessage());
+    }
+
+    // Combinar fecha y hora correctamente
+    $fechaHora = $data['fechainicio'] . ' ' . $data['hora'];
+
+    // Crear el evento
+    $query = "INSERT INTO evento (fechainicio, fechafin, hora, enlaceregistro, descripcion, estado, usuario_emailadm, urlfotoevento) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
-    if ($stmt->execute([
-        $data['fechaInicio'],
-        $data['fechaFin'],
-        $data['hora'],
-        $data['enlaceRegistro'],
-        $data['descripcion'],
-        $data['estado'],
-        $data['usuario_emailAdm'],
-        $data['titulo'],
-        $data['urlFotoEvento']
-    ])) {
-        $lastId = $conn->lastInsertId();
-        response("success", "Evento creado exitosamente.", ["idEvento" => $lastId]);
-    } else {
-        response("error", "Error al crear el evento.");
+    try {
+        $values = [
+            $data['fechainicio'],
+            $data['fechafin'],
+            $fechaHora, // Fecha y hora combinadas
+            $data['enlaceregistro'],
+            $data['descripcion'],
+            filter_var($data['estado'], FILTER_VALIDATE_BOOLEAN) ? 'TRUE' : 'FALSE',
+            $data['usuario_emailAdm'],
+            $data['urlfotoevento']
+        ];
+
+        if ($stmt->execute($values)) {
+            $lastId = $conn->lastInsertId();
+            response("success", "Evento creado exitosamente.", ["idEvento" => $lastId]);
+        } else {
+            response("error", "Error al crear el evento.");
+        }
+    } catch (PDOException $e) {
+        response("error", "Error al crear el evento: " . $e->getMessage());
     }
 }
 
@@ -124,47 +153,44 @@ function createEvento($data) {
 function updateEvento($idEvento, $data) {
     global $conn;
 
-    $query = "UPDATE evento SET ";
-
-    // Construir los campos dinámicamente según los datos enviados
-    $fields = [];
-    $values = [];
-    foreach ($data as $key => $value) {
-        $fields[] = "$key = ?";
-        if ($key === 'estado') {
-            // Convertir booleano a formato aceptado por PostgreSQL
-            $values[] = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'TRUE' : 'FALSE';
-        } else {
-            $values[] = $value;
-        }
-    }
-    $query .= implode(', ', $fields) . " WHERE idEvento = ?";
-
-    // Agregar el ID del evento al final de los valores
-    $values[] = $idEvento;
+    $query = "UPDATE evento SET 
+                fechainicio = ?, 
+                fechafin = ?, 
+                hora = ?, 
+                enlaceregistro = ?, 
+                descripcion = ?, 
+                estado = ?, 
+                urlfotoevento = ? 
+              WHERE idevento = ?";
 
     $stmt = $conn->prepare($query);
 
     try {
-        $stmt->execute($values);
+        $stmt->execute([
+            $data['fechainicio'],
+            $data['fechafin'],
+            $data['hora'],
+            $data['enlaceregistro'],
+            $data['descripcion'],
+            filter_var($data['estado'], FILTER_VALIDATE_BOOLEAN) ? 'TRUE' : 'FALSE',
+            $data['urlfotoevento'],
+            $idEvento
+        ]);
+
         if ($stmt->rowCount() > 0) {
             response("success", "Evento actualizado exitosamente.");
         } else {
             response("warning", "No se realizaron cambios en el evento.");
         }
     } catch (PDOException $e) {
-        response("error", "Error de base de datos: " . $e->getMessage());
+        response("error", "Error al actualizar el evento: " . $e->getMessage());
     }
 }
-
-
-
-
-
 
 // Eliminar un evento
 function deleteEvento($idEvento) {
     global $conn;
+
     $query = "DELETE FROM evento WHERE idEvento = ?";
     $stmt = $conn->prepare($query);
 
@@ -174,4 +200,31 @@ function deleteEvento($idEvento) {
         response("error", "Error al eliminar el evento.");
     }
 }
+function changeState($idEvento) {
+    global $conn;
+
+    // Verificar que se reciba un ID válido
+    if (!$idEvento) {
+        response("error", "ID del evento es obligatorio.");
+    }
+
+    try {
+        // Cambiar el estado a false
+        $query = "UPDATE evento SET estado = FALSE WHERE idevento = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$idEvento]);
+
+        // Registrar el resultado de la operación
+        if ($stmt->rowCount() > 0) {
+            response("success", "Estado cambiado exitosamente.");
+        } else {
+            response("warning", "No se realizaron cambios en el evento.");
+        }
+    } catch (PDOException $e) {
+        // Registrar errores en la base de datos
+        response("error", "Error al cambiar el estado del evento: " . $e->getMessage());
+    }
+}
+
+
 ?>

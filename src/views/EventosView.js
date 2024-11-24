@@ -37,15 +37,20 @@ const EventosView = () => {
 
     if (confirmResult.isConfirmed) {
       try {
-        await axios.put(`http://localhost/adm_ucb/src/servicios/eventosAPI.php?idEvento=${idEvento}`, {
-          estado: false, // Cambiar el estado a falso para deshabilitar
-        });
+        console.log('ID del evento enviado:', idEvento); // Depuración en consola
+        const response = await axios.put(
+          `http://localhost/adm_ucb/src/servicios/eventosAPI.php?action=changeState&idEvento=${idEvento}`
+        );
+
+        console.log('Respuesta del backend:', response.data); // Depuración en consola
+
         Swal.fire({
           title: 'Deshabilitado',
           text: 'El evento ha sido deshabilitado exitosamente.',
           icon: 'success',
           confirmButtonText: 'OK',
         });
+
         setReload(!reload); // Recargar la lista después de deshabilitar
       } catch (error) {
         console.error('Error al deshabilitar el evento:', error);
@@ -55,6 +60,8 @@ const EventosView = () => {
           icon: 'error',
           confirmButtonText: 'OK',
         });
+      } finally {
+        handleCloseEditar(); // Cerrar el modal después del intento de eliminación
       }
     }
   };
@@ -91,7 +98,7 @@ const EventosView = () => {
           <CrearEvento
             onEventoCreado={() => {
               setReload(!reload); // Actualizar la lista
-              setOpenCrear(false); // Cerrar modal
+              handleCloseCrear(); // Cerrar modal
             }}
             onClose={handleCloseCrear}
           />
