@@ -8,11 +8,8 @@ import {
   Box,
   Button,
   Tooltip,
-  Switch,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AccountMenu from './AccountMenuAdm'; // Ajusta si tu menú de cuenta es diferente
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/ADMLogo.png';
@@ -88,14 +85,10 @@ const ResponsiveNavbar = ({ menuItems, darkMode, handleThemeChange }) => {
           ))}
         </Box>
 
-        {/* Controles para tema oscuro y menú de cuenta */}
+        {/* Menú de cuenta */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <IconButton onClick={handleThemeChange} color="inherit">
-            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-          <Switch checked={darkMode} onChange={handleThemeChange} />
           <Tooltip title="Configuraciones">
-            <AccountMenu /> {/* Este componente debe ser reutilizable y contener las opciones del usuario */}
+            <AccountMenu darkMode={darkMode} handleThemeChange={handleThemeChange} />
           </Tooltip>
         </Box>
       </Toolbar>

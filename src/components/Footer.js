@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Box, Typography, IconButton, Link } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import Logo from '../assets/ADMLogo.png';
 import { motion } from 'framer-motion';  // Importamos Framer Motion
@@ -48,15 +48,16 @@ const Footer = () => {
             <Box mt={2}>
               <Typography variant="body1" gutterBottom>Nuestra Ubicación:</Typography>
               <iframe
+                title='iframe'
                 width="100%"
                 height="200"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.068382077039!2d-68.11456612605546!3d-16.522645041306383!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f20ee187a3103%3A0x2f2bb2b7df32a24d!2sUniversidad%20Cat%C3%B3lica%20Boliviana%20%22San%20Pablo%22!5e0!3m2!1ses!2sbo!4v1732418348691!5m2!1ses!2sbo"
-                frameBorder="0"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
+              >
+              </iframe>
             </Box>
           </Box>
 
