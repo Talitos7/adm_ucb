@@ -9,7 +9,7 @@ const NavbarUsuario = ({ darkMode, handleThemeChange }) => {
     { label: 'Intercambios', path: '/intercambioAlum4' },
     { label: 'Sociedad Científica', path: '/PubliSociedadAlum' },
     { label: 'Alumni', path: '/AlumniUsuarios4' },
-    { label: 'Eventos', path: '/eventos' }, // Nueva opción
+    { label: 'Eventos', path: '/EventosUsuarios3' }, // Nueva opción
   ];
 
   return (

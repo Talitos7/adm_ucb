@@ -6,7 +6,7 @@ const NavbarUsuario = ({ darkMode, handleThemeChange }) => {
     { label: 'Bienvenida', path: '/Bienvenida3' },
     { label: 'Empresas', path: '/EmpresasAliadas2' },
     { label: 'Alumni', path: '/PublicationsparaAlumni' },
-    { label: 'Eventos', path: '/eventos' }, // Nueva opción
+    { label: 'Eventos', path: '/EventosUsuarios2' }, // Nueva opción
   ];
 
   return (

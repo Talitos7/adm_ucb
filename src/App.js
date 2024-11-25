@@ -28,10 +28,12 @@ import PIntercambio from './views/IntercambioParaAlum'
 import Empresas3 from './views/EmpresasAliadas3'
 import AlumniUsuario2 from './views/AlumniUsuarios2'
 import SociedadUsuarios2 from './views/SociedadUsuarios2'
+import Eventos2 from './views/EventosUsuarios1'
 //Alumni
 import AlumniPage from './views/AlumniPage';
 import NavbarAlunmni from './components/navbarAlumni'
 import Empresas2 from './views/EmpresasAliadas2'
+import Eventos3 from './views/EventosUsuarios2'
 //Centro
 import CentroPage from './views/centroPage'
 import Bienvenida5 from './views/Bienvenida5'
@@ -40,6 +42,7 @@ import PasantiasUsuario3 from './views/pasantiasEstudiantes3'
 import Interambios3 from './views/IntercambiosAlum3'
 import SociedadUsuarios3 from './views/SociedadUsuarios3'
 import AlumniUsuarios3 from './views/AlumniUsuarios3'
+import EventosPu from './views/EventosView2'
 import NavbarCentro from './components/navbarCentro'
 //Sociedad
 import SociedadPage from './views/sociedadPage';
@@ -50,6 +53,7 @@ import Intercambios4 from './views/intercambioAlum4'
 import NavbarSociedad from './components/navbarSociedad'
 import SociedadPubli from './views/PubliSociedadAlum'
 import AlumniUsuarios4 from './views/AlumniUsuarios4'
+import EventosUsuario3 from './views/EventosUsuarios3'
 //cosas
 import Editar from './views/edit'
 import PublicationsIntercambio from './views/PublicationsIntercambio';
@@ -331,6 +335,16 @@ function App() {
             }
           />
 
+          <Route
+            path="/EventosUsuarios1"
+            element={
+              <>
+                <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Eventos2 />
+              </>
+            }
+          />
+
           {/* Página de Bienvenida*/}
           <Route
             path="/Bienvenida4"
@@ -433,6 +447,16 @@ function App() {
             }
           />
 
+          <Route
+            path="/EventosUsuarios2"
+            element={
+              <>
+                <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Eventos3 />
+              </>
+            }
+          />
+
            {/* Página de estudiante del centro */}
          <Route
             path="/centroPage"
@@ -500,6 +524,16 @@ function App() {
               <>
                 <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <AlumniUsuarios3/>
+              </>
+            }
+          />
+
+          <Route
+            path="/EventosView2"
+            element={
+              <>
+                <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <EventosPu />
               </>
             }
           />
@@ -579,6 +613,16 @@ function App() {
               <>
                 <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <AlumniUsuarios4/>
+              </>
+            }
+          />
+
+          <Route
+            path="/EventosUsuarios3"
+            element={
+              <>
+                <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <Eventos3/>
               </>
             }
           />

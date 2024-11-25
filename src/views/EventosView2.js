@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal, Typography } from '@mui/material';
 import CrearEvento from '../components/CrearEvento';
-import ListaEventos from '../components/ListarEventos2';
+import ListaEventos from '../components/ListaEventos';
 import EditarEvento from '../components/EditarEvento';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -68,6 +68,14 @@ const EventosView = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      <Typography variant="h3" align="center" gutterBottom>
+        Gestión de Eventos
+      </Typography>
+      <Box sx={{ textAlign: 'center', mb: 3 }}>
+        <Button variant="contained" color="primary" onClick={handleOpenCrear}>
+          Crear Nuevo Evento
+        </Button>
+      </Box>
       <ListaEventos
         onEditar={handleOpenEditar}
         onEliminar={handleEliminar}
