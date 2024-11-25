@@ -4,36 +4,55 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
+import InformationSection from '../components/InformationSection'; // Agregado para la información
 import './Publications.css';
 
 const PublicationsAlumni = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const [infoData, setInfoData] = useState(null); // Estado para la información
+
+  // Cargar información de la sección Alumni
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get('/src/servicios/informacionAPI.php?section=alumni');
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        throw new Error('No se pudo cargar la información de Alumni.');
+      }
+    } catch (error) {
+      console.error('Error al cargar la información de Alumni:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo cargar la información de Alumni.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
 
   // Cargar publicaciones aprobadas para la categoría "Alumni"
   const loadApprovedPublications = async () => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Alumni');
       console.log('Publicaciones aprobadas (Alumni):', response.data);
-  
+
       let jsonData;
-  
+
       // Verificar el formato de la respuesta
       if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
-        // Si es un string con "Conexión exitosa", limpiamos y convertimos a JSON
         jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
       } else if (Array.isArray(response.data)) {
-        // Si ya es un array, lo usamos directamente
         jsonData = response.data;
       } else if (typeof response.data === 'object') {
-        // Si es un objeto, verificamos si contiene publicaciones
         jsonData = response.data.publicaciones || [];
       } else {
         console.warn('Formato de respuesta inesperado:', response.data);
         jsonData = [];
       }
-  
+
       if (Array.isArray(jsonData)) {
         setPublications(jsonData);
       } else {
@@ -50,7 +69,6 @@ const PublicationsAlumni = ({ darkMode }) => {
       });
     }
   };
-  
 
   const handleSubmit = async (formData) => {
     try {
@@ -78,11 +96,21 @@ const PublicationsAlumni = ({ darkMode }) => {
   };
 
   useEffect(() => {
+    fetchInformation();
     loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Información de la sección Alumni */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={false} // La información no es editable
+        />
+      )}
+
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Alumni</h1>
         <button
