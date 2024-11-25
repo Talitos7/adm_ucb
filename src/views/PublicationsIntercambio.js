@@ -4,27 +4,46 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
+import InformationSection from '../components/InformationSection'; // Agregado para la información
 import './Publications.css';
 
 const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const [infoData, setInfoData] = useState(null); // Estado para la información
+
+  // Cargar información de la sección Intercambio
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get('/src/servicios/informacionAPI.php?section=intercambio');
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        throw new Error('No se pudo cargar la información de Intercambio.');
+      }
+    } catch (error) {
+      console.error('Error al cargar la información de Intercambio:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo cargar la información de Intercambio.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
 
   // Cargar publicaciones aprobadas para la categoría "Intercambio"
   const loadApprovedPublications = async () => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Intercambio');
       console.log('Publicaciones aprobadas (Intercambio):', response.data);
-  
-      // Verifica si la respuesta ya es un JSON
+
       if (Array.isArray(response.data)) {
         setPublications(response.data);
       } else if (typeof response.data === 'object') {
-        // Si es un objeto, verifica si contiene las publicaciones
         setPublications(response.data.publicaciones || []);
       } else if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
-        // Si es un string con texto adicional, limpia y convierte a JSON
         const jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
         setPublications(jsonData.publicaciones || []);
       } else {
@@ -67,12 +86,51 @@ const PublicationsIntercambio = ({ darkMode }) => {
     }
   };
 
+  const handleUpdateInformation = async (updatedData) => {
+    try {
+      const response = await axios.post('/src/servicios/informacionAPI.php', {
+        section: 'intercambio',
+        content: updatedData,
+      });
+      if (response.data.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Información actualizada',
+          text: 'La información se actualizó correctamente.',
+          confirmButtonText: 'OK',
+        });
+        setInfoData(updatedData);
+      } else {
+        throw new Error('No se pudo actualizar la información.');
+      }
+    } catch (error) {
+      console.error('Error al actualizar la información:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar la información.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
   useEffect(() => {
+    fetchInformation();
     loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Información de la sección Intercambio */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={true} // La información es editable
+          onEdit={handleUpdateInformation}
+        />
+      )}
+
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Intercambio</h1>
         <button

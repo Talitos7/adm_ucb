@@ -2,7 +2,7 @@
     "sections": {
         "sociedad": {
             "title": "Sociedad Cient\u00edfica de Administraci\u00f3n de Empresas",
-            "description": "Promovemos la innovaci\u00f3n y colaboraci\u00f3n estudiantil con proyectos y eventos enfocados en el aprendizaje. La Sociedad Cient\u00edfica de la carrera de Administraci\u00f3n de Empresas tiene como Misi\u00f3n promover el crecimiento cient\u00edfico y profesional de los administradores de la Universidad Cat\u00f3lica Boliviana \u201cSan Pablo\u201d y contribuir al desarrollo acad\u00e9mico de nuestro pa\u00eds. ",
+            "description": "Promovemos la innovaci\u00f3n y colaboraci\u00f3n estudiantil con proyectos y eventos enfocados en el aprendizaje. La Sociedad Cient\u00edfica de la carrera de Administraci\u00f3n de Empresas tiene como Misi\u00f3n promover el crecimiento cient\u00edfico y profesional de los administradores de la Universidad Cat\u00f3lica Boliviana \u201cSan Pablo\u201d y contribuir al desarrollo acad\u00e9mico de nuestro pa\u00eds.",
             "imageUrl": "\/src\/assets\/6743fb33bcd37_logo sociedad.jpg"
         },
         "centro": {
@@ -18,7 +18,22 @@
         "intercambio": {
             "title": "Programa de Intercambio",
             "description": "El programa de intercambio abre puertas a experiencias culturales y acad\u00e9micas internacionales.",
-            "imageUrl": "\/src\/assets\/intercambio.jpg"
+            "imageUrl": "\/src\/assets\/67440aac4ee75_intercambio.jpg"
+        },
+        "empresas": {
+            "title": "Empresas Vinculadas",
+            "description": "La facultad de Administraci\u00f3n de Empresas colabora con empresas de prestigio para ofrecer oportunidades laborales y proyectos colaborativos a los estudiantes.",
+            "imageUrl": "\/src\/assets\/empresas.jpg"
+        },
+        "pasantias": {
+            "title": "Programa de Pasant\u00edas",
+            "description": "El programa de pasant\u00edas permite a los estudiantes ganar experiencia laboral en empresas destacadas de diferentes sectores.",
+            "imageUrl": "\/src\/assets\/674412a371ecb_pasantia.png"
+        },
+        "eventos": {
+            "title": "Eventos Acad\u00e9micos",
+            "description": "Organizamos eventos acad\u00e9micos y profesionales para fomentar el desarrollo de habilidades y la creaci\u00f3n de redes de contacto.",
+            "imageUrl": "\/src\/assets\/674414f8e4739_eevntos.jpg"
         }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -6,7 +6,9 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import PasantiasCards from '../components/CardPasantias'; // Importa el componente de tarjetas
+import InformationSection from '../components/InformationSection'; // Importa el componente de información
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 // Estilos del modal principal y del modal de éxito
 const style = {
@@ -20,13 +22,58 @@ const style = {
   p: 4,
 };
 
-function Pasantias() {
+function Pasantias({ darkMode, isAdmin }) {
   const [open, setOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false); // Modal de éxito
   const [titulo, setTitulo] = useState('');
   const [detalle, setDetalle] = useState('');
   const [imagen, setImagen] = useState(null); // Nuevo estado para la imagen
   const [error, setError] = useState('');
+  const [infoData, setInfoData] = useState(null); // Estado para la información de la sección
+
+  // Cargar la información de la sección
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get(`/src/servicios/informacionAPI.php?section=pasantias`);
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        console.error('Error al cargar la información de pasantías.');
+      }
+    } catch (error) {
+      console.error('Hubo un error al cargar la información:', error);
+    }
+  };
+
+  // Actualizar la información de la sección
+  const handleUpdateInformation = async (updatedData) => {
+    try {
+      const response = await axios.post('/src/servicios/informacionAPI.php', {
+        section: 'pasantias',
+        content: updatedData,
+      });
+
+      if (response.data.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Información actualizada',
+          text: 'La información se actualizó correctamente.',
+          confirmButtonText: 'OK',
+        });
+        setInfoData(updatedData);
+      } else {
+        throw new Error('No se pudo actualizar la información.');
+      }
+    } catch (error) {
+      console.error('Error al actualizar la información:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar la información.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
 
   // Abrir el modal principal
   const handleOpen = () => {
@@ -92,18 +139,34 @@ function Pasantias() {
     }
   };
 
+  // Cargar la información de la sección al montar el componente
+  useEffect(() => {
+    fetchInformation();
+  }, []);
+
   return (
     <div style={{ padding: '20px', textAlign: 'center' }}>
+      {/* Sección de información */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={true} // Permitir edición solo si isAdmin es true
+          onEdit={handleUpdateInformation} // Función para actualizar información
+        />
+      )}
 
       {/* Renderiza las tarjetas de pasantías */}
       <PasantiasCards />
 
       {/* Botón flotante para agregar pasantías */}
-      <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
-        <Fab color="secondary" aria-label="add" onClick={handleOpen}>
-          <AddIcon />
-        </Fab>
-      </Box>
+      {isAdmin && (
+        <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
+          <Fab color="secondary" aria-label="add" onClick={handleOpen}>
+            <AddIcon />
+          </Fab>
+        </Box>
+      )}
 
       {/* Modal Principal para agregar Pasantía */}
       <Modal open={open} onClose={handleClose}>

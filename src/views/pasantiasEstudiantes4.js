@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import PasantiasCards from '../components/cardPasantiaEs'; // Importa el componente de tarjetas
+import InformationSection from '../components/InformationSection'; // Importa el componente de información
 import axios from 'axios';
 
 // Estilos del modal principal y del modal de éxito
@@ -25,6 +26,26 @@ function Pasantias() {
   const [detalle, setDetalle] = useState('');
   const [imagen, setImagen] = useState(null); // Nuevo estado para la imagen
   const [error, setError] = useState('');
+  const [infoData, setInfoData] = useState(null); // Estado para la información de la sección
+
+  // Cargar la información de la sección
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get(`/src/servicios/informacionAPI.php?section=pasantias`);
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        console.error('Error al cargar la información de pasantías.');
+      }
+    } catch (error) {
+      console.error('Hubo un error al cargar la información:', error);
+    }
+  };
+
+  // Cargar la información de la sección al montar el componente
+  useEffect(() => {
+    fetchInformation();
+  }, []);
 
   // Cerrar el modal principal y limpiar los campos
   const handleClose = () => {
@@ -86,6 +107,14 @@ function Pasantias() {
 
   return (
     <div style={{ padding: '20px', textAlign: 'center' }}>
+      {/* Sección de información */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={false} // Ajusta según sea necesario
+          isEditable={false} // isAdmin es false, no permite edición
+        />
+      )}
 
       {/* Renderiza las tarjetas de pasantías */}
       <PasantiasCards />
