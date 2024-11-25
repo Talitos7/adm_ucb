@@ -5,7 +5,6 @@ import NavbarEstudiante from './components/NavbarEstudiante';
 import NavbarAdmin from './components/navbaradmin';
 import Pasantias from './views/pasantias';
 import Perfil from './views/perfil';
-import Perfil2 from './views/perfil';
 import CarouselSection from './components/CarouselSection';
 import DocenteSection from './components/DocenteSection';
 import Footer from './components/Footer';
@@ -198,13 +197,13 @@ function App() {
               </>
             }
           />
-        {/* Ruta para la página de Perfil */}
+          {/* Ruta para la página de Perfil */}
           <Route path="/perfil" element={
-          <>
-          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <Perfil /> {/* Componente que renderiza la vista de pasantías */}
-          </>
-        } />
+            <>
+              <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <Perfil /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          }/>
 
         {/* Página de estudiante */}
         <Route
@@ -249,14 +248,6 @@ function App() {
               </>
             }
           />
-          {/* Ruta para la página de Perfil */}
-          <Route path="/perfil" element={
-          <>
-            <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <Perfil2 /> {/* Componente que renderiza la vista de pasantías */}
-          </>
-        } />
-
          {/* Página de estudiante de intercambio */}
          <Route
             path="/IntercambioPage"

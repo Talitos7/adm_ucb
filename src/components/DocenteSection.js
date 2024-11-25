@@ -99,7 +99,7 @@ const DocenteSection = () => {
   };
 
   return (
-    <div style={{ marginTop: '20px' }} ref={ref}>
+    <div style={{ marginTop: '20px'}} align="center" ref={ref}>
       <Typography variant="h4" gutterBottom align="center">
         Nuestros Docentes
       </Typography>
