@@ -4,12 +4,14 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
+import InformationSection from '../components/InformationSection'; // Importamos el componente
 import './Publications.css';
 
 const PublicationsSociedad = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const logoUrl = '/src/assets/logo%20sociedad.jpg'; // Ruta de la imagen
 
   // Cargar publicaciones aprobadas para la categoría "Sociedad Cientifica"
   const loadApprovedPublications = async () => {
@@ -69,6 +71,13 @@ const PublicationsSociedad = ({ darkMode }) => {
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Encabezado de Información */}
+      <InformationSection
+        title="Sociedad Científica Administracion de empresas"
+        description="La Sociedad Científica de Sistemas es una comunidad estudiantil dedicada a la investigación y al desarrollo de capacidades investigativas en el ámbito de la ingeniería de sistemas. Sus objetivos incluyen fomentar la innovación, promover la colaboración entre estudiantes y profundizar en áreas específicas de conocimiento tecnológico. A través de proyectos, eventos y actividades, los miembros de esta sociedad contribuyen al avance del campo y adquieren habilidades académicas y profesionales relevantes."
+        imageUrl={logoUrl}
+        darkMode={darkMode} // Aquí pasamos el modo oscuro
+      />
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Sociedad Científica</h1>
         <button
