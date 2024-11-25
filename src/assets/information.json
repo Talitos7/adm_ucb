@@ -1,0 +1,24 @@
+{
+    "sections": {
+        "sociedad": {
+            "title": "Sociedad Cient\u00edfica de Administraci\u00f3n de Empresas",
+            "description": "Promovemos la innovaci\u00f3n y colaboraci\u00f3n estudiantil con proyectos y eventos enfocados en el aprendizaje. La Sociedad Cient\u00edfica de la carrera de Administraci\u00f3n de Empresas tiene como Misi\u00f3n promover el crecimiento cient\u00edfico y profesional de los administradores de la Universidad Cat\u00f3lica Boliviana \u201cSan Pablo\u201d y contribuir al desarrollo acad\u00e9mico de nuestro pa\u00eds.",
+            "imageUrl": "\/src\/assets\/6743fb33bcd37_logo sociedad.jpg"
+        },
+        "centro": {
+            "title": "Centro de Estudiantes",
+            "description": "El Centro de Estudiantes trabaja para garantizar la representaci\u00f3n y los derechos de los estudiantes en la universidad.",
+            "imageUrl": "\/src\/assets\/centro.jpg"
+        },
+        "alumni": {
+            "title": "Alumni de Administraci\u00f3n",
+            "description": "Nuestra comunidad de Alumni fomenta la colaboraci\u00f3n profesional entre egresados.",
+            "imageUrl": "\/src\/assets\/alumni.jpg"
+        },
+        "intercambio": {
+            "title": "Programa de Intercambio",
+            "description": "El programa de intercambio abre puertas a experiencias culturales y acad\u00e9micas internacionales.",
+            "imageUrl": "\/src\/assets\/intercambio.jpg"
+        }
+    }
+}

@@ -4,94 +4,115 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
-import InformationSection from '../components/InformationSection'; // Importamos el componente
+import InformationSection from '../components/InformationSection';
 import './Publications.css';
 
-const PublicationsSociedad = ({ darkMode }) => {
+const PublicationsSociedad = ({ darkMode, isAdmin }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
-  const logoUrl = '/src/assets/logo%20sociedad.jpg'; // Ruta de la imagen
+  const [selectedPublication, setSelectedPublication] = useState(null);
+  const [infoData, setInfoData] = useState(null);
 
-  // Cargar publicaciones aprobadas para la categoría "Sociedad Cientifica"
-  const loadApprovedPublications = async () => {
+  // Cargar información de la sección
+  const fetchInformation = async () => {
     try {
-        const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica');
-        console.log('Publicaciones aprobadas (Sociedad Cientifica):', response.data);
-
-        // Si `response.data` ya es un array o un objeto, no intentes parsearlo
-        if (Array.isArray(response.data)) {
-            setPublications(response.data);
-        } else if (typeof response.data === 'object') {
-            setPublications(response.data.pubs || []); // Asegúrate de ajustar según la estructura de tu JSON
-        } else {
-            console.warn('Formato inesperado de respuesta:', response.data);
-            setPublications([]);
-        }
+      const response = await axios.get(
+        `/src/servicios/informacionAPI.php?section=sociedad`
+      );
+      if (response.data.status === "success") {
+        setInfoData(response.data.data);
+      } else {
+        throw new Error("No se pudo cargar la información.");
+      }
     } catch (error) {
-        console.error('Error al cargar publicaciones aprobadas:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudieron cargar las publicaciones aprobadas.',
-            confirmButtonText: 'OK',
-        });
-    }
-};
-
-
-  const handleSubmit = async (formData) => {
-    try {
-      await axios.post('/src/servicios/Publicacion.php', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Publicación creada correctamente.',
-        confirmButtonText: 'OK',
-      });
-
-      loadApprovedPublications();
-      setIsFormVisible(false);
-    } catch (error) {
+      console.error('Error al cargar la información:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudo guardar la publicación.',
+        text: 'No se pudo cargar la información.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  const handleUpdateInformation = async (updatedData) => {
+    try {
+      const response = await axios.post('/src/servicios/informacionAPI.php', {
+        section: 'sociedad',
+        content: updatedData,
+      });
+      if (response.data.status === "success") {
+        Swal.fire({
+          icon: 'success',
+          title: 'Información actualizada',
+          text: 'La información se actualizó correctamente.',
+          confirmButtonText: 'OK',
+        });
+        setInfoData(updatedData);
+      } else {
+        throw new Error("No se pudo actualizar la información.");
+      }
+    } catch (error) {
+      console.error('Error al actualizar la información:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar la información.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  // Cargar publicaciones aprobadas
+  const loadApprovedPublications = async () => {
+    try {
+      const response = await axios.get(
+        '/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica'
+      );
+      setPublications(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      console.error('Error al cargar publicaciones aprobadas:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudieron cargar las publicaciones aprobadas.',
         confirmButtonText: 'OK',
       });
     }
   };
 
   useEffect(() => {
+    fetchInformation();
     loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
-      {/* Encabezado de Información */}
-      <InformationSection
-        title="Sociedad Científica Administracion de empresas"
-        description="La Sociedad Científica de Sistemas es una comunidad estudiantil dedicada a la investigación y al desarrollo de capacidades investigativas en el ámbito de la ingeniería de sistemas. Sus objetivos incluyen fomentar la innovación, promover la colaboración entre estudiantes y profundizar en áreas específicas de conocimiento tecnológico. A través de proyectos, eventos y actividades, los miembros de esta sociedad contribuyen al avance del campo y adquieren habilidades académicas y profesionales relevantes."
-        imageUrl={logoUrl}
-        darkMode={darkMode} // Aquí pasamos el modo oscuro
+      {infoData && (
+        <InformationSection
+        data={infoData}
+        darkMode={darkMode}
+        isEditable={true} // Siempre editable en esta vista
+        onEdit={handleUpdateInformation}
       />
+      )}
+
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Sociedad Científica</h1>
-        <button
-          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        >
-          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-        </button>
+        {isAdmin && (
+          <button
+            className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
+            onClick={() => setIsFormVisible(!isFormVisible)}
+          >
+            {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
+          </button>
+        )}
       </header>
 
       {isFormVisible && (
         <PublicationForm
-          onSubmit={handleSubmit}
-          categoria="Sociedad Cientifica" // Pasamos la categoría al formulario
+          onSubmit={(formData) => console.log(formData)}
+          categoria="Sociedad Cientifica"
           darkMode={darkMode}
         />
       )}
@@ -103,7 +124,7 @@ const PublicationsSociedad = ({ darkMode }) => {
               key={publication.idpublicacion}
               publication={publication}
               darkMode={darkMode}
-              onCardClick={(pub) => setSelectedPublication(pub)} // Manejar clic en la tarjeta
+              onCardClick={(pub) => setSelectedPublication(pub)}
             />
           ))
         ) : (
@@ -113,7 +134,6 @@ const PublicationsSociedad = ({ darkMode }) => {
         )}
       </div>
 
-      {/* Modal para mostrar tarjeta ampliada */}
       <PublicationModal
         publication={selectedPublication}
         onClose={() => setSelectedPublication(null)}
