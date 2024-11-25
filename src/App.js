@@ -307,7 +307,7 @@ function App() {
             element={
               <>
                 <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario />
+                <PasantiasUsuario darkMode={darkMode}/>
               </>
             }
           />
@@ -424,7 +424,7 @@ function App() {
             element={
               <>
                 <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario2 />
+                <PasantiasUsuario2 darkMode={darkMode}/>
               </>
             }
           />
@@ -535,7 +535,7 @@ function App() {
             element={
               <>
                 <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario3 />
+                <PasantiasUsuario3 darkMode={darkMode}/>
               </>
             }
           />
@@ -616,7 +616,7 @@ function App() {
             element={
               <>
                 <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario4/>
+                <PasantiasUsuario4 darkMode={darkMode}/>
               </>
             }
           />
