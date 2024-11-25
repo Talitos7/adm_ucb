@@ -19,7 +19,7 @@ const AdminPublicationModal = ({ publication, onClose, darkMode }) => {
         <div className="modal-header">
           <h2>{titulo}</h2>
         </div>
-        <div className="modal-body">
+        <div className={`modal-body ${darkMode ? 'dark-mode' : ''}`}>
           <p>
             <strong>Autor:</strong> {autor}
           </p>
