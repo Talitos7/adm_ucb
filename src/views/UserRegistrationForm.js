@@ -54,7 +54,7 @@ export default function UserRegistration({ darkMode }) {
 
     const validateForm = () => {
         const newErrors = {};
-        if (!formData.emailAdm) newErrors.emailAdm = 'El correo del admin es obligatorio.';
+        if (!formData.emailAdm) newErrors.emailAdm = 'El correo de la carrera es obligatorio.';
         if (!isDeleteMode) {
             if (!formData.nombre) newErrors.nombre = 'El nombre es obligatorio.'; 
             if (!formData.password) newErrors.password = 'La contraseña es obligatoria.';
@@ -220,6 +220,7 @@ export default function UserRegistration({ darkMode }) {
                                         onChange={handleInputChange}
                                         error={!!errors.apellido}
                                         helperText={errors.apellido}
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -270,6 +271,7 @@ export default function UserRegistration({ darkMode }) {
                                         name="rol"
                                         value={formData.rol}
                                         onChange={handleRoleChange}
+                                        required
                                         SelectProps={{
                                             native: true,
                                         }}
