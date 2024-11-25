@@ -160,6 +160,7 @@ function App() {
               <>
                 <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
                 <MallaCurricular darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+                <Footer />
               </>
             } 
           />

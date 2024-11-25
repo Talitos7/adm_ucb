@@ -28,7 +28,6 @@ const Footer = () => {
           backgroundColor: theme.palette.mode === 'dark' ? '#333' : '#f5f5f5',
           color: theme.palette.text.primary,
           padding: '20px 0',
-          marginTop: '50px',
         }}
       >
         <Box className="footer-container" display="flex" justifyContent="space-around" flexWrap="wrap">

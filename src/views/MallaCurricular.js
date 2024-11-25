@@ -4,13 +4,21 @@ import { Box, Typography, Paper, Divider } from '@mui/material';
 
 const MallaCurricular = ({ darkMode }) => {
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom >
-        Malla Curricular
-      </Typography>
-
+    <Box
+      sx={{
+          background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+          minHeight: "100vh",
+          padding: 4,
+          position: "relative",
+      }}
+    >
+      
       {/* Leyenda */}
       <Paper sx={{ marginBottom: 4, padding: 2}} align="center">
+        <Typography variant="h4" align="center" gutterBottom >
+          Malla Curricular
+        </Typography>
+        <Divider sx={{ marginY: 2 }} />
         <Typography variant="body1">
           <span style={{ color: '#2196f3', fontWeight: 'bold' }}>Azul:</span> Materia seleccionada.
         </Typography>
