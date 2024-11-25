@@ -1,17 +1,19 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import Logout from '@mui/icons-material/Logout';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Divider,
+  Tooltip,
+  Avatar,
+  ListItemIcon,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useNavigate } from 'react-router-dom';
+import Logout from '@mui/icons-material/Logout';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const AccountMenu = ({ darkMode, handleThemeChange }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,11 +29,34 @@ const AccountMenu = ({ darkMode, handleThemeChange }) => {
   };
 
   const handleUserExit = () => {
-    navigate('../');
+    localStorage.removeItem('userRole'); // Opcional: limpiar el rol del usuario
+    navigate('/'); // Redirige al inicio de sesión o página principal
   };
 
   const handlePerfilClick = () => {
-    navigate('/perfil');
+    const userRole = localStorage.getItem('usuarioRol'); // Recupera el rol del usuario
+    switch (userRole) {
+      case 'admin':
+        navigate('/perfilAdm');
+        break;
+      case 'alumni':
+        navigate('/perfilAlumni');
+        break;
+      case 'centro':
+        navigate('/perfilCentro');
+        break;
+      case 'estudiante':
+        navigate('/perfilEstudiante');
+        break;
+      case 'intercambio':
+        navigate('/perfilIntercambio');
+        break;
+      case 'sociedad':
+        navigate('/perfilSociedad');
+        break;
+      default:
+        navigate('/'); // Redirige a la página principal en caso de rol desconocido
+    }
     handleClose();
   };
 

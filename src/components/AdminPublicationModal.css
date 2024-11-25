@@ -33,7 +33,7 @@
     color: #f5f5f5;
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
   }
-  
+
   /* Botón de cierre */
   .close-btn {
     position: absolute;
@@ -58,18 +58,18 @@
   }
   
   .modal-header h2.dark-mode {
-    color: #fff;
+    color: #ffff;
   }
   
   /* Contenido del cuerpo */
   .modal-body {
     margin-top: 1rem;
-    color: #555;
+    color: #161616;
     font-size: 1rem;
   }
   
   .modal-body.dark-mode {
-    color: #ccc;
+    color: #ffff;
   }
   
   /* Imagen en el modal */

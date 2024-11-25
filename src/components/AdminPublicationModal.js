@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close'; // Icono de cierre (opcional)
 const AdminPublicationModal = ({ publication, onClose, darkMode }) => {
   if (!publication) return null; // Si no hay publicación seleccionada, no se renderiza el modal
 
-  const { titulo, detalle, categoria, multimedia } = publication;
+  const { titulo,descripcionpublicacion, categoria, multimedia, autor, usuario_emailadm } = publication;
 
   return (
     <div className={`modal-overlay ${darkMode ? 'dark-mode' : ''}`} onClick={onClose}>
@@ -19,8 +19,16 @@ const AdminPublicationModal = ({ publication, onClose, darkMode }) => {
         <div className="modal-header">
           <h2>{titulo}</h2>
         </div>
-        <div className="modal-body">
-          <p>{detalle}</p>
+        <div className={`modal-body ${darkMode ? 'dark-mode' : ''}`}>
+          <p>
+            <strong>Autor:</strong> {autor}
+          </p>
+          <p>
+            <strong>Correo:</strong> {usuario_emailadm}
+          </p>
+          <p>
+            <strong>Descripción:</strong> {descripcionpublicacion}
+          </p>
           <p>
             <strong>Categoría:</strong> {categoria}
           </p>

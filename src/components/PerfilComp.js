@@ -112,11 +112,10 @@ const PerfilUsuario = () => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '87vh',
-        width: '99vw',
+        width: '100%',
         padding: '20px',
         gap: 6,
         boxShadow: '0px 4px 10px rgba(0,0,0,0.2)',
-        borderRadius: '10px',
         bgcolor: 'background.paper',
       }}
     >
