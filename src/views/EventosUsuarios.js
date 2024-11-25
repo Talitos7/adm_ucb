@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Modal } from '@mui/material';
 import CrearEvento from '../components/CrearEvento';
 import ListaEventos from '../components/ListarEventos2';
 import EditarEvento from '../components/EditarEvento';
@@ -12,7 +12,6 @@ const EventosView = () => {
   const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
   const [reload, setReload] = useState(false); // Esto controla la recarga de la lista
 
-  const handleOpenCrear = () => setOpenCrear(true);
   const handleCloseCrear = () => setOpenCrear(false);
 
   const handleOpenEditar = (evento) => {

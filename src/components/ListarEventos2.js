@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Button, CardActions, Box } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Grid, Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
 import axios from 'axios';
 import dayjs from 'dayjs';
 

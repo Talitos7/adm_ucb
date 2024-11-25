@@ -91,12 +91,8 @@ export default function CardSection() {
   const [editable, setEditable] = React.useState(false);
 
   React.useEffect(() => {
-    if (window.location.pathname === '/Editar') {
-      setEditable(true);
-    } else {
-      setEditable(false);
-    }
-  }, [window.location.pathname]);
+    setEditable(window.location.pathname === '/Editar');
+  }, []);  
 
   const loadCardsData = () => {
     const savedData = localStorage.getItem('cardsData');

@@ -50,12 +50,6 @@ export default function PasantiasCards() {
     
         fetchPasantias();
     }, []);
-    
-
-    const handleOpenDialog = (idPasantia) => {
-        setSelectedPasantia(idPasantia);
-        setOpenDialog(true);
-    };
 
     const handleCloseDialog = () => {
         setOpenDialog(false);

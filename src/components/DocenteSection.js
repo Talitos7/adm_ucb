@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid, Card, CardContent, CardMedia, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -82,21 +82,21 @@ const DocenteSection = () => {
     }
   };
 
-  const handleDeleteAllExceptOriginals = () => {
-    const originalDocentes = [
-      { id: 1, name: 'Jessica Lanza', image: d1, title: 'Directora de Carrera', email: 'jlanza@ucb.edu.bo' },
-      { id: 2, name: 'Jorge Jung', image: d2, title: 'Docente Tiempo Completo', email: 'jjung@ucb.edu.bo' },
-      { id: 3, name: 'Mabel Aguirre', image: d3, title: 'Docente Tiempo Completo', email: 'maguirre@ucb.edu.bo' },
-      { id: 4, name: 'Sergio Villegas', image: d4, title: 'Docente Tiempo Completo', email: 'svillegas.r@ucb.edu.bo' },
-    ];
+  //const handleDeleteAllExceptOriginals = () => {
+  //  const originalDocentes = [
+  //    { id: 1, name: 'Jessica Lanza', image: d1, title: 'Directora de Carrera', email: 'jlanza@ucb.edu.bo' },
+  //    { id: 2, name: 'Jorge Jung', image: d2, title: 'Docente Tiempo Completo', email: 'jjung@ucb.edu.bo' },
+  //    { id: 3, name: 'Mabel Aguirre', image: d3, title: 'Docente Tiempo Completo', email: 'maguirre@ucb.edu.bo' },
+  //    { id: 4, name: 'Sergio Villegas', image: d4, title: 'Docente Tiempo Completo', email: 'svillegas.r@ucb.edu.bo' },
+  //  ];
 
-    const updatedDocentes = docentes.filter((docente) =>
-      originalDocentes.some((original) => original.id === docente.id)
-    );
+  //  const updatedDocentes = docentes.filter((docente) =>
+  //    originalDocentes.some((original) => original.id === docente.id)
+  //  );
 
-    setDocentes(updatedDocentes);
-    localStorage.setItem('docentes', JSON.stringify(updatedDocentes)); // Guardar en localStorage
-  };
+  //  setDocentes(updatedDocentes);
+  //  localStorage.setItem('docentes', JSON.stringify(updatedDocentes)); // Guardar en localStorage
+  //};
 
   return (
     <div style={{ marginTop: '20px'}} align="center" ref={ref}>

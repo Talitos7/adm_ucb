@@ -19,7 +19,6 @@ const AdminPublicationCard = ({ publication, onAction, darkMode }) => {
       )}
 
       {/* Detalles de la publicación */}
-      <h2 className={`titulo ${darkMode ? 'dark-mode' : ''}`}></h2>
       <h2 className={darkMode ? 'dark-text' : ''}>{titulo}</h2>
       <p className={darkMode ? 'dark-text' : ''}>{detalle}</p>
       <p className={darkMode ? 'dark-text' : ''}><strong>Categoría:</strong> {categoria}</p>

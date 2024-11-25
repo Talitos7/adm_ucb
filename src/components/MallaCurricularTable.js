@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './MallaCurricularTable.css';
-import { TableContainer, Paper, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
+import { TableContainer, Paper, Table, TableBody, TableCell, TableRow } from '@mui/material';
 
 const MallaCurricularTable = ({ darkMode }) => {
   const ciclos = [
@@ -191,10 +191,6 @@ const MallaCurricularTable = ({ darkMode }) => {
     "Emprendimientos y Plan de Negocio": {
       prerequisitos: ["Emprendimientos y Startup", "Finanzas II"],
       desbloquea: ["Administración de Proyectos", "Práctica Preprofesional", "Taller de Grado I"],
-    },
-    "Marketing Estratégico": {
-      prerequisitos: ["Investigación de Mercados I"],
-      desbloquea: ["Práctica Preprofesional", "Taller de Grado I"],
     },
     "Marketing Estratégico": {
       prerequisitos: ["Investigación de Mercados I"],

@@ -52,7 +52,6 @@ import Intercambios4 from './views/intercambioAlum4'
 import NavbarSociedad from './components/navbarSociedad'
 import SociedadPubli from './views/PubliSociedadAlum'
 import AlumniUsuarios4 from './views/AlumniUsuarios4'
-import EventosUsuario3 from './views/EventosUsuarios3'
 //cosas
 import Editar from './views/edit'
 import PublicationsIntercambio from './views/PublicationsIntercambio';

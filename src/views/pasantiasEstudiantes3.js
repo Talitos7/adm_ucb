@@ -25,13 +25,7 @@ function Pasantias() {
   const [detalle, setDetalle] = useState('');
   const [imagen, setImagen] = useState(null); // Nuevo estado para la imagen
   const [error, setError] = useState('');
-
-  // Abrir el modal principal
-  const handleOpen = () => {
-    setError('');
-    setOpen(true);
-  };
-
+  
   // Cerrar el modal principal y limpiar los campos
   const handleClose = () => {
     setTitulo('');
