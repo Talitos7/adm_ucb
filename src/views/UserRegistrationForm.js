@@ -10,7 +10,7 @@ import Alert from '@mui/material/Alert';
 import Swal from 'sweetalert2';
 import './UserForm.css';
 
-export default function UserRegistration({darkMode}) {
+export default function UserRegistration({ darkMode }) {
     const [formData, setFormData] = useState({
         emailAdm: '',
         nombre: '',
@@ -42,7 +42,7 @@ export default function UserRegistration({darkMode}) {
         } else if (name === 'apellido' && !value.trim()) {
             error = 'El apellido es obligatorio.';
         }
-    
+
         setErrors((prevErrors) => {
             const updatedErrors = { ...prevErrors, [name]: error };
             if (!error) {
@@ -51,7 +51,6 @@ export default function UserRegistration({darkMode}) {
             return updatedErrors;
         });
     };
-    
 
     const validateForm = () => {
         const newErrors = {};
@@ -145,8 +144,32 @@ export default function UserRegistration({darkMode}) {
         }
     };
 
+    const handleRoleChange = async (e) => {
+        const { value } = e.target;
+
+        if (value === 'admin') {
+            const result = await Swal.fire({
+                title: '¿Está seguro?',
+                text: 'Estás cambiando el rol a "Administrador", este usuario tendrá permisos especiales de edición.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, cambiar a Administrador',
+                cancelButtonText: 'Cancelar',
+            });
+
+            if (!result.isConfirmed) {
+                setFormData({ ...formData, rol: '' }); 
+                return;
+            }
+        }
+
+        setFormData({ ...formData, rol: value });
+    };
+
     return (
-        <div className={`registration-container ${darkMode ? 'dark-mode' : ''}`}> {/* Aplica la clase dependiendo del modo */}
+        <div className={`registration-container ${darkMode ? 'dark-mode' : ''}`}>
             <Box className={`registration-form ${darkMode ? 'dark-mode' : ''}`} sx={{ maxWidth: '600px', margin: 'auto', padding: 4 }}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Typography variant="h4" gutterBottom>
@@ -246,7 +269,7 @@ export default function UserRegistration({darkMode}) {
                                         label="Rol"
                                         name="rol"
                                         value={formData.rol}
-                                        onChange={handleInputChange}
+                                        onChange={handleRoleChange}
                                         SelectProps={{
                                             native: true,
                                         }}
@@ -265,28 +288,22 @@ export default function UserRegistration({darkMode}) {
                             </>
                         )}
                         <Grid item xs={12}>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color={isDeleteMode ? 'error' : 'primary'}
-                                fullWidth
-                                disabled={isSubmitting}
-                                startIcon={isSubmitting && <CircularProgress size={20} />}
-                            >
-                                {isSubmitting
-                                    ? 'Procesando...'
-                                    : isDeleteMode
-                                    ? 'Confirmar Eliminación'
-                                    : 'Registrar Usuario'}
-                            </Button>
+                            {isSubmitting ? (
+                                <CircularProgress />
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    fullWidth
+                                    disabled={isSubmitting}
+                                >
+                                    {isDeleteMode ? 'Eliminar Usuario' : 'Registrar Usuario'}
+                                </Button>
+                            )}
                         </Grid>
                     </Grid>
                 </form>
-                {Object.keys(errors).length > 0 && (
-                    <Box mt={2}>
-                        <Alert severity="error">Por favor, corrige los errores antes de enviar.</Alert>
-                    </Box>
-                )}
             </Box>
         </div>
     );
