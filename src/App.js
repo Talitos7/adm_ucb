@@ -145,7 +145,7 @@ function App() {
             element={
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <Pasantias />
+                <Pasantias darkMode={darkMode}/>
               </>
             }
           />
