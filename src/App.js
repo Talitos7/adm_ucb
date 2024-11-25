@@ -434,7 +434,7 @@ function App() {
             element={
               <>
                 <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <AlumniUsuario2 />
+                <AlumniUsuario2 darkMode={darkMode} />
               </>
             }
           />
@@ -444,7 +444,7 @@ function App() {
             element={
               <>
                 <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <SociedadUsuarios2 />
+                <SociedadUsuarios2 darkMode={darkMode}/>
               </>
             }
           />
@@ -484,7 +484,7 @@ function App() {
             element={
               <>
                 <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PublicationsAlumni2 />
+                <PublicationsAlumni2 darkMode={darkMode}/>
               </>
             }
           />
@@ -545,7 +545,7 @@ function App() {
             element={
               <>
                 <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <Interambios3/>
+                <Interambios3 darkMode={darkMode}/>
               </>
             }
           />
@@ -555,7 +555,7 @@ function App() {
             element={
               <>
                 <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <SociedadUsuarios3/>
+                <SociedadUsuarios3 darkMode={darkMode}/>
               </>
             }
           />
@@ -565,7 +565,7 @@ function App() {
             element={
               <>
                 <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <AlumniUsuarios3/>
+                <AlumniUsuarios3 darkMode={darkMode}/>
               </>
             }
           />
@@ -626,7 +626,7 @@ function App() {
             element={
               <>
                 <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <Intercambios4/>
+                <Intercambios4 darkMode={darkMode}/>
               </>
             }
           />
@@ -636,7 +636,7 @@ function App() {
             element={
               <>
                 <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <SociedadPubli/>
+                <SociedadPubli darkMode={darkMode}/>
               </>
             }
           />
@@ -646,7 +646,7 @@ function App() {
             element={
               <>
                 <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <AlumniUsuarios4/>
+                <AlumniUsuarios4 darkMode={darkMode}/>
               </>
             }
           />
