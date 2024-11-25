@@ -4,40 +4,50 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
+import InformationSection from '../components/InformationSection'; // Importar el componente de información
 import './Publications.css';
 
-const PublicationsAlumni = ({ darkMode }) => {
+const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const [infoData, setInfoData] = useState(null); // Estado para la información de la sección
 
-  // Cargar publicaciones aprobadas para la categoría "Alumni"
+  // Cargar información de la sección Intercambio
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get('/src/servicios/informacionAPI.php?section=intercambio');
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        throw new Error('No se pudo cargar la información de Intercambio.');
+      }
+    } catch (error) {
+      console.error('Error al cargar la información de Intercambio:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo cargar la información de Intercambio.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  // Cargar publicaciones aprobadas para la categoría "Intercambio"
   const loadApprovedPublications = async () => {
     try {
-      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Alumni');
-      console.log('Publicaciones aprobadas (Alumni):', response.data);
-  
-      let jsonData;
-  
-      // Verificar el formato de la respuesta
-      if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
-        // Si es un string con "Conexión exitosa", limpiamos y convertimos a JSON
-        jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
-      } else if (Array.isArray(response.data)) {
-        // Si ya es un array, lo usamos directamente
-        jsonData = response.data;
+      const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Intercambio');
+      console.log('Publicaciones aprobadas (Intercambio):', response.data);
+
+      if (Array.isArray(response.data)) {
+        setPublications(response.data);
       } else if (typeof response.data === 'object') {
-        // Si es un objeto, verificamos si contiene publicaciones
-        jsonData = response.data.publicaciones || [];
+        setPublications(response.data.publicaciones || []);
+      } else if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
+        const jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
+        setPublications(jsonData.publicaciones || []);
       } else {
         console.warn('Formato de respuesta inesperado:', response.data);
-        jsonData = [];
-      }
-  
-      if (Array.isArray(jsonData)) {
-        setPublications(jsonData);
-      } else {
-        console.warn('La respuesta no es un array válido:', jsonData);
         setPublications([]);
       }
     } catch (error) {
@@ -50,7 +60,6 @@ const PublicationsAlumni = ({ darkMode }) => {
       });
     }
   };
-  
 
   const handleSubmit = async (formData) => {
     try {
@@ -78,19 +87,35 @@ const PublicationsAlumni = ({ darkMode }) => {
   };
 
   useEffect(() => {
+    fetchInformation();
     loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Información de la sección Intercambio */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={false} // No editable en esta vista
+        />
+      )}
+
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Alumni</h1>
+        <h1>Publicaciones de Intercambio</h1>
+        <button
+          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
+          onClick={() => setIsFormVisible(!isFormVisible)}
+        >
+          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
+        </button>
       </header>
 
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
-          categoria="Alumni" // Pasamos la categoría al formulario
+          categoria="Intercambio" // Pasamos la categoría al formulario
           darkMode={darkMode}
         />
       )}
@@ -122,4 +147,4 @@ const PublicationsAlumni = ({ darkMode }) => {
   );
 };
 
-export default PublicationsAlumni;
+export default PublicationsIntercambio;
