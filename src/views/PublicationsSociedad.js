@@ -16,13 +16,11 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
   // Cargar información de la sección
   const fetchInformation = async () => {
     try {
-      const response = await axios.get(
-        `/src/servicios/informacionAPI.php?section=sociedad`
-      );
-      if (response.data.status === "success") {
+      const response = await axios.get(`/src/servicios/informacionAPI.php?section=sociedad`);
+      if (response.data.status === 'success') {
         setInfoData(response.data.data);
       } else {
-        throw new Error("No se pudo cargar la información.");
+        throw new Error('No se pudo cargar la información.');
       }
     } catch (error) {
       console.error('Error al cargar la información:', error);
@@ -35,13 +33,14 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
     }
   };
 
+  // Actualizar información de la sección
   const handleUpdateInformation = async (updatedData) => {
     try {
       const response = await axios.post('/src/servicios/informacionAPI.php', {
         section: 'sociedad',
         content: updatedData,
       });
-      if (response.data.status === "success") {
+      if (response.data.status === 'success') {
         Swal.fire({
           icon: 'success',
           title: 'Información actualizada',
@@ -50,7 +49,7 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
         });
         setInfoData(updatedData);
       } else {
-        throw new Error("No se pudo actualizar la información.");
+        throw new Error('No se pudo actualizar la información.');
       }
     } catch (error) {
       console.error('Error al actualizar la información:', error);
@@ -81,6 +80,31 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
     }
   };
 
+  // Crear nueva publicación
+  const handleSubmit = async (formData) => {
+    try {
+      await axios.post('/src/servicios/Publicacion.php', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: 'Publicación creada correctamente.',
+        confirmButtonText: 'OK',
+      });
+      loadApprovedPublications(); // Recargar publicaciones
+      setIsFormVisible(false); // Ocultar formulario
+    } catch (error) {
+      console.error('Error al guardar publicación:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo guardar la publicación.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
   useEffect(() => {
     fetchInformation();
     loadApprovedPublications();
@@ -88,35 +112,37 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Sección de información */}
       {infoData && (
         <InformationSection
-        data={infoData}
-        darkMode={darkMode}
-        isEditable={true} // Siempre editable en esta vista
-        onEdit={handleUpdateInformation}
-      />
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={true} // Solo editable si es administrador
+          onEdit={handleUpdateInformation}
+        />
       )}
 
+      {/* Encabezado y botón de nueva publicación */}
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Sociedad Científica</h1>
-        {isAdmin && (
-          <button
-            className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-            onClick={() => setIsFormVisible(!isFormVisible)}
-          >
-            {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-          </button>
-        )}
+        <button
+          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
+          onClick={() => setIsFormVisible(!isFormVisible)}
+        >
+          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
+        </button>
       </header>
 
+      {/* Formulario para nueva publicación */}
       {isFormVisible && (
         <PublicationForm
-          onSubmit={(formData) => console.log(formData)}
+          onSubmit={handleSubmit}
           categoria="Sociedad Cientifica"
           darkMode={darkMode}
         />
       )}
 
+      {/* Lista de publicaciones */}
       <div className="publications-grid">
         {publications.length > 0 ? (
           publications.map((publication) => (
@@ -124,7 +150,7 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
               key={publication.idpublicacion}
               publication={publication}
               darkMode={darkMode}
-              onCardClick={(pub) => setSelectedPublication(pub)}
+              onCardClick={(pub) => setSelectedPublication(pub)} // Mostrar en el modal
             />
           ))
         ) : (
@@ -134,6 +160,7 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
         )}
       </div>
 
+      {/* Modal para publicación ampliada */}
       <PublicationModal
         publication={selectedPublication}
         onClose={() => setSelectedPublication(null)}

@@ -2,85 +2,92 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
-import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
+import InformationSection from '../components/InformationSection'; // Importamos el componente de información
 import './Publications.css';
 
 const PublicationsSociedad = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const [infoData, setInfoData] = useState(null); // Datos de la sección de información
 
-  // Cargar publicaciones aprobadas para la categoría "Sociedad Cientifica"
+  // Cargar publicaciones aprobadas para la categoría "Sociedad Científica"
   const loadApprovedPublications = async () => {
     try {
-        const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica');
-        console.log('Publicaciones aprobadas (Sociedad Cientifica):', response.data);
+      const response = await axios.get(
+        '/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Sociedad Cientifica'
+      );
 
-        // Si `response.data` ya es un array o un objeto, no intentes parsearlo
-        if (Array.isArray(response.data)) {
-            setPublications(response.data);
-        } else if (typeof response.data === 'object') {
-            setPublications(response.data.pubs || []); // Asegúrate de ajustar según la estructura de tu JSON
-        } else {
-            console.warn('Formato inesperado de respuesta:', response.data);
-            setPublications([]);
-        }
+      if (Array.isArray(response.data)) {
+        setPublications(response.data);
+      } else if (typeof response.data === 'object') {
+        setPublications(response.data.pubs || []);
+      } else {
+        console.warn('Formato inesperado de respuesta:', response.data);
+        setPublications([]);
+      }
     } catch (error) {
-        console.error('Error al cargar publicaciones aprobadas:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudieron cargar las publicaciones aprobadas.',
-            confirmButtonText: 'OK',
-        });
-    }
-};
-
-
-  const handleSubmit = async (formData) => {
-    try {
-      await axios.post('/src/servicios/Publicacion.php', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: 'Publicación creada correctamente.',
-        confirmButtonText: 'OK',
-      });
-
-      loadApprovedPublications();
-      setIsFormVisible(false);
-    } catch (error) {
+      console.error('Error al cargar publicaciones aprobadas:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No se pudo guardar la publicación.',
+        text: 'No se pudieron cargar las publicaciones aprobadas.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  // Cargar información de la sección "Sociedad Científica"
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get(
+        '/src/servicios/informacionAPI.php?section=sociedad'
+      );
+
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        console.error('Error al cargar la información:', response.data.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo cargar la información de la sección.',
+          confirmButtonText: 'OK',
+        });
+      }
+    } catch (error) {
+      console.error('Error al cargar la información:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al cargar la información de la sección.',
         confirmButtonText: 'OK',
       });
     }
   };
 
   useEffect(() => {
+    fetchInformation();
     loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Información de la sección */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={false} // No se puede editar esta sección
+        />
+      )}
+
+      {/* Encabezado de publicaciones */}
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Sociedad Científica</h1>
       </header>
 
-      {isFormVisible && (
-        <PublicationForm
-          onSubmit={handleSubmit}
-          categoria="Sociedad Cientifica" // Pasamos la categoría al formulario
-          darkMode={darkMode}
-        />
-      )}
-
+      {/* Grid de publicaciones */}
       <div className="publications-grid">
         {publications.length > 0 ? (
           publications.map((publication) => (
