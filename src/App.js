@@ -4,7 +4,12 @@ import NavbarInvitado from './components/NavbarInvitado';
 import NavbarEstudiante from './components/NavbarEstudiante';
 import NavbarAdmin from './components/navbaradmin';
 import Pasantias from './views/pasantias';
-import Perfil from './views/perfil';
+import PerfilAdm from './views/perfil';
+import PerfilAlumni from './views/PerfilAlu';
+import PerfilCentro from './views/PerfilCen';
+import PerfilEstudiante from './views/PerfilEst';
+import PerfilIntercambio from './views/PerfilInt';
+import PerfilSociedad from './views/PerfilSoc';
 import CarouselSection from './components/CarouselSection';
 import DocenteSection from './components/DocenteSection';
 import Footer from './components/Footer';
@@ -237,11 +242,51 @@ function App() {
               </>
             }
           />
-          {/* Ruta para la página de Perfil */}
-          <Route path="/perfil" element={
+          {/* Ruta para la página de PerfilADM */}
+          <Route path="/perfilAdm" element={
             <>
               <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-              <Perfil /> {/* Componente que renderiza la vista de pasantías */}
+              <PerfilAdm /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          }/>
+
+          {/* Ruta para la página de PerfilALUMNI */}
+          <Route path="/perfilAlumni" element={
+            <>
+              <NavbarAlunmni darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <PerfilAlumni /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          }/>
+
+          {/* Ruta para la página de PerfilCENTRO */}
+          <Route path="/perfilCentro" element={
+            <>
+              <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <PerfilCentro /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          }/>
+
+          {/* Ruta para la página de PerfilESTUDIANTE */}
+          <Route path="/perfilEstudiante" element={
+            <>
+              <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <PerfilEstudiante /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          }/>
+
+          {/* Ruta para la página de PerfilINTERCAMBIO */}
+          <Route path="/perfilIntercambio" element={
+            <>
+              <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <PerfilIntercambio /> {/* Componente que renderiza la vista de pasantías */}
+            </>
+          }/>
+
+          {/* Ruta para la página de PerfilSOCIEDAD */}
+          <Route path="/perfilSociedad" element={
+            <>
+              <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <PerfilSociedad /> {/* Componente que renderiza la vista de pasantías */}
             </>
           }/>
 
@@ -534,14 +579,6 @@ function App() {
               </>
             }
           />
-
-          {/* Ruta para la página de Perfil */}
-          <Route path="/perfil" element={
-          <>
-          <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <Perfil /> {/* Componente que renderiza la vista de pasantías */}
-          </>
-        } />
 
           {/* Página de eSociedad*/}
          <Route
