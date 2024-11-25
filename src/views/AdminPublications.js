@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import AdminPublicationCard from '../components/AdminPublicationCard';
+import AdminPublicationModal from '../components/AdminPublicationModal';
 import './AdminPublications.css';
 
 const AdminPublications = ({ darkMode }) => {
   const [pendingPublications, setPendingPublications] = useState([]);
+  const [selectedPublication, setSelectedPublication] = useState(null);
   const [error, setError] = useState('');
 
   // Cargar publicaciones pendientes
@@ -67,12 +69,19 @@ const AdminPublications = ({ darkMode }) => {
               publication={publication}
               onAction={handleAction}
               darkMode={darkMode}
+              onCardClick={() => setSelectedPublication(publication)}
             />
           ))
         ) : (
           <p className="no-publications">No hay publicaciones pendientes.</p>
         )}
       </div>
+      {/* Modal */}
+      <AdminPublicationModal
+        publication={selectedPublication}
+        onClose={() => setSelectedPublication(null)} // Cerrar modal
+        darkMode={darkMode}
+      />
     </div>
   );
 };
