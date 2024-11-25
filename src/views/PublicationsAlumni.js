@@ -4,36 +4,84 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
+import InformationSection from '../components/InformationSection';
 import './Publications.css';
 
-const PublicationsAlumni = ({ darkMode }) => {
+const PublicationsAlumni = ({ darkMode, isAdmin }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const [selectedPublication, setSelectedPublication] = useState(null);
+  const [infoData, setInfoData] = useState(null);
+
+  // Cargar información de la sección Alumni
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get(`/src/servicios/informacionAPI.php?section=alumni`);
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        throw new Error('No se pudo cargar la información de Alumni.');
+      }
+    } catch (error) {
+      console.error('Error al cargar la información de Alumni:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo cargar la información de Alumni.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  // Actualizar información de la sección Alumni
+  const handleUpdateInformation = async (updatedData) => {
+    try {
+      const response = await axios.post('/src/servicios/informacionAPI.php', {
+        section: 'alumni',
+        content: updatedData,
+      });
+      if (response.data.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Información actualizada',
+          text: 'La información de Alumni se actualizó correctamente.',
+          confirmButtonText: 'OK',
+        });
+        setInfoData(updatedData);
+      } else {
+        throw new Error('No se pudo actualizar la información de Alumni.');
+      }
+    } catch (error) {
+      console.error('Error al actualizar la información de Alumni:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar la información de Alumni.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
 
   // Cargar publicaciones aprobadas para la categoría "Alumni"
   const loadApprovedPublications = async () => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Alumni');
       console.log('Publicaciones aprobadas (Alumni):', response.data);
-  
+
       let jsonData;
-  
+
       // Verificar el formato de la respuesta
       if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
-        // Si es un string con "Conexión exitosa", limpiamos y convertimos a JSON
         jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
       } else if (Array.isArray(response.data)) {
-        // Si ya es un array, lo usamos directamente
         jsonData = response.data;
       } else if (typeof response.data === 'object') {
-        // Si es un objeto, verificamos si contiene publicaciones
         jsonData = response.data.publicaciones || [];
       } else {
         console.warn('Formato de respuesta inesperado:', response.data);
         jsonData = [];
       }
-  
+
       if (Array.isArray(jsonData)) {
         setPublications(jsonData);
       } else {
@@ -50,8 +98,8 @@ const PublicationsAlumni = ({ darkMode }) => {
       });
     }
   };
-  
 
+  // Crear nueva publicación
   const handleSubmit = async (formData) => {
     try {
       await axios.post('/src/servicios/Publicacion.php', formData, {
@@ -78,29 +126,45 @@ const PublicationsAlumni = ({ darkMode }) => {
   };
 
   useEffect(() => {
+    fetchInformation();
     loadApprovedPublications();
   }, []);
 
   return (
     <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+      {/* Información de la sección Alumni */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={darkMode}
+          isEditable={true} // Editable solo si es administrador
+          onEdit={handleUpdateInformation}
+        />
+      )}
+
+      {/* Encabezado y botón para crear publicaciones */}
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Alumni</h1>
-        <button
-          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        >
-          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-        </button>
+        {isAdmin && (
+          <button
+            className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
+            onClick={() => setIsFormVisible(!isFormVisible)}
+          >
+            {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
+          </button>
+        )}
       </header>
 
+      {/* Formulario de creación de publicación */}
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
-          categoria="Alumni" // Pasamos la categoría al formulario
+          categoria="Alumni"
           darkMode={darkMode}
         />
       )}
 
+      {/* Publicaciones aprobadas */}
       <div className="publications-grid">
         {publications.length > 0 ? (
           publications.map((publication) => (
@@ -108,7 +172,7 @@ const PublicationsAlumni = ({ darkMode }) => {
               key={publication.idpublicacion}
               publication={publication}
               darkMode={darkMode}
-              onCardClick={(pub) => setSelectedPublication(pub)} // Manejar clic en la tarjeta
+              onCardClick={(pub) => setSelectedPublication(pub)}
             />
           ))
         ) : (
@@ -118,7 +182,7 @@ const PublicationsAlumni = ({ darkMode }) => {
         )}
       </div>
 
-      {/* Modal para mostrar tarjeta ampliada */}
+      {/* Modal para mostrar publicación ampliada */}
       <PublicationModal
         publication={selectedPublication}
         onClose={() => setSelectedPublication(null)}
