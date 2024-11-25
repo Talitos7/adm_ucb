@@ -4,15 +4,21 @@
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  background-color: #f9f9f9;
-  color: #333;
+  width: 100%;
+  overflow-x: auto; /* Habilita el desplazamiento horizontal si es necesario */
+}
+
+.malla-curricular-container.dark {
+  background-color: #303030; /* Fondo oscuro */
+  color: #f5f5f5; /* Texto claro */
 }
 
 .malla-curricular-table {
   width: 90%;
   border-collapse: collapse;
+  table-layout: auto; /* Asegura que las columnas se ajusten automáticamente */
   margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   background-color: #fff;
 }
 
@@ -21,17 +27,33 @@
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
+  min-width: 120px; /* Ajusta el ancho mínimo de las celdas */
 }
 
 .malla-curricular-table th {
-  background-color: #1976d2; /* Azul para encabezados */
+  background-color: #1976d2;
   color: #fff;
-  font-weight: bold;
+}
+
+.malla-curricular-container.dark .malla-curricular-table {
+  background-color: #616161; /* Tabla en modo oscuro */
+  border-color: #757575;
+}
+
+.malla-curricular-container.dark th {
+  background-color: #90caf9;
 }
 
 .ciclo-header {
   background-color: #f4f4f4;
   font-weight: bold;
+  position: sticky;
+  left: 0; /* Hace que la columna de los ciclos sea fija */
+  z-index: 1;
+}
+
+.malla-curricular-container.dark .ciclo-header {
+  background-color: #757575;
 }
 
 .filled-cell {
@@ -50,9 +72,14 @@
   background-color: #f9f9f9; /* Gris claro */
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
+  .malla-curricular-table th, 
+  .malla-curricular-table td {
+    font-size: 0.9rem; /* Reduce el tamaño del texto en pantallas pequeñas */
+  }
+
   .malla-curricular-table {
-    width: 100%;
+    font-size: 0.8rem; /* Reduce el tamaño general de la tabla */
   }
 
   .filled-cell {
@@ -65,17 +92,17 @@
 }
 
 .prerequisite {
-  background-color: #f44336; /* Rojo */
+  background-color: #f44336 !important; /* Rojo */
   color: white;
 }
 
 .unlocked {
-  background-color: #4caf50; /* Verde */
+  background-color: #4caf50 !important; /* Verde */
   color: white;
 }
 
 .active-cell {
-  background-color: #03a9f4; /* Celeste */
+  background-color: #0288d1 !important; /* Verde */
   color: white;
   font-weight: bold;
   border: 2px solid #0288d1; /* Borde resaltado */

@@ -154,14 +154,21 @@ function App() {
               </>
             }
           />
-          <Route path="/MallaCurricular" element={<MallaCurricular darkMode={darkMode} />} />
-
+          <Route 
+            path="/MallaCurricular" 
+            element={
+              <>
+                <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
+                <MallaCurricular darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+              </>
+            } 
+          />
           {/* Ruta para la página de Pasantías */}
           <Route path="/pasantias" element={
-          <>
-          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
-          </>
+            <>
+            <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+              <Pasantias /> {/* Componente que renderiza la vista de pasantías */}
+            </>
           } />
           <Route path="/empresas" element={
           <>
@@ -241,11 +248,10 @@ function App() {
               </>
             }
           />
-
           {/* Ruta para la página de Perfil */}
           <Route path="/perfil" element={
           <>
-          <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
             <Perfil2 /> {/* Componente que renderiza la vista de pasantías */}
           </>
         } />
