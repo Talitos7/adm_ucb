@@ -22,7 +22,7 @@ const style = {
   p: 4,
 };
 
-function Pasantias({ darkMode, isAdmin }) {
+function Pasantias({ darkMode, isAdmin=true }) {
   const [open, setOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false); // Modal de éxito
   const [titulo, setTitulo] = useState('');
@@ -160,13 +160,12 @@ function Pasantias({ darkMode, isAdmin }) {
       <PasantiasCards />
 
       {/* Botón flotante para agregar pasantías */}
-      {isAdmin && (
         <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
           <Fab color="secondary" aria-label="add" onClick={handleOpen}>
             <AddIcon />
           </Fab>
         </Box>
-      )}
+
 
       {/* Modal Principal para agregar Pasantía */}
       <Modal open={open} onClose={handleClose}>

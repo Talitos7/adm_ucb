@@ -145,14 +145,12 @@ const PublicationsAlumni = ({ darkMode, isAdmin }) => {
       {/* Encabezado y botón para crear publicaciones */}
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Alumni</h1>
-        {isAdmin && (
           <button
             className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
             onClick={() => setIsFormVisible(!isFormVisible)}
           >
             {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
           </button>
-        )}
       </header>
 
       {/* Formulario de creación de publicación */}
