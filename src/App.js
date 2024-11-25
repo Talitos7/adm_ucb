@@ -224,8 +224,8 @@ function App() {
           } />
           <Route path="/AdminPublications" element={
           <>
-          <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
-            <AdminPublications />
+            <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange}/> {/* NavbarAdmin */}
+            <AdminPublications darkMode={darkMode} />
           </>
           } />
           <Route

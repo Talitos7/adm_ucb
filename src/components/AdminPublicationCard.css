@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* Estilos para el contenedor general */
 .admin-publication-card {
   background-color: #fff;
   border-radius: 12px;
@@ -9,123 +9,129 @@
   margin: 1rem;
   display: flex;
   flex-direction: column;
-  }
+}
 
-  .admin-publication-card.dark-mode {
-    background-color: #2c2c2c;
-    color: #f5f5f5;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-  }
-  
-  .admin-publication-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
+/* Contenedor general */
+.admin-publication-card.dark-mode {
+  background-color: #2c2c2c; /* Fondo oscuro */
+  color: #f5f5f5; /* Texto claro */
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Sombra más clara */
+}
 
-  .admin-publication-card.dark-mode:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(228, 221, 221, 0.842);
-  }
-  
-  /* Estilo para la imagen */
-  .image-container {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-  }
-  
-  .publication-image {
+/* Hover en modo oscuro */
+.admin-publication-card.dark-mode:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.admin-publication-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.admin-publication-card.dark-mode:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+/* Imagen */
+.image-container.dark-mode .publication-image {
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordes claros para modo oscuro */
+}
+
+/* Imagen */
+.image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.publication-image {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Detalles de la publicación */
+.publication-details {
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Detalles de la publicación */
+.publication-details.dark-mode {
+  color: #e0e0e0; /* Texto claro */
+}
+
+.publication-author {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: inherit; /* Hereda del modo oscuro */
+}
+
+.publication-description {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: inherit; /* Hereda del modo oscuro */
+}
+
+.publication-email {
+  font-size: 0.9rem;
+  color: inherit; /* Hereda del modo oscuro */
+}
+
+/* Botones */
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+}
+
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.action-btn.approve {
+  background-color: #4caf50;
+  color: white;
+}
+
+.action-btn.reject {
+  background-color: #f44336;
+  color: white;
+}
+
+.action-btn:hover {
+  opacity: 0.9;
+}
+
+/* Botones en modo oscuro */
+.action-btn.approve.dark-mode {
+  background-color: #388e3c; /* Verde más oscuro */
+  color: #e0f2f1; /* Texto claro */
+}
+
+.action-btn.reject.dark-mode {
+  background-color: #d32f2f; /* Rojo más oscuro */
+  color: #ffebee; /* Texto claro */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-publication-card {
     max-width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    object-fit: cover;
   }
-  
-  .publication-details {
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .publication-details.dark-mode {
-    color: #030303;
-  }
-  
-  .publication-author {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #333;
-  }
-  
-  .publication-author.dark-mode {
-    color: #030303;
-  }
-  
-  .publication-description {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 1rem;
-  }
-  
-  .publication-description.dark-mode {
-    color: #030303;
-  }
-  
-  .publication-email {
-    font-size: 0.9rem;
-    color: #999;
-  }
-  
-  .publication-email.dark-mode {
-    color: #030303;
-  }
-  
-  /* Buttons Section */
-  .action-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 1rem;
-  }
-  
-  .action-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .action-btn.approve {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .action-btn.approve:hover {
-    background-color: #218838;
-  }
-  
-  .action-btn.reject {
-    background-color: #dc3545;
-    color: #fff;
-  }
-  
-  .action-btn.reject:hover {
-    background-color: #c82333;
-  }
-  
-  .action-btn.dark-btn {
-    background-color: #444;
-    color: #f5f5f5;
-  }
-  
-  .action-btn.dark-btn:hover {
-    background-color: #666;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .admin-publication-card {
-      max-width: 100%;
-    }
-  }
+}
+
+.publication-image {
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordes claros para modo oscuro */
+}
+
+.admin-publication-card:not(.dark-mode) .publication-image {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
