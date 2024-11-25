@@ -1,16 +1,64 @@
-import React, { useState } from 'react';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 import CrearEvento from '../components/CrearEvento';
 import ListaEventos from '../components/ListaEventos';
 import EditarEvento from '../components/EditarEvento';
+import InformationSection from '../components/InformationSection'; // Importa el componente de información
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const EventosView = () => {
+const EventosView = ({ isAdmin = true }) => {
   const [openCrear, setOpenCrear] = useState(false);
   const [openEditar, setOpenEditar] = useState(false);
   const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
   const [reload, setReload] = useState(false); // Esto controla la recarga de la lista
+  const [infoData, setInfoData] = useState(null); // Estado para la información de la sección
+
+  // Cargar la información de la sección
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get(`/src/servicios/informacionAPI.php?section=eventos`);
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        console.error('Error al cargar la información de eventos.');
+      }
+    } catch (error) {
+      console.error('Hubo un error al cargar la información:', error);
+    }
+  };
+
+  // Actualizar la información de la sección
+  const handleUpdateInformation = async (updatedData) => {
+    try {
+      const response = await axios.post('/src/servicios/informacionAPI.php', {
+        section: 'eventos',
+        content: updatedData,
+      });
+      if (response.data.status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Información actualizada',
+          text: 'La información se actualizó correctamente.',
+          confirmButtonText: 'OK',
+        });
+        setInfoData(updatedData);
+      } else {
+        throw new Error('No se pudo actualizar la información.');
+      }
+    } catch (error) {
+      console.error('Error al actualizar la información:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo actualizar la información.',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
 
   const handleOpenCrear = () => setOpenCrear(true);
   const handleCloseCrear = () => setOpenCrear(false);
@@ -37,12 +85,9 @@ const EventosView = () => {
 
     if (confirmResult.isConfirmed) {
       try {
-        console.log('ID del evento enviado:', idEvento); // Depuración en consola
         const response = await axios.put(
           `http://localhost/adm_ucb/src/servicios/eventosAPI.php?action=changeState&idEvento=${idEvento}`
         );
-
-        console.log('Respuesta del backend:', response.data); // Depuración en consola
 
         Swal.fire({
           title: 'Deshabilitado',
@@ -66,8 +111,23 @@ const EventosView = () => {
     }
   };
 
+  // Cargar la información al montar el componente
+  useEffect(() => {
+    fetchInformation();
+  }, []);
+
   return (
     <Box sx={{ p: 3 }}>
+      {/* Sección de información */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={false} // Cambiar según tu implementación
+          isEditable={isAdmin} // Editable solo si es administrador
+          onEdit={handleUpdateInformation}
+        />
+      )}
+
       <Typography variant="h3" align="center" gutterBottom>
         Gestión de Eventos
       </Typography>

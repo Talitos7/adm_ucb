@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Modal } from '@mui/material';
 import CrearEvento from '../components/CrearEvento';
 import ListaEventos from '../components/ListarEventos2';
 import EditarEvento from '../components/EditarEvento';
+import InformationSection from '../components/InformationSection'; // Componente de información
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -11,6 +12,7 @@ const EventosView = () => {
   const [openEditar, setOpenEditar] = useState(false);
   const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
   const [reload, setReload] = useState(false); // Esto controla la recarga de la lista
+  const [infoData, setInfoData] = useState(null); // Estado para la información de la sección
 
   const handleCloseCrear = () => setOpenCrear(false);
 
@@ -65,8 +67,37 @@ const EventosView = () => {
     }
   };
 
+  // Cargar la información de la sección
+  const fetchInformation = async () => {
+    try {
+      const response = await axios.get(`/src/servicios/informacionAPI.php?section=eventos`);
+      if (response.data.status === 'success') {
+        setInfoData(response.data.data);
+      } else {
+        console.error('Error al cargar la información de eventos.');
+      }
+    } catch (error) {
+      console.error('Hubo un error al cargar la información:', error);
+    }
+  };
+
+  // Cargar la información al montar el componente
+  useEffect(() => {
+    fetchInformation();
+  }, []);
+
   return (
     <Box sx={{ p: 3 }}>
+      {/* Sección de información */}
+      {infoData && (
+        <InformationSection
+          data={infoData}
+          darkMode={false} // Ajusta según sea necesario
+          isEditable={false} // No editable ya que el administrador es false
+        />
+      )}
+
+      {/* Lista de eventos */}
       <ListaEventos
         onEditar={handleOpenEditar}
         onEliminar={handleEliminar}
