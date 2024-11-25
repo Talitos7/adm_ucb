@@ -33,20 +33,18 @@ function LoginPage() {
   
       if (mensaje === 'Login exitoso' && token) {
         setSuccess('Inicio de sesión exitoso. Redirigiendo...');
-
-        localStorage.setItem('usuario', JSON.stringify(usuario));
-        localStorage.setItem('token', token); // Almacenar el token en el localStorage
   
-        // Configurar token en el encabezado de autorización para futuras solicitudes
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        localStorage.setItem('token', token);
+  
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
-        // Redirigir dependiendo del rol del usuario
         const rolResponse = await axios.get(
           `http://localhost/adm_ucb/src/servicios/loginUsuarios.php?emailAdm=${email}&tipo=rol`
         );
   
         const { rol } = rolResponse.data;
-
+  
         if (rol) {
           localStorage.setItem('usuarioRol', rol);
           switch (rol) {
@@ -56,17 +54,17 @@ function LoginPage() {
             case 'estudiante':
               navigate('/estudiante');
               break;
-              case 'intercambio':
-                navigate('/IntercambioPage');
-                break;
+            case 'intercambio':
+              navigate('/IntercambioPage');
+              break;
             case 'centro':
-              navigate('/centroPage'); // Agregar página de estudiante del centro
+              navigate('/centroPage');
               break;
             case 'sociedad':
-              navigate('/sociedadPage'); // Agregar página de estudiante de la sociedad científica
+              navigate('/sociedadPage');
               break;
             case 'alumni':
-              navigate('/AlumniPage'); // Agregar página de alumni
+              navigate('/AlumniPage');
               break;
             default:
               setError('Rol no reconocido');

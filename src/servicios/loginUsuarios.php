@@ -59,21 +59,31 @@ function login($conn) {
 
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($usuario && password_verify($password, $usuario['password'])) {
-            // Generar token JWT
-            $payload = [
-                "iss" => "http://localhost",
-                "aud" => "http://localhost",
-                "iat" => time(),
-                "exp" => time() + (60 * 60), // Expira en 1 hora
-                "emailAdm" => $emailAdm
-            ];
-            
-            $jwt = JWT::encode($payload, $key, 'HS256');
+        if ($usuario) {
+            if (!$usuario['estado']) {
+                // Verificar si el usuario está inactivo
+                echo json_encode(["mensaje" => "El usuario está inactivo. Contacte al administrador."]);
+                return;
+            }
 
-            echo json_encode(["mensaje" => "Login exitoso", "usuario" => $usuario, "token" => $jwt]);
+            if (password_verify($password, $usuario['password'])) {
+                // Generar token JWT
+                $payload = [
+                    "iss" => "http://localhost",
+                    "aud" => "http://localhost",
+                    "iat" => time(),
+                    "exp" => time() + (60 * 60), // Expira en 1 hora
+                    "emailAdm" => $emailAdm
+                ];
+
+                $jwt = JWT::encode($payload, $key, 'HS256');
+
+                echo json_encode(["mensaje" => "Login exitoso", "usuario" => $usuario, "token" => $jwt]);
+            } else {
+                echo json_encode(["mensaje" => "Credenciales incorrectas"]);
+            }
         } else {
-            echo json_encode(["mensaje" => "Credenciales incorrectas"]);
+            echo json_encode(["mensaje" => "Usuario no encontrado"]);
         }
     } else {
         echo json_encode(["mensaje" => "Faltan datos para el login"]);
