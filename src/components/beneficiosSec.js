@@ -93,13 +93,12 @@ export default function CardSection() {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-between', // Más espacio entre la tarjeta y la imagen
           flexWrap: 'wrap',
           alignItems: 'center', 
           gap: 4, // Espaciado entre los elementos
         }}
       >
-        <Box sx={{ flex: '1', maxWidth: '600px' }}> {/* Tarjeta ajustada */}
+        <Box sx={{ flex: '1', maxWidth: '350px' }}> {/* Tarjeta ajustada */}
           <ActionAreaCard
             image={image2}
             title="Beneficios de estudiar esta carrera en la U.C.B."
