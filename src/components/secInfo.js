@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { Grid, Avatar, Paper, Typography, Box, Container, Button } from '@mui/material';
+import { Grid, Avatar, Paper, Typography, Box, Container, Button, TextField } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-// Imágenes importadas
+// Imágenes predeterminadas
 import duracionImage from '../assets/calendar_8377332.png';
 import areasEstudioImage from '../assets/clipboard_8358743.png';
 import graduacionImage from '../assets/certificate_6360739.png';
 
-function ActionAreaCard({ image, title, description, editable, onTitleChange, onDescriptionChange }) {
+// Componente de Tarjetas
+function ActionAreaCard({ image, title, description, editable, onTitleChange, onDescriptionChange, onImageChange }) {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.3,
@@ -41,92 +42,139 @@ function ActionAreaCard({ image, title, description, editable, onTitleChange, on
         <Avatar
           src={image}
           alt={title}
-          sx={{ width: 80, height: 80, marginRight: 2, borderRadius: '16px',}}
+          sx={{ width: 80, height: 80, marginRight: 2, borderRadius: '16px' }}
         />
-        <Box sx={{ textAlign: 'left' }}>
-          <Typography variant="h6" gutterBottom>
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {Array.isArray(description)
-              ? description.map((item, index) => <li key={index}>{item}</li>)
-              : description}
-          </Typography>
+        <Box sx={{ textAlign: 'left', flex: 1 }}>
+          {editable ? (
+            <>
+              <TextField
+                label="Título"
+                variant="outlined"
+                fullWidth
+                value={title}
+                onChange={(e) => onTitleChange(e.target.value)}
+                sx={{ marginBottom: 2 }}
+              />
+              <TextField
+                label="Descripción"
+                variant="outlined"
+                multiline
+                rows={3}
+                fullWidth
+                value={description}
+                onChange={(e) => onDescriptionChange(e.target.value)}
+              />
+              <Button
+                variant="outlined"
+                component="label"
+                fullWidth
+                sx={{ marginTop: 2 }}
+              >
+                Cambiar Imagen
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) => onImageChange(e.target.files[0])}
+                />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Typography variant="h6" gutterBottom>
+                {title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {Array.isArray(description)
+                  ? description.map((item, index) => <li key={index}>{item}</li>)
+                  : description}
+              </Typography>
+            </>
+          )}
         </Box>
       </Paper>
     </motion.div>
   );
 }
 
+// Componente Principal
 export default function CardSection() {
   const [editable, setEditable] = React.useState(false);
+  const [cardsData, setCardsData] = React.useState(() => {
+    const savedData = localStorage.getItem('cardsData');
+    return savedData
+      ? JSON.parse(savedData)
+      : [
+          { image: duracionImage, title: 'Duración de la Carrera', description: '9 Semestres' },
+          {
+            image: areasEstudioImage,
+            title: 'Áreas de Estudio',
+            description: [
+              'Gestión Empresarial',
+              'Emprendimientos y Proyectos',
+              'Recursos Humanos',
+              'Finanzas',
+              'Marketing',
+              'Operaciones',
+            ],
+          },
+          {
+            image: graduacionImage,
+            title: 'Modalidades de Graduación',
+            description: [
+              'Graduación por excelencia',
+              'Tesis de grado',
+              'Trabajo dirigido',
+              'Proyecto de grado',
+              'Plan de negocio',
+            ],
+          },
+        ];
+  });
 
   React.useEffect(() => {
     setEditable(window.location.pathname === '/Editar');
-  }, []);  
+  }, []);
 
-  const loadCardsData = () => {
-    const savedData = localStorage.getItem('cardsData');
-    return savedData ? JSON.parse(savedData) : [
-      {
-        image: duracionImage,
-        title: 'Duración de la Carrera',
-        description: '9 Semestres',
-      },
-      {
-        image: areasEstudioImage,
-        title: 'Áreas de Estudio',
-        description: [
-          'Gestión Empresarial',
-          'Emprendimientos y Proyectos',
-          'Recursos Humanos',
-          'Finanzas',
-          'Marketing',
-          'Operaciones',
-        ],
-      },
-      {
-        image: graduacionImage,
-        title: 'Modalidades de Graduación',
-        description: [
-          'Graduación por excelencia',
-          'Tesis de grado',
-          'Trabajo dirigido',
-          'Proyecto de grado',
-          'Plan de negocio',
-        ],
-      },
-    ];
-  };
-
-  const [cardsData, setCardsData] = React.useState(loadCardsData);
-
-  // Función para manejar los cambios en el título
   const handleTitleChange = (index, newTitle) => {
-    const newCardsData = [...cardsData];
-    newCardsData[index].title = newTitle;
-    setCardsData(newCardsData);
+    const updatedCards = [...cardsData];
+    updatedCards[index].title = newTitle;
+    setCardsData(updatedCards);
   };
 
-  // Función para manejar los cambios en la descripción
   const handleDescriptionChange = (index, newDescription) => {
-    const newCardsData = [...cardsData];
+    const updatedCards = [...cardsData];
+    updatedCards[index].description = newDescription;
+    setCardsData(updatedCards);
+  };
 
-    // Reemplazar guiones con saltos de línea y convertir en lista <ul>
-    const formattedDescription = newDescription.split('-').join('\n').trim();
+  const handleImageChange = (index, newImage) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const updatedCards = [...cardsData];
+      updatedCards[index].image = e.target.result;
+      setCardsData(updatedCards);
+    };
+    reader.readAsDataURL(newImage);
+  };
 
-    if (Array.isArray(newCardsData[index].description)) {
-      newCardsData[index].description = formattedDescription.split('\n');
-    } else {
-      newCardsData[index].description = formattedDescription.split('\n');
-    }
+  const handleAddCard = () => {
+    const newCard = {
+      image: '',
+      title: 'Nuevo Título',
+      description: 'Nueva Descripción',
+    };
+    setCardsData([...cardsData, newCard]);
+  };
 
-    setCardsData(newCardsData);
+  const handleRemoveCard = (index) => {
+    const updatedCards = cardsData.filter((_, i) => i !== index);
+    setCardsData(updatedCards);
   };
 
   const handleSaveChanges = () => {
     localStorage.setItem('cardsData', JSON.stringify(cardsData));
-    console.log('Cambios guardados', cardsData);
+    alert('Cambios guardados exitosamente.');
   };
 
   return (
@@ -141,14 +189,31 @@ export default function CardSection() {
               editable={editable}
               onTitleChange={(newTitle) => handleTitleChange(index, newTitle)}
               onDescriptionChange={(newDescription) => handleDescriptionChange(index, newDescription)}
+              onImageChange={(newImage) => handleImageChange(index, newImage)}
             />
+            {editable && (
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleRemoveCard(index)}
+                fullWidth
+                sx={{ marginTop: 1 }}
+              >
+                Eliminar Tarjeta
+              </Button>
+            )}
           </Grid>
         ))}
       </Grid>
       {editable && (
-        <Button variant="contained" color="primary" sx={{ marginTop: 2 }} onClick={handleSaveChanges}>
-          Guardar Cambios
-        </Button>
+        <Box textAlign="center" sx={{ marginTop: 4 }}>
+          <Button variant="contained" color="primary" onClick={handleAddCard} sx={{ marginRight: 2 }}>
+            Agregar Tarjeta
+          </Button>
+          <Button variant="contained" color="success" onClick={handleSaveChanges}>
+            Guardar Cambios
+          </Button>
+        </Box>
       )}
     </Container>
   );
