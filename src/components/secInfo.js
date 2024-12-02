@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, CardContent, CardMedia, Typography, CardActionArea, Grid, Container, TextField, Button } from '@mui/material';
+import { Grid, Avatar, Paper, Typography, Box, Container, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -14,75 +14,46 @@ function ActionAreaCard({ image, title, description, editable, onTitleChange, on
     threshold: 0.3,
   });
 
-  // Función para transformar la descripción (si es JSX) en texto
-  const renderDescription = () => {
-    if (React.isValidElement(description)) {
-      return description;
-    } else {
-      if (editable) {
-        return (
-          <TextField
-            label="Descripción"
-            value={description}
-            onChange={(e) => onDescriptionChange(e.target.value)}
-            fullWidth
-            variant="outlined"
-            multiline
-            rows={4}
-          />
-        );
-      } else {
-        // Si la descripción contiene guiones, los convertimos en lista <ul>
-        const descriptionContent = description.split('\n').map((line, index) => {
-          if (line.startsWith('-')) {
-            return <li key={index}>{line.replace('-', '').trim()}</li>;
-          }
-          return <p key={index}>{line}</p>;
-        });
-
-        return <ul>{descriptionContent}</ul>;
-      }
-    }
-  };
-
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.8 }}
-      transition={{ duration: 0.60, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 50 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      <Card sx={{ maxWidth: 345, '&:hover': { transform: 'scale(1.05)', transition: 'transform 0.3s ease-in-out' } }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            sx={{
-              height: '90px',
-              width: '100%',
-              objectFit: 'contain',
-            }}
-            image={image}
-            alt={title}
-          />
-          <CardContent>
-            {editable ? (
-              <TextField
-                label="Título"
-                value={title}
-                onChange={(e) => onTitleChange(e.target.value)}
-                fullWidth
-                variant="outlined"
-                sx={{ marginBottom: 2 }}
-              />
-            ) : (
-              <Typography gutterBottom variant="h5" component="div">
-                {title}
-              </Typography>
-            )}
-            {renderDescription()}
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          padding: 3,
+          borderRadius: '16px',
+          border: '2px solid #e0e0e0',
+          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
+          transition: 'transform 0.3s, border-color 0.3s, box-shadow 0.3s',
+          '&:hover': {
+            transform: 'scale(1.08)',
+            borderColor: '#00796b',
+            boxShadow: '0 12px 24px rgba(0, 0, 0, 0.2)',
+          },
+        }}
+      >
+        <Avatar
+          src={image}
+          alt={title}
+          sx={{ width: 80, height: 80, marginRight: 2, borderRadius: '16px',}}
+        />
+        <Box sx={{ textAlign: 'left' }}>
+          <Typography variant="h6" gutterBottom>
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {Array.isArray(description)
+              ? description.map((item, index) => <li key={index}>{item}</li>)
+              : description}
+          </Typography>
+        </Box>
+      </Paper>
     </motion.div>
   );
 }

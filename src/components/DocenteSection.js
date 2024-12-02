@@ -118,8 +118,9 @@ const DocenteSection = () => {
                   transition: 'width 0.3s ease, height 0.3s ease',
                   cursor: 'pointer',
                   boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
+                  borderRadius: '16px',
                   '&:hover': {
-                    width: 320, // Ancho fijo al pasar el cursor
+                    width: '80%', // Ancho fijo al pasar el cursor
                     height: 400, // Tamaño mayor solo en hover
                   },
                 }}
