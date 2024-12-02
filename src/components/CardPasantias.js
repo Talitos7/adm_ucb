@@ -14,6 +14,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 export default function PasantiasCards() {
     const [pasantias, setPasantias] = useState([]);
@@ -99,7 +100,14 @@ export default function PasantiasCards() {
     
 
     return (
-        <div style={{ padding: '20px' }}>
+        <Box
+        sx={{
+            margin: -2.5,
+            background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+            minHeight: "100vh",
+            padding: 10,
+            position: "relative",
+        }}>
             {error ? (
                 <Typography color="error">{error}</Typography>
             ) : (
@@ -155,6 +163,6 @@ export default function PasantiasCards() {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </Box>
     );
 }
