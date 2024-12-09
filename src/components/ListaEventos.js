@@ -44,7 +44,7 @@ const ListaEventos = ({ onEditar, onEliminar, reload }) => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography color= "#e1f3ff" variant="h4" align="center" gutterBottom>
         Lista de Eventos
       </Typography>
       <Grid container spacing={3}>

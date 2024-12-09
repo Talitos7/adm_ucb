@@ -3,8 +3,13 @@
     align-items: center; /* Centra los elementos verticalmente */
     justify-content: center; /* Centra los elementos horizontalmente */
     padding: 20px;
-    height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
     text-align: center; /* Centra el texto */
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)";
+    min-height: 100vh;
+    position: relative;
   }
   
   .circle {
@@ -24,11 +29,12 @@
   .welcome-text h1 {
     font-size: 72px; /* Mucho más grande para el texto del título */
     margin: 0;
+    color: #e1f3ff;
   }
   
   .welcome-text p {
     font-size: 36px; /* Mucho más grande para el texto del párrafo */
-    color: #666;
+    color: #e1f3ff;
     margin: 20px 0 0; /* Ajusta el margen */
   }
   

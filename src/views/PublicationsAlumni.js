@@ -6,6 +6,9 @@ import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
 import InformationSection from '../components/InformationSection';
 import './Publications.css';
+import {
+  Box,
+} from "@mui/material";
 
 const PublicationsAlumni = ({ darkMode, isAdmin }) => {
   const [publications, setPublications] = useState([]);
@@ -131,7 +134,16 @@ const PublicationsAlumni = ({ darkMode, isAdmin }) => {
   }, []);
 
   return (
-    <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box className={`publications-container ${darkMode ? 'dark-mode' : ''}`}
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+      minHeight: "100vh",
+      padding: 4,
+      position: "relative",
+    }}>
       {/* Información de la sección Alumni */}
       {infoData && (
         <InformationSection
@@ -188,7 +200,7 @@ const PublicationsAlumni = ({ darkMode, isAdmin }) => {
         onClose={() => setSelectedPublication(null)}
         darkMode={darkMode}
       />
-    </div>
+    </Box>
   );
 };
 

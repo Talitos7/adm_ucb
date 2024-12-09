@@ -4,6 +4,9 @@ import Swal from 'sweetalert2';
 import AdminPublicationCard from '../components/AdminPublicationCard';
 import AdminPublicationModal from '../components/AdminPublicationModal';
 import './AdminPublications.css';
+import {
+  Box,
+} from "@mui/material";
 
 const AdminPublications = ({ darkMode }) => {
   const [pendingPublications, setPendingPublications] = useState([]);
@@ -54,7 +57,16 @@ const AdminPublications = ({ darkMode }) => {
   }, []);
 
   return (
-    <div className={`admin-publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box className={`admin-publications-container ${darkMode ? 'dark-mode' : ''}`}
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+      minHeight: "100vh",
+      padding: 4,
+      position: "relative",
+    }}>
       <header className={`admin-publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Gestión de Publicaciones</h1>
       </header>
@@ -82,7 +94,7 @@ const AdminPublications = ({ darkMode }) => {
         onClose={() => setSelectedPublication(null)} // Cerrar modal
         darkMode={darkMode}
       />
-    </div>
+    </Box>
   );
 };
 

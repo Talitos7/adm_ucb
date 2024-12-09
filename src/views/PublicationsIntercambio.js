@@ -5,6 +5,9 @@ import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
 import './Publications.css';
+import {
+  Box,
+} from "@mui/material";
 
 const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
@@ -72,7 +75,16 @@ const PublicationsIntercambio = ({ darkMode }) => {
   }, []);
 
   return (
-    <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box className={`publications-container ${darkMode ? 'dark-mode' : ''}`}
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+      minHeight: "100vh",
+      padding: 4,
+      position: "relative",
+    }}>
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Intercambio</h1>
         <button
@@ -114,7 +126,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
         onClose={() => setSelectedPublication(null)}
         darkMode={darkMode}
       />
-    </div>
+    </Box>
   );
 };
 
