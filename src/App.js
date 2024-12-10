@@ -75,6 +75,7 @@ import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
 import UserRegistrationForm from './views/UserRegistrationForm';
 import AdminPublications from './views/AdminPublications';
 import Eventos from './views/EventosView.js';
+import ChatAssistant from './components/ChatAssistant';
 import './App.css'; 
 
 function App() {
@@ -113,6 +114,7 @@ function App() {
                 <InfoSec/>
                 <BeneficiosSec/>
                 <Footer />
+                <ChatAssistant />
               </>
             }
           />
