@@ -178,7 +178,7 @@ export default function CardSection() {
   };
 
   return (
-    <Container sx={{ paddingY: 4 }}>
+    <Container sx={{ paddingY: 4, background: 'rgba(0, 0, 0, 0)'}}>
       <Grid container spacing={4} justifyContent="center">
         {cardsData.map((card, index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>

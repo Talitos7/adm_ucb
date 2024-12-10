@@ -10,11 +10,9 @@ import PerfilCentro from './views/PerfilCen';
 import PerfilEstudiante from './views/PerfilEst';
 import PerfilIntercambio from './views/PerfilInt';
 import PerfilSociedad from './views/PerfilSoc';
-import CarouselSection from './components/CarouselSection';
-import DocenteSection from './components/DocenteSection';
+import InicioInvitado from './views/inicioInvitado.js'
 import Footer from './components/Footer';
-import InfoSec from './components/secInfo'
-import BeneficiosSec from './components/beneficiosSec'
+
 import AdminPage from './views/admin';
 import EstudiantePage from './views/estudiante'
 import PasantiasUsuario from './views/pasantiasEstudiantes'
@@ -102,20 +100,16 @@ function App() {
         <CssBaseline />
         <Routes>
         <Route path="/login" element={<LoginPage />} />
-          {/* Página principal */}
-          <Route
-            path="/"
-            element={
-              <>
-                <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <CarouselSection />
-                <DocenteSection />
-                <InfoSec/>
-                <BeneficiosSec/>
-                <Footer />
-              </>
-            }
-          />
+        {/* Página principal */}
+        <Route
+          path="/"
+          element={
+            <>
+              <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
+              <InicioInvitado />
+            </>
+          }
+        />
 
           {/* Página de administración */}
           <Route

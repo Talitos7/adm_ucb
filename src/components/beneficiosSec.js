@@ -89,7 +89,7 @@ export default function CardSection() {
   };
 
   return (
-    <Container sx={{ marginBottom: 5 }}>
+    <Container sx={{ marginBottom: 5, background: 'rgba(0, 0, 0, 0)' }}>
       <Box
         sx={{
           display: 'flex',
@@ -124,7 +124,7 @@ export default function CardSection() {
                 value={nuevoBeneficio}
                 onChange={(e) => setNuevoBeneficio(e.target.value)}
                 fullWidth
-                sx={{ marginBottom: 2 }}
+                sx={{ marginBottom: 2}}
               />
               <Button
                 variant="contained"

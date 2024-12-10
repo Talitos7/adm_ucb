@@ -68,7 +68,7 @@ const AdminPublications = ({ darkMode }) => {
       position: "relative",
     }}>
       <header className={`admin-publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Gestión de Publicaciones</h1>
+        <h1 style={{ color: '#e1f3ff' }}>Gestión de Publicaciones</h1>
       </header>
 
       {error && <p className="error-message">{error}</p>}
@@ -85,7 +85,7 @@ const AdminPublications = ({ darkMode }) => {
             />
           ))
         ) : (
-          <p className="no-publications">No hay publicaciones pendientes.</p>
+          <p style={{ color: '#e1f3ff' }} className="no-publications">No hay publicaciones pendientes.</p>
         )}
       </div>
       {/* Modal */}
