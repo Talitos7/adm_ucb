@@ -259,7 +259,7 @@ const MallaCurricularTable = ({ darkMode }) => {
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{borderRadius: '12px'}}>
       <Table className={`malla-curricular-container ${darkMode ? 'dark' : ''}`}>
         <TableBody>
           {materias.map((row, rowIndex) => (
