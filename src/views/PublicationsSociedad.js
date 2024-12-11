@@ -7,14 +7,19 @@ import PublicationModal from '../components/PublicationModal';
 import InformationSection from '../components/InformationSection';
 import './Publications.css';
 import {
-  Box,
+  Box, Divider, Chip, Fab,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const PublicationsSociedad = ({ darkMode, isAdmin }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null);
   const [infoData, setInfoData] = useState(null);
+
+  const closeModal = () => {
+    setIsFormVisible(false);  // Esto oculta el formulario cuando se hace clic en "Cancelar"
+  };  
 
   // Cargar información de la sección
   const fetchInformation = async () => {
@@ -133,29 +138,60 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
           onEdit={handleUpdateInformation}
         />
       )}
+      
+      <Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+          marginTop: '30px',
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Publicaciones"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
 
-      {/* Encabezado y botón de nueva publicación */}
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Sociedad Científica</h1>
-        <button
-          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        >
-          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-        </button>
-      </header>
+      <PublicationModal
+        publication={selectedPublication}
+        onClose={() => setSelectedPublication(null)}
+        darkMode={darkMode}
+      />
 
-      {/* Formulario para nueva publicación */}
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={() => setIsFormVisible(!isFormVisible)}
+        sx={{
+          position: "fixed",
+          bottom: 16,
+          right: 16,
+          zIndex: 1000,
+        }}
+      >
+        <AddIcon />
+      </Fab>
+
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
           categoria="Sociedad Cientifica"
           darkMode={darkMode}
+          closeModal={closeModal}  // Pasa la función closeModal
         />
       )}
 
       {/* Lista de publicaciones */}
-      <div className="publications-grid">
+      <div className="publications-grid" style={{marginTop: '20px'}}>
         {publications.length > 0 ? (
           publications.map((publication) => (
             <PublicationCard
@@ -171,13 +207,6 @@ const PublicationsSociedad = ({ darkMode, isAdmin }) => {
           </p>
         )}
       </div>
-
-      {/* Modal para publicación ampliada */}
-      <PublicationModal
-        publication={selectedPublication}
-        onClose={() => setSelectedPublication(null)}
-        darkMode={darkMode}
-      />
     </Box>
   );
 };

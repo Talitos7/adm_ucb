@@ -9,13 +9,13 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #49A078; 
+    background: #0e7f99; 
     border-radius: 10px; 
     border: 2px solid rgba(0, 0, 0, 0.2); 
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: #216869; 
+    background: #122e63; 
   }
   
   ::-webkit-scrollbar-button {
@@ -32,13 +32,13 @@
   }
   
   scrollbar-thumb {
-    background: #49A078;
+    background: #0e7f99;
     border-radius: 10px;
     border: 2px solid rgba(0, 0, 0, 0.2);
   }
   
   scrollbar-thumb:hover {
-    background: #216869;
+    background: #122e63;
   }
   
   

@@ -93,14 +93,14 @@ function Pasantias() {
   };
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div style={{ padding: '20px', textAlign: 'center', justifyContent: 'center' }}>
 
       {/* Renderiza las tarjetas de pasantías */}
       <PasantiasCards />
 
       {/* Botón flotante para agregar pasantías */}
-      <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
-        <Fab color="secondary" aria-label="add" onClick={handleOpen}>
+      <Box sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+        <Fab color="primary" aria-label="add" onClick={handleOpen}>
           <AddIcon />
         </Fab>
       </Box>

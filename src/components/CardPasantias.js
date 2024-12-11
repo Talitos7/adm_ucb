@@ -6,7 +6,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,6 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Fab from "@mui/material/Fab";
 
 export default function PasantiasCards() {
     const [pasantias, setPasantias] = useState([]);
@@ -114,7 +114,7 @@ export default function PasantiasCards() {
                 <Grid container spacing={3}>
                     {pasantias.map((pasantia) => (
                         <Grid item xs={12} sm={6} md={4} key={pasantia.idpsantia}>
-                            <Card sx={{ maxWidth: 345, position: 'relative' }}>
+                            <Card sx={{ maxWidth: 345, position: 'relative', borderRadius: '12px' }}>
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
@@ -133,13 +133,15 @@ export default function PasantiasCards() {
                                 </CardActionArea>
 
                                 {/* Ícono de basurero */}
-                                <IconButton
+                                <Fab
+                                    color="error"
+                                    size="small"
                                     aria-label="eliminar"
                                     onClick={() => handleOpenDialog(pasantia.idpsantia)}
-                                    style={{ position: 'absolute', top: 10, right: 10, color: 'green' }}
+                                    style={{ position: 'absolute', top: 150, right: 10}}
                                 >
                                     <DeleteIcon />
-                                </IconButton>
+                                </Fab>
                             </Card>
                         </Grid>
                     ))}
@@ -147,7 +149,9 @@ export default function PasantiasCards() {
             )}
 
             {/* Modal de confirmación */}
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
+            <Dialog open={openDialog} onClose={handleCloseDialog}
+                style={{ borderRadius: '12px', }}
+            >
                 <DialogTitle>Confirmar Eliminación</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

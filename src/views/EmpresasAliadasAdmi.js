@@ -236,6 +236,7 @@ export default function EmpresasAliadasAdmin() {
             container
             spacing={4}
             justifyContent="center"
+            alignItems="center"
             sx={{ maxWidth: "1200px", margin: "0 auto" }}
         >
             {empresas.map((empresa) => (
