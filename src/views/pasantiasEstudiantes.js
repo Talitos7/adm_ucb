@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import PasantiasCards from '../components/cardPasantiaEs'; // Importa el componente de tarjetas
 import InformationSection from '../components/InformationSection'; // Importa el componente de información
 import axios from 'axios';
+import { Box, Divider, Chip, } from "@mui/material";
 
 // Estilos del modal principal y del modal de éxito
 const style = {
@@ -106,7 +106,15 @@ function Pasantias() {
   };
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <Box
+      className={`publications-container`}
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)',
+        padding: 4,
+      }}
+    >
       {/* Sección de información */}
       {infoData && (
         <InformationSection
@@ -115,6 +123,27 @@ function Pasantias() {
           isEditable={false} // isAdmin es false, no permite edición
         />
       )}
+
+      <Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Experiencias"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
 
       {/* Renderiza las tarjetas de pasantías */}
       <PasantiasCards />
@@ -164,7 +193,7 @@ function Pasantias() {
           </Button>
         </Box>
       </Modal>
-    </div>
+    </Box>
   );
 }
 

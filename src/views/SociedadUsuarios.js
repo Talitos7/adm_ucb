@@ -5,6 +5,7 @@ import PublicationCard from '../components/PublicationCard';
 import PublicationModal from '../components/PublicationModal';
 import InformationSection from '../components/InformationSection'; // Importamos el componente de información
 import './Publications.css';
+import { Box, Divider, Chip, } from "@mui/material";
 
 const PublicationsSociedad = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
@@ -72,7 +73,15 @@ const PublicationsSociedad = ({ darkMode }) => {
   }, []);
 
   return (
-    <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box
+      className={`publications-container`}
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)',
+        padding: 4,
+      }}
+    >
       {/* Información de la sección */}
       {infoData && (
         <InformationSection
@@ -82,10 +91,26 @@ const PublicationsSociedad = ({ darkMode }) => {
         />
       )}
 
-      {/* Encabezado de publicaciones */}
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Sociedad Científica</h1>
-      </header>
+      <Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Publicaciones"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
 
       {/* Grid de publicaciones */}
       <div className="publications-grid">
@@ -111,7 +136,7 @@ const PublicationsSociedad = ({ darkMode }) => {
         onClose={() => setSelectedPublication(null)}
         darkMode={darkMode}
       />
-    </div>
+    </Box>
   );
 };
 

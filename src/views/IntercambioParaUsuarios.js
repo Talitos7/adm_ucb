@@ -6,6 +6,7 @@ import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
 import InformationSection from '../components/InformationSection'; // Importar el componente de información
 import './Publications.css';
+import { Box, Divider, Chip, } from "@mui/material";
 
 const PublicationsIntercambio = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
@@ -92,7 +93,15 @@ const PublicationsIntercambio = ({ darkMode }) => {
   }, []);
 
   return (
-    <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box
+      className={`publications-container ${darkMode ? 'dark-mode' : ''}`}
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)',
+        padding: 4,
+      }}
+    >
       {/* Información de la sección Intercambio */}
       {infoData && (
         <InformationSection
@@ -102,9 +111,26 @@ const PublicationsIntercambio = ({ darkMode }) => {
         />
       )}
 
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Intercambio</h1>
-      </header>
+      <Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Experiencias"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
 
       {isFormVisible && (
         <PublicationForm
@@ -137,7 +163,7 @@ const PublicationsIntercambio = ({ darkMode }) => {
         onClose={() => setSelectedPublication(null)}
         darkMode={darkMode}
       />
-    </div>
+    </Box>
   );
 };
 

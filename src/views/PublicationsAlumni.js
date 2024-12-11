@@ -154,7 +154,7 @@ const PublicationsAlumni = ({ darkMode, isAdmin }) => {
         />
       )}
 
-<Divider variant="middle"
+      <Divider variant="middle"
         sx={{
           '&::before, &::after': {
             borderTopWidth: '2px', // Grosor de la línea

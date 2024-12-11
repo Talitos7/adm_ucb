@@ -87,7 +87,16 @@ const EventosView = () => {
   }, []);
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box className={`publications-container`}
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+      minHeight: "100vh",
+      padding: 4,
+      position: "relative",
+    }}>
       {/* Sección de información */}
       {infoData && (
         <InformationSection

@@ -104,7 +104,16 @@ const PublicationsAlumni = ({ darkMode }) => {
   }, []);
 
   return (
-    <Box className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box className={`publications-container ${darkMode ? 'dark-mode' : ''}`}
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+      minHeight: "100vh",
+      padding: 4,
+      position: "relative",
+    }}>
       {/* Información de la sección Alumni */}
       {infoData && (
         <InformationSection

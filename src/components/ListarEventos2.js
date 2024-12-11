@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, Box, } from '@mui/material';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -41,10 +41,7 @@ const ListaEventos = ({ onEditar, onEliminar, reload }) => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom>
-        Lista de Eventos
-      </Typography>
+    <Box sx={{ p: 3, marginTop: '20px' }}>
       <Grid container spacing={3}>
         {eventos.map((evento) => {
           const fechaInicio = dayjs(evento.fechainicio).format('DD/MM/YYYY');
