@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Logout from '@mui/icons-material/Logout';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const AccountMenu = ({ darkMode, handleThemeChange }) => {
@@ -124,6 +125,12 @@ const AccountMenu = ({ darkMode, handleThemeChange }) => {
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </ListItemIcon>
           {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <PlayCircleIcon fontSize="small" />
+          </ListItemIcon>
+          Tutoriales
         </MenuItem>
         <MenuItem onClick={handleUserExit}>
           <ListItemIcon>

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Bienvenida.css';
+import {
+  Box,
+} from "@mui/material";
 
 function WelcomeSection() {
   const [user, setUser] = useState({ emailadm: '', nombre: '' });
@@ -47,7 +50,16 @@ function WelcomeSection() {
   };
 
   return (
-    <div className="welcome-section">
+    <Box className="welcome-section"
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+      minHeight: "100vh",
+      padding: 4,
+      position: "relative",
+    }}>
       <div className="circle">
         <input
           type="file"
@@ -70,7 +82,7 @@ function WelcomeSection() {
         <p>{user.nombre || 'Usuario'}</p>
         <p>{user.emailadm}</p>
       </div>
-    </div>
+    </Box>
   );
 }
 

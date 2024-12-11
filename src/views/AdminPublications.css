@@ -1,8 +1,16 @@
 .admin-publications-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
+  background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)";
+  min-height: "100vh";
+  position: "relative";
 }
+
+.admin-publications-container h1, p {
+  margin: 0;
+}
+
 .admin-publications-container.dark-mode {
   background-color: #303030;
   color: #ffffff;
@@ -34,7 +42,7 @@
 .admin-publication-card h2 {
   margin: 0;
   font-size: 1.2rem;
-  color: #333;
+  color: #e1f3ff;
 }
 
 .admin-publication-card p {

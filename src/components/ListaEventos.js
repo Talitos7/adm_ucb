@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Button, CardActions, Box } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, Fab, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
@@ -43,11 +43,8 @@ const ListaEventos = ({ onEditar, onEliminar, reload }) => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom>
-        Lista de Eventos
-      </Typography>
-      <Grid container spacing={3}>
+    <Box sx={{ p: 3, marginTop: '20px'}}>
+      <Grid container spacing={3} alignItems={'center'}>
         {eventos.map((evento) => {
           const fechaInicio = dayjs(evento.fechainicio).format('DD/MM/YYYY');
           const fechaFin = dayjs(evento.fechafin).format('DD/MM/YYYY');
@@ -58,7 +55,7 @@ const ListaEventos = ({ onEditar, onEliminar, reload }) => {
 
           return (
             <Grid item xs={12} sm={6} md={4} key={evento.idevento}>
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, borderRadius: '12px' }}>
                 <CardMedia
                   component="img"
                   height="140"
@@ -90,24 +87,24 @@ const ListaEventos = ({ onEditar, onEliminar, reload }) => {
                     </Typography>
                   )}
                 </CardContent>
-                <CardActions>
-                  <Button
+                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mb: 2 }}>
+                  <Fab
+                    color="secondary"
                     size="small"
-                    color="primary"
-                    startIcon={<EditIcon />}
+                    aria-label="edit"
                     onClick={() => onEditar(evento)}
                   >
-                    Editar
-                  </Button>
-                  <Button
-                    size="small"
+                    <EditIcon />
+                  </Fab>
+                  <Fab
                     color="error"
-                    startIcon={<DeleteIcon />}
+                    size="small"
+                    aria-label="delete"
                     onClick={() => onEliminar(evento.idevento)}
                   >
-                    Eliminar
-                  </Button>
-                </CardActions>
+                    <DeleteIcon />
+                  </Fab>
+                </Box>
               </Card>
             </Grid>
           );

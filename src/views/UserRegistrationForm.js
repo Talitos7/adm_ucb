@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
+//import Alert from '@mui/material/Alert';
 import Swal from 'sweetalert2';
 import './UserForm.css';
 
@@ -169,7 +169,16 @@ export default function UserRegistration({ darkMode }) {
     };
 
     return (
-        <div className={`registration-container ${darkMode ? 'dark-mode' : ''}`}>
+        <Box className={`registration-container ${darkMode ? 'dark-mode' : ''}`}
+        sx={{
+            width: '100%',
+            marginRight: 0,
+            marginLeft: 0,
+            background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+            minHeight: "100vh",
+            padding: 4,
+            position: "relative",
+        }}>
             <Box className={`registration-form ${darkMode ? 'dark-mode' : ''}`} sx={{ maxWidth: '600px', margin: 'auto', padding: 4 }}>
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Typography variant="h4" gutterBottom>
@@ -307,6 +316,6 @@ export default function UserRegistration({ darkMode }) {
                     </Grid>
                 </form>
             </Box>
-        </div>
+        </Box>
     );
 }

@@ -3,7 +3,9 @@ import { Grid, Card, CardContent, CardMedia, Typography, Button, Dialog, DialogA
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useLocation } from 'react-router-dom';
-
+import {
+  Box,
+} from "@mui/material";
 import d1 from '../assets/JessicaLanza.jpg';
 import d2 from '../assets/Jorgejung.jpg';
 import d3 from '../assets/MabelAguirre.jpg';
@@ -99,8 +101,17 @@ const DocenteSection = () => {
   //};
 
   return (
-    <div style={{ marginTop: '20px'}} align="center" ref={ref}>
-      <Typography variant="h4" gutterBottom align="center">
+    <Box style={{ marginTop: '20px'}} align="center" ref={ref}
+    sx={{
+      width: '100%',
+      marginRight: 0,
+      marginLeft: 0,
+      background: "rgba(255, 255, 255, 0)",
+      minHeight: "50vh",
+      padding: 4,
+      position: "relative",
+    }}>
+      <Typography variant="h4" gutterBottom align="center" style={{ color: '#e1f3ff' }}>
         Nuestros Docentes
       </Typography>
       <Grid container spacing={3} justifyContent="center" alignItems="center">
@@ -118,8 +129,9 @@ const DocenteSection = () => {
                   transition: 'width 0.3s ease, height 0.3s ease',
                   cursor: 'pointer',
                   boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
+                  borderRadius: '16px',
                   '&:hover': {
-                    width: 320, // Ancho fijo al pasar el cursor
+                    width: '80%', // Ancho fijo al pasar el cursor
                     height: 400, // Tamaño mayor solo en hover
                   },
                 }}
@@ -211,7 +223,7 @@ const DocenteSection = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 };
 

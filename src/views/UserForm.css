@@ -1,15 +1,3 @@
-@keyframes backgroundAnimation {
-  0% {
-      background-color: #2186d8;
-  }
-  50% {
-      background-color: #122e63;
-  }
-  100% {
-      background-color: #2186d8;
-  }
-}
-
 .registration-container {
   display: flex;
   justify-content: center;

@@ -145,7 +145,7 @@ function Pasantias({ darkMode, isAdmin=true }) {
   }, []);
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div style={{ padding: '20px', textAlign: 'center', justifyContent: 'center' }}>
       {/* Sección de información */}
       {infoData && (
         <InformationSection
@@ -160,11 +160,11 @@ function Pasantias({ darkMode, isAdmin=true }) {
       <PasantiasCards />
 
       {/* Botón flotante para agregar pasantías */}
-        <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
-          <Fab color="secondary" aria-label="add" onClick={handleOpen}>
-            <AddIcon />
-          </Fab>
-        </Box>
+      <Box sx={{ position: 'fixed', bottom: 20, right: 20 }}>
+        <Fab color="secondary" aria-label="add" onClick={handleOpen}>
+          <AddIcon />
+        </Fab>
+      </Box>
 
 
       {/* Modal Principal para agregar Pasantía */}
