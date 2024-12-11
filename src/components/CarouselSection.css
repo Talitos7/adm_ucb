@@ -61,7 +61,7 @@
 }
 
 .gif-section img {
-  width: 500px; /* Ajusta el tamaño del GIF */
+  width: 300px; /* Ajusta el tamaño del GIF */
   height: auto;
   border-radius: 10px;
 }
