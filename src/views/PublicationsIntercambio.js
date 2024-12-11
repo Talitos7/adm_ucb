@@ -4,38 +4,22 @@ import Swal from 'sweetalert2';
 import PublicationCard from '../components/PublicationCard';
 import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
-import './Publications.css';
-import {
-  Box,
-} from "@mui/material";
+import { Box, Divider, Chip, Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
-const PublicationsIntercambio = ({ darkMode }) => {
+const PublicationsIntercambio = ({ darkMode, isAdmin }) => {
   const [publications, setPublications] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [selectedPublication, setSelectedPublication] = useState(null); // Estado para el modal
+  const [selectedPublication, setSelectedPublication] = useState(null);
+
+  const closeModal = () => setIsFormVisible(false);
 
   // Cargar publicaciones aprobadas para la categoría "Intercambio"
   const loadApprovedPublications = async () => {
     try {
       const response = await axios.get('/src/servicios/mostrarPublicacionesAprobadas.php?categoria=Intercambio');
-      console.log('Publicaciones aprobadas (Intercambio):', response.data);
-  
-      // Verifica si la respuesta ya es un JSON
-      if (Array.isArray(response.data)) {
-        setPublications(response.data);
-      } else if (typeof response.data === 'object') {
-        // Si es un objeto, verifica si contiene las publicaciones
-        setPublications(response.data.publicaciones || []);
-      } else if (typeof response.data === 'string' && response.data.startsWith('Conexión exitosa')) {
-        // Si es un string con texto adicional, limpia y convierte a JSON
-        const jsonData = JSON.parse(response.data.replace('Conexión exitosa', '').trim());
-        setPublications(jsonData.publicaciones || []);
-      } else {
-        console.warn('Formato de respuesta inesperado:', response.data);
-        setPublications([]);
-      }
+      setPublications(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
-      console.error('Error al cargar publicaciones aprobadas:', error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -50,14 +34,12 @@ const PublicationsIntercambio = ({ darkMode }) => {
       await axios.post('/src/servicios/Publicacion.php', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-
       Swal.fire({
         icon: 'success',
         title: 'Éxito',
         text: 'Publicación creada correctamente.',
         confirmButtonText: 'OK',
       });
-
       loadApprovedPublications();
       setIsFormVisible(false);
     } catch (error) {
@@ -75,42 +57,72 @@ const PublicationsIntercambio = ({ darkMode }) => {
   }, []);
 
   return (
-    <Box className={`publications-container ${darkMode ? 'dark-mode' : ''}`}
-    sx={{
-      width: '100%',
-      marginRight: 0,
-      marginLeft: 0,
-      background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
-      minHeight: "100vh",
-      padding: 4,
-      position: "relative",
-    }}>
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Intercambio</h1>
-        <button
-          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        >
-          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-        </button>
-      </header>
+    <Box
+      className={`publications-container ${darkMode ? 'dark-mode' : ''}`}
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0e7f99 30%, #122e63 100%)',
+        padding: 4,
+      }}
+    >
 
+      <Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Experiencias"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
+
+      {/* Modal para publicación ampliada */}
+      <PublicationModal
+        publication={selectedPublication}
+        onClose={() => setSelectedPublication(null)}
+        darkMode={darkMode}
+      />
+
+      {/* Botón flotante para abrir formulario */}
+      <Fab
+        color="primary"
+        onClick={() => setIsFormVisible(!isFormVisible)}
+        sx={{ position: 'fixed', bottom: 16, right: 16 }}
+      >
+        <AddIcon />
+      </Fab>
+
+      {/* Formulario para nueva publicación */}
       {isFormVisible && (
         <PublicationForm
           onSubmit={handleSubmit}
-          categoria="Intercambio" // Pasamos la categoría al formulario
+          categoria="Intercambio"
           darkMode={darkMode}
+          closeModal={closeModal}
         />
       )}
 
-      <div className="publications-grid">
+      {/* Publicaciones */}
+      <div className="publications-grid" style={{ marginTop: '20px' }}>
         {publications.length > 0 ? (
           publications.map((publication) => (
             <PublicationCard
               key={publication.idpublicacion}
               publication={publication}
               darkMode={darkMode}
-              onCardClick={(pub) => setSelectedPublication(pub)} // Manejar clic en la tarjeta
+              onCardClick={(pub) => setSelectedPublication(pub)}
             />
           ))
         ) : (
@@ -119,13 +131,6 @@ const PublicationsIntercambio = ({ darkMode }) => {
           </p>
         )}
       </div>
-
-      {/* Modal para mostrar tarjeta ampliada */}
-      <PublicationModal
-        publication={selectedPublication}
-        onClose={() => setSelectedPublication(null)}
-        darkMode={darkMode}
-      />
     </Box>
   );
 };

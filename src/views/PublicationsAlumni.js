@@ -7,7 +7,7 @@ import PublicationModal from '../components/PublicationModal';
 import InformationSection from '../components/InformationSection';
 import './Publications.css';
 import {
-  Box,
+  Box, Divider, Chip,
 } from "@mui/material";
 
 const PublicationsAlumni = ({ darkMode, isAdmin }) => {
@@ -154,18 +154,27 @@ const PublicationsAlumni = ({ darkMode, isAdmin }) => {
         />
       )}
 
-      {/* Encabezado y botón para crear publicaciones */}
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Alumni</h1>
-        {isAdmin && (
-          <button
-            className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-            onClick={() => setIsFormVisible(!isFormVisible)}
-          >
-            {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-          </button>
-        )}
-      </header>
+<Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+          marginTop: '30px',
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Publicaciones"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
 
       {/* Formulario de creación de publicación */}
       {isFormVisible && (
@@ -177,7 +186,7 @@ const PublicationsAlumni = ({ darkMode, isAdmin }) => {
       )}
 
       {/* Publicaciones aprobadas */}
-      <div className="publications-grid">
+      <div className="publications-grid" style={{marginTop: '20px'}}>
         {publications.length > 0 ? (
           publications.map((publication) => (
             <PublicationCard
