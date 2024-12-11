@@ -4,6 +4,7 @@
   width: 100%;
   display: flex; /* Usamos flexbox para colocar el contenido en fila */
   align-items: center;
+  background: rgba(0, 0, 0, 0);
 }
 
 .carousel-background .carousel .slide img {
@@ -60,7 +61,7 @@
 }
 
 .gif-section img {
-  width: 500px; /* Ajusta el tamaño del GIF */
+  width: 300px; /* Ajusta el tamaño del GIF */
   height: auto;
   border-radius: 10px;
 }

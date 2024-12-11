@@ -1,7 +1,9 @@
 .publications-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)";
+  min-height: "100vh";
+  position: "relative";
 }
 
 .publications-header {
@@ -12,7 +14,7 @@
 }
 
 .publications-header h1 {
-  color: #0c446c;
+  color: #e1f3ff;
   margin: 0;
 }
 
@@ -35,6 +37,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
+  justify-content: center;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

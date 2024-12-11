@@ -10,11 +10,9 @@ import PerfilCentro from './views/PerfilCen';
 import PerfilEstudiante from './views/PerfilEst';
 import PerfilIntercambio from './views/PerfilInt';
 import PerfilSociedad from './views/PerfilSoc';
-import CarouselSection from './components/CarouselSection';
-import DocenteSection from './components/DocenteSection';
+import InicioInvitado from './views/inicioInvitado.js'
 import Footer from './components/Footer';
-import InfoSec from './components/secInfo'
-import BeneficiosSec from './components/beneficiosSec'
+
 import AdminPage from './views/admin';
 import EstudiantePage from './views/estudiante'
 import PasantiasUsuario from './views/pasantiasEstudiantes'
@@ -75,6 +73,7 @@ import EmpresasAliadasAdmi from './views/EmpresasAliadasAdmi';
 import UserRegistrationForm from './views/UserRegistrationForm';
 import AdminPublications from './views/AdminPublications';
 import Eventos from './views/EventosView.js';
+import ChatAssistant from './components/ChatAssistant';
 import './App.css'; 
 
 function App() {
@@ -102,20 +101,17 @@ function App() {
         <CssBaseline />
         <Routes>
         <Route path="/login" element={<LoginPage />} />
-          {/* Página principal */}
-          <Route
-            path="/"
-            element={
-              <>
-                <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <CarouselSection />
-                <DocenteSection />
-                <InfoSec/>
-                <BeneficiosSec/>
-                <Footer />
-              </>
-            }
-          />
+        {/* Página principal */}
+        <Route
+          path="/"
+          element={
+            <>
+              <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
+              <InicioInvitado />
+              <ChatAssistant />
+            </>
+          }
+        />
 
           {/* Página de administración */}
           <Route
@@ -145,7 +141,7 @@ function App() {
             element={
               <>
                 <NavbarAdmin darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <Pasantias />
+                <Pasantias darkMode={darkMode}/>
               </>
             }
           />
@@ -307,7 +303,7 @@ function App() {
             element={
               <>
                 <NavbarEstudiante darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario />
+                <PasantiasUsuario darkMode={darkMode}/>
               </>
             }
           />
@@ -424,7 +420,7 @@ function App() {
             element={
               <>
                 <NavbarIntercambio darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario2 />
+                <PasantiasUsuario2 darkMode={darkMode}/>
               </>
             }
           />
@@ -535,7 +531,7 @@ function App() {
             element={
               <>
                 <NavbarCentro darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario3 />
+                <PasantiasUsuario3 darkMode={darkMode}/>
               </>
             }
           />
@@ -616,7 +612,7 @@ function App() {
             element={
               <>
                 <NavbarSociedad darkMode={darkMode} handleThemeChange={handleThemeChange} />
-                <PasantiasUsuario4/>
+                <PasantiasUsuario4 darkMode={darkMode}/>
               </>
             }
           />

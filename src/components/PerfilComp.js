@@ -111,12 +111,16 @@ const PerfilUsuario = () => {
         flexDirection: { xs: 'column', sm: 'row' },
         alignItems: 'center',
         justifyContent: 'center',
-        height: '87vh',
-        width: '100%',
         padding: '20px',
         gap: 6,
         boxShadow: '0px 4px 10px rgba(0,0,0,0.2)',
         bgcolor: 'background.paper',
+        width: '100%',
+        marginRight: 0,
+        marginLeft: 0,
+        background: "linear-gradient(135deg, #0e7f99 30%, #122e63 100%)",
+        minHeight: "100vh",
+        position: "relative",
       }}
     >
       {/* Foto de perfil */}
@@ -147,27 +151,27 @@ const PerfilUsuario = () => {
       >
         <Typography
           variant="h3"
-          sx={{ fontWeight: 'bold', color: '#216869', mb: 2 }}
+          sx={{ fontWeight: 'bold', color: '#e1f3ff', mb: 2 }}
         >
           {user.nombre}
         </Typography>
-        <Typography variant="h6" sx={{ margin: '10px 0', color: '#1F2421' }}>
+        <Typography variant="h6" sx={{ margin: '10px 0', color: '#e1f3ff' }}>
           <strong>Nombre: </strong>
           {user.nombre}
         </Typography>
-        <Typography variant="h6" sx={{ margin: '10px 0', color: '#1F2421' }}>
+        <Typography variant="h6" sx={{ margin: '10px 0', color: '#e1f3ff' }}>
           <strong>Email: </strong>
           {user.emailadm}
         </Typography>
-        <Typography variant="h6" sx={{ margin: '10px 0', color: '#1F2421' }}>
+        <Typography variant="h6" sx={{ margin: '10px 0', color: '#e1f3ff' }}>
           <strong>Celular: </strong>
           {user.celular}
         </Typography>
-        <Typography variant="h6" sx={{ margin: '10px 0', color: '#1F2421' }}>
+        <Typography variant="h6" sx={{ margin: '10px 0', color: '#e1f3ff' }}>
           <strong>Fecha de Registro: </strong>
           {user.fechaRegistro}
         </Typography>
-        <Typography variant="h6" sx={{ margin: '10px 0', color: '#1F2421' }}>
+        <Typography variant="h6" sx={{ margin: '10px 0', color: '#e1f3ff' }}>
           <strong>Email de Contacto: </strong>
           {user.emailContacto}
         </Typography>

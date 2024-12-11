@@ -14,7 +14,7 @@ const MallaCurricular = ({ darkMode }) => {
     >
       
       {/* Leyenda */}
-      <Paper sx={{ marginBottom: 4, padding: 2}} align="center">
+      <Paper sx={{ marginBottom: 4, padding: 2, borderRadius: '12px'}} align="center">
         <Typography variant="h4" align="center" gutterBottom >
           Malla Curricular
         </Typography>
@@ -34,7 +34,7 @@ const MallaCurricular = ({ darkMode }) => {
       <MallaCurricularTable darkMode={darkMode} />
 
       {/* Información adicional */}
-      <Paper sx={{ marginTop: 4, padding: 2 }}>
+      <Paper sx={{ marginTop: 4, padding: 2, borderRadius: '12px' }}>
         <Typography variant="h6">Para graduarse, el estudiante debe acreditar:</Typography>
         <Divider sx={{ marginY: 2 }} />
         <Typography variant="body1">40 asignaturas obligatorias</Typography>

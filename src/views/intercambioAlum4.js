@@ -104,12 +104,6 @@ const PublicationsIntercambio = ({ darkMode }) => {
 
       <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
         <h1>Publicaciones de Intercambio</h1>
-        <button
-          className={`new-publication-btn ${darkMode ? 'dark-mode' : ''}`}
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        >
-          {isFormVisible ? 'Cerrar Formulario' : 'Nueva Publicación'}
-        </button>
       </header>
 
       {isFormVisible && (

@@ -4,7 +4,7 @@ import {
   Typography,
   TextField,
   Button,
-  IconButton,
+  Fab,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -170,13 +170,16 @@ const InformationSection = ({ data, isEditable, darkMode, onEdit }) => {
               {data.description}
             </Typography>
             {isEditable && (
-              <IconButton
+              <Fab
                 sx={{ mt: 2 }}
                 onClick={() => setIsEditing(true)}
-                color="primary"
+                color="secondary"
+                size='small'
+                aria-label='edit'
+                style={{ zIndex: 1000 }}
               >
                 <EditIcon />
-              </IconButton>
+              </Fab>
             )}
           </>
         )}

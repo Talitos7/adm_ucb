@@ -6,6 +6,9 @@ import PublicationForm from '../components/PublicationForm';
 import PublicationModal from '../components/PublicationModal';
 import InformationSection from '../components/InformationSection'; // Agregado para la información
 import './Publications.css';
+import {
+  Box, Divider, Chip,
+} from "@mui/material";
 
 const PublicationsAlumni = ({ darkMode }) => {
   const [publications, setPublications] = useState([]);
@@ -101,7 +104,7 @@ const PublicationsAlumni = ({ darkMode }) => {
   }, []);
 
   return (
-    <div className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
+    <Box className={`publications-container ${darkMode ? 'dark-mode' : ''}`}>
       {/* Información de la sección Alumni */}
       {infoData && (
         <InformationSection
@@ -111,9 +114,27 @@ const PublicationsAlumni = ({ darkMode }) => {
         />
       )}
 
-      <header className={`publications-header ${darkMode ? 'dark-mode' : ''}`}>
-        <h1>Publicaciones de Alumni</h1>
-      </header>
+      <Divider variant="middle"
+        sx={{
+          '&::before, &::after': {
+            borderTopWidth: '2px', // Grosor de la línea
+            borderColor: '#fff',   // Color de la línea
+          },
+          marginTop: '30px',
+        }}
+        aria-hidden="true"
+      >
+        <Chip
+          label="Publicaciones"
+          size="medium"
+          sx={{
+            color: '#fff',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </Divider>
 
       {isFormVisible && (
         <PublicationForm
@@ -146,7 +167,7 @@ const PublicationsAlumni = ({ darkMode }) => {
         onClose={() => setSelectedPublication(null)}
         darkMode={darkMode}
       />
-    </div>
+    </Box>
   );
 };
 

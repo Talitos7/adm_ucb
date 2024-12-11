@@ -1,5 +1,6 @@
 import React from 'react';
 import './PublicationCard.css';
+import { Typography } from '@mui/material';
 
 const PublicationCard = ({ publication, darkMode, onCardClick }) => {
   return (
@@ -15,12 +16,12 @@ const PublicationCard = ({ publication, darkMode, onCardClick }) => {
         />
       </div>
       <div className={`publication-details ${darkMode ? 'dark-mode' : ''}`}>
-        <h3 className={`publication-author ${darkMode ? 'dark-mode' : ''}`}>
+        <Typography variant="h6" gutterBottom className={`publication-author ${darkMode ? 'dark-mode' : ''}`}>
           {publication.autor}
-        </h3>
-        <p className={`publication-description ${darkMode ? 'dark-mode' : ''}`}>
+        </Typography >
+        <Typography variant='body2' color="text.secondary" className={`publication-description ${darkMode ? 'dark-mode' : ''}`}>
           {publication.descripcionpublicacion}
-        </p>
+        </Typography>
       </div>
     </div>
   );

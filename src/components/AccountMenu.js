@@ -7,7 +7,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Logout from '@mui/icons-material/Logout';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -28,12 +27,6 @@ export default function AccountMenu({ darkMode, handleThemeChange }) {
 
   const handleLoginClick = () => {
     navigate('/login'); // Redirige a la página de inicio de sesión
-    handleClose();
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('usuario'); // Elimina los datos del usuario
-    navigate('/'); // Redirige al inicio
     handleClose();
   };
 
@@ -99,12 +92,6 @@ export default function AccountMenu({ darkMode, handleThemeChange }) {
         <MenuItem onClick={handleThemeChange}>
           <ListItemIcon>{darkMode ? <Brightness7Icon /> : <Brightness4Icon />}</ListItemIcon>
           {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
-        </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Salir
         </MenuItem>
       </Menu>
     </React.Fragment>
