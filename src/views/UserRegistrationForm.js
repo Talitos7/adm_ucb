@@ -276,7 +276,7 @@ export default function UserRegistration({ darkMode }) {
                                         fullWidth
                                         select
                                         className={darkMode ? 'dark-mode' : ''}
-                                        label="Rol"
+                                        label="Seleccionar Rol"
                                         name="rol"
                                         value={formData.rol}
                                         onChange={handleRoleChange}
@@ -286,7 +286,6 @@ export default function UserRegistration({ darkMode }) {
                                         }}
                                     >
                                         <option value="" disabled>
-                                            Seleccionar Rol
                                         </option>
                                         <option value="alumni">Alumni</option>
                                         <option value="centro">Centro de Estudiantes</option>
