@@ -161,7 +161,7 @@ const PublicationForm = ({ onSubmit, categoria, darkMode, closeModal }) => {
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Enviando...' : 'Publicar'}
-            </Button>
+            </Button>    
           </div>
         </form>
       </div>

@@ -108,7 +108,7 @@ function App() {
             <>
               <NavbarInvitado darkMode={darkMode} handleThemeChange={handleThemeChange} />
               <InicioInvitado />
-                <ChatAssistant />
+              <ChatAssistant />
             </>
           }
         />

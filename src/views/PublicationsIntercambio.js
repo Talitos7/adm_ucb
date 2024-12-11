@@ -52,36 +52,7 @@ const PublicationsIntercambio = ({ darkMode, isAdmin }) => {
     }
   };
 
-  const handleUpdateInformation = async (updatedData) => {
-    try {
-      const response = await axios.post('/src/servicios/informacionAPI.php', {
-        section: 'intercambio',
-        content: updatedData,
-      });
-      if (response.data.status === 'success') {
-        Swal.fire({
-          icon: 'success',
-          title: 'Información actualizada',
-          text: 'La información se actualizó correctamente.',
-          confirmButtonText: 'OK',
-        });
-        setInfoData(updatedData);
-      } else {
-        throw new Error('No se pudo actualizar la información.');
-      }
-    } catch (error) {
-      console.error('Error al actualizar la información:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No se pudo actualizar la información.',
-        confirmButtonText: 'OK',
-      });
-    }
-  };
-
   useEffect(() => {
-    fetchInformation();
     loadApprovedPublications();
   }, []);
 

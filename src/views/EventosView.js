@@ -69,11 +69,6 @@ const EventosView = ({ darkMode, isAdmin }) => {
     }
   };
 
-  // Cargar la información al montar el componente
-  useEffect(() => {
-    fetchInformation();
-  }, []);
-
   return (
     <Box
       sx={{
